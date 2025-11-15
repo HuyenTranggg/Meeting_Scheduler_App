@@ -1,0 +1,19 @@
+{
+    // Cấu hình cho extension Code Runner
+    "code-runner.executorMap": {
+        "cpp": "cd $dir && g++ $fileName -o ../build/$fileNameWithoutExt && ../build/$fileNameWithoutExt"
+    },
+    // Chạy code trong cửa sổ Terminal tích hợp (để có thể nhập liệu bằng cin)
+    "code-runner.runInTerminal": true,
+
+    // Ẩn các file không cần thiết khỏi cây thư mục (tùy chọn)
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        // "build/": true // Ẩn thư mục build cho gọn gàng
+    }
+}

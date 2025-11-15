@@ -1,0 +1,34 @@
+Xây dựng ứng dụng quản lý cuộc họp giữa sinh viên và giáo viên
+
+Chi tiết: Ứng dụng quản lý lịch họp được đưa ra với mục tiêu hỗ trợ sinh viên đặt lịch hẹn với giáo viên vào các thời điểm giáo viên rảnh, giúp giáo viên quản lý các cuộc hẹn đã được xếp lịch và đồng thời quản lý lịch sử, biên bản các cuộc gặp để từ đó có thể theo dõi tiến độ làm việc của sinh viên. Nguyên tắc hoạt động của ứng dụng là giáo viên khai báo lịch rảnh thành các khe thời gian và sinh viên chỉ có thể book các lịch gặp vào các khe thời gian đó. Ứng dụng có 2 loại người dùng: giáo viên, sinh viên.
+
+Các chức năng cho sinh viên:
+- Đăng nhập, Đăng ký
+- Xem lịch rảnh của giáo viên
+- Đặt lịch gặp giáo viên theo cá nhân, theo nhóm
+- Huỷ lịch gặp
+- Xem các lịch gặp trong một tuần nhất định
+
+Các chức năng cho giáo viên:
+- Đăng nhập, đăng ký
+- Khai báo, sửa đổi các khe thời gian có thể gặp sinh viên. Cần có options đặc tả khe thời gian cho họp nhóm, họp cá nhân hoặc cả hai.
+- Xem các lịch đã được sinh viên hẹn
+- Nhập nội dung (biên bản) cho một cuộc họp đang/đã diễn ra/
+- Xem lại lịch sử các cuộc họp đã có với mỗi sinh viên và các biên bản đã có.
+
+Yêu cầu:
+- Kết nối client server bằng socket (2 điểm)
+- Ghi log các message nhận được và gửi đi bên server (1 điểm)
+- Đăng nhập(2 điểm) rẽ nhánh ra các chức năng của giáo viên và sinh viên riêng.
+- Đăng ký (2 điểm)
+- Xem lịch rảnh của giáo viên (2 điểm)
+- Đặt lịch gặp giáo viên theo cá nhân (2 điểm)
+- Đặt lịch gặp giáo viên theo nhóm (2 điểm)
+- Huỷ lịch gặp (1 điểm)
+- Xem các lịch họp trong một tuần nhất định (2 điểm)
+- Khai báo các khe thời gian có thể gặp sinh viên. Cần có options đặc tả khe thời gian cho họp nhóm, họp cá nhân hoặc cả hai. (2 điểm)
+- Sửa đổi các khe thời gian rỗi (2 điểm)
+- Xem các lịch đã được sinh viên hẹn theo ngày (2 điểm)
+- Nhập nội dung (biên bản) cho một cuộc họp đang/đã diễn ra (2 điểm)
+- Xem lại lịch sử các cuộc họp đã có với mỗi sinh viên và các biên bản đã có. (2 điểm)
+- Giao diện đồ hoạ (4 điểm)
