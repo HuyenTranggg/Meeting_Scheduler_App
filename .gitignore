@@ -55,3 +55,5 @@ dkms.conf
 *.dwo
 
 /build/
+environment.h
+c_cpp_properties.json
