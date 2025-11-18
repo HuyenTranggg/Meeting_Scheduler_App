@@ -107,68 +107,7 @@ string sendRequestToServer(const string &command) {
     return response.empty() ? "100" : response;
 }
 void handleUserMenu();
-// void logout() {
-//     user_id = 0;
-//     role = "none";
-    
-//     // Đóng cửa sổ hiện tại
-//     QWidget* currentWidget = QApplication::activeWindow();
-//     if (currentWidget) {
-//         currentWidget->close();  // Đóng cửa sổ hiện tại
-//     }
-    
-//     // Hiển thị lại menu người dùng
-//     handleUserMenu();
-// }
-void registerView() {
-    int choice;
-    string role, username, password, first_name, last_name;
 
-    // Chọn vai trò
-    cout << "Please choose your role:" << endl;
-    cout << "1. Student\n2. Teacher \n";
-    cin >> choice;
-    cin.ignore();
-
-    switch (choice) {
-    case 1:
-        role = "student";
-        break;
-    case 2:
-        role = "teacher";
-        break;
-    default:
-        cout << "Please choose a valid option." << endl;
-        return;
-    }
-
-    // Nhập thông tin đăng ký
-    cout << "Please enter your username: ";
-    getline(cin, username);
-    cout << "Please enter your password: ";
-    getline(cin, password);
-    cout << "Please enter your first name: ";
-    getline(cin, first_name);
-    cout << "Please enter your last name: ";
-    getline(cin, last_name);
-
-    // Tạo message register và gửi đến server
-    string registerCommand = "REGISTER|" + username + "|" + password + "|" + role + "|" + first_name + "|" + last_name + "|<END>";
-    cout << sendRequestToServer(registerCommand) << endl;
-
-}
-
-void loginView() {
-    string username, password;
-    cout << "Please enter your username: ";
-    getline(cin, username);
-    cout << "Please enter your password: ";
-    getline(cin, password);
-
-    // Tạo message login và gửi đến server
-    string loginCommand = "LOGIN|" + username + "|" + password + "|<END>";
-    cout << sendRequestToServer(loginCommand) << endl;
-}
 void logout() {
     user_id = 0;
     role = "none";
@@ -179,7 +118,8 @@ void handleLogin() {
     map<string, string> info = userView.showLogin();
     string loginCommand = "LOGIN|" + info["username"] + "|" + info["password"] + "|<END>";
     string response = sendRequestToServer(loginCommand);
-    cout << response << endl;
+    cout << "Request Sent: " + loginCommand << endl;
+    cout << "Server Response: " + response << endl;
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {
@@ -207,7 +147,8 @@ void handleRegister() {
 
     // Gửi lệnh đăng ký tới server
     string response = sendRequestToServer(registerCommand);
-    cout << response << endl;
+    cout << "Request Sent: " + registerCommand << endl;
+    cout << "Server Response: " + response << endl;
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {

@@ -13,11 +13,11 @@ class UserView {
 
     int showMenu() {
         while (true) {
-            cout << "----------------Ung dung dat lich hen--------------" << endl;
-            cout << "1. Dang nhap" << endl;
-            cout << "2. Dang ky" << endl;
+            cout << "----------------Meeting Scheduler App--------------" << endl;
+            cout << "1. Đăng nhập" << endl;
+            cout << "2. Đăng ký" << endl;
             int choice;
-            cout << "Ban muon lam gi?" << endl;
+            cout << "Chọn 1 số tương ứng với lựa chọn trên:" << endl;
             cin >> choice;
             cin.ignore();
             if (choice == 1 || choice == 2) {
@@ -28,7 +28,7 @@ class UserView {
 
     map<string, string> showLogin() {
         map<string, string> info;
-        cout << "-----------------Dang nhap-------------------" << endl;
+        cout << "-----------------Đăng nhập ------------------" << endl;
         cout << "Nhập tên đăng nhập: ";
         string username;
         getline(cin, username);
@@ -45,7 +45,7 @@ class UserView {
 
     map<string, string> showRegisterA() {
         map<string, string> info;
-        cout << "-----------------Dang ky-------------------" << endl;
+        cout << "-----------------Đăng ký-------------------" << endl;
 
         // Nhập tên đăng ký
         cout << "Nhập tên đăng ký: ";
