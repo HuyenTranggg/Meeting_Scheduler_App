@@ -20,69 +20,8 @@ using namespace std;
 UserController userController;
 UserRepository userRepo;
 
-class Server {
-public:
-    void init();
-    void run();
-    void handleClient(int clientSocket);
-
-private:
-    int serverSocket;
-    vector<string> logs;
-
-    void logMessage(const string& message) {
-        logs.push_back(message);
-        ofstream logFile("server_logs.txt", ios::app);
-        logFile << message << endl;
-        logFile.close();
-    }
-};
-
-void Server::init() {
-    // Tạo socket
-    serverSocket = socket(AF_INET, SOCK_STREAM, 0); // IPPROTO_TCP thường là 0
-    if (serverSocket < 0) {
-        cerr << "Error creating socket" << endl;
-        exit(1);
-    }
-
-    // Cấu hình địa chỉ server
-    sockaddr_in serverAddr;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(PORT);
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-
-    if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
-        cerr << "Error binding socket" << endl;
-        close(serverSocket);
-        exit(1);
-    }
-
-    if (listen(serverSocket, 5) < 0) {
-        cerr << "Error listening on socket" << endl;
-        close(serverSocket);
-        exit(1);
-    }
-}
-
-void Server::run() {
-    struct sockaddr_in serverAddr, clientAddr;
-    socklen_t addrLen = sizeof(clientAddr);
-    cout << "Server running on port 8080...\n";
-    while (true) {
-        // Chấp nhận kết nối từ client
-        int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
-        if (clientSocket < 0) {
-            cerr << "Error accepting connection" << endl;
-            continue;
-        }
-        // Tạo thread mới để xử lý client
-        thread(&Server::handleClient, this, clientSocket).detach();
-    }
-}
-
 // Hàm ghi log vào file
-void logToFile(const std::string &message) {
+void logToFile(const string &message) {
     ofstream logFile("server_logs.txt", ios::app);
     if (logFile.is_open()) {
         logFile << message << std::endl;
@@ -125,7 +64,7 @@ void processClientRequest(int clientSocket, const string &request) {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
 
-    response = to_string(res.getStatus()) + "|" + res.getMessage();
+    response = to_string(res.getStatus()) + "|" + res.getMessage() + "|<END>";
 
     // Gửi phản hồi về client
     int totalSize = response.size();
@@ -138,7 +77,6 @@ void processClientRequest(int clientSocket, const string &request) {
         // Gửi phần chuỗi
         int bytesSent = send(clientSocket, response.c_str() + offset, partSize, 0);
         string sentResponse(response.c_str() + offset, bytesSent);
-        // Ghi log response vào file
         logToFile("Server response: " + sentResponse);
 
         if (bytesSent < 0) {
@@ -151,7 +89,7 @@ void processClientRequest(int clientSocket, const string &request) {
     }
 }
 
-void Server::handleClient(int clientSocket) {
+void handleClient(int clientSocket) {
     char buffer[BUFFER_SIZE];
     string partialMessage;
     while (true) {
@@ -177,12 +115,61 @@ void Server::handleClient(int clientSocket) {
             partialMessage += request; // Append to the existing buffer
         }
     }
+
+    // Đóng kết nối khi xử lý xong
     close(clientSocket);
 }
 
+void startServer() {
+    int serverSocket, clientSocket;
+    struct sockaddr_in serverAddr, clientAddr;
+    socklen_t addrLen = sizeof(clientAddr);
+
+    // Tạo socket
+    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (serverSocket < 0) {
+        cerr << "Error creating socket" << endl;
+        return;
+    }
+
+    // Cấu hình địa chỉ server
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(PORT);
+
+    // Gắn socket vào địa chỉ
+    if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0) {
+        cerr << "Error binding socket" << endl;
+        close(serverSocket);
+        return;
+    }
+
+    // Lắng nghe kết nối
+    if (listen(serverSocket, 5) < 0) {
+        cerr << "Error listening on socket" << endl;
+        close(serverSocket);
+        return;
+    }
+
+    cout << "Server running on port 8080...\n";
+
+    while (true) {
+        // Chấp nhận kết nối từ client
+        clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &addrLen);
+        if (clientSocket < 0) {
+            cerr << "Error accepting connection" << endl;
+            continue;
+        }
+
+        // Tạo thread mới để xử lý client
+        thread(handleClient, clientSocket).detach();
+    }
+
+    // Đóng socket server
+    close(serverSocket);
+}
+
 int main() {
-    Server server;
-    server.init();
-    server.run();
+    startServer();
     return 0;
 }
