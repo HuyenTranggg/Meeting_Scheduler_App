@@ -64,8 +64,8 @@ void processClientRequest(int clientSocket, const string &request) {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
 
-    response = to_string(res.getStatus()) + "|" + res.getMessage() + "|<END>";
-
+    response = to_string(res.getStatus()) + "|" + res.getMessage();
+    cout << "Server response: " << response << endl;
     // Gửi phản hồi về client
     int totalSize = response.size();
     int offset = 0;

@@ -98,6 +98,7 @@ string sendRequestToServer(const string &command) {
         // Thêm phần phản hồi vào response
         response += partResponse;
 
+        cout << "Server Response: " + response << endl;
         if (endsWith(partResponse, "|<END>")) {
             response = response.substr(0, response.length() - 6);
             break;
@@ -117,9 +118,9 @@ void handleStudentMenu(){}
 void handleLogin() {
     map<string, string> info = userView.showLogin();
     string loginCommand = "LOGIN|" + info["username"] + "|" + info["password"] + "|<END>";
-    string response = sendRequestToServer(loginCommand);
     cout << "Request Sent: " + loginCommand << endl;
-    cout << "Server Response: " + response << endl;
+    string response = sendRequestToServer(loginCommand);
+    
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {
@@ -144,11 +145,10 @@ void handleRegister() {
     map<string, string> info = userView.showRegisterA(); // Lấy thông tin đăng ký
     string registerCommand = "REGISTER|" + info["username"] + "|" + info["password"] + "|" + info["role"] + "|" +
                              info["first_name"] + "|" + info["last_name"] + "|<END>";
-
+    cout << "Request Sent: " + registerCommand << endl;
     // Gửi lệnh đăng ký tới server
     string response = sendRequestToServer(registerCommand);
-    cout << "Request Sent: " + registerCommand << endl;
-    cout << "Server Response: " + response << endl;
+    
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {
