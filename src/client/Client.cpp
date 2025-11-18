@@ -7,6 +7,8 @@
 #include <cerrno>        // Dùng cho việc kiểm tra lỗi
 #include <cstring>       // Dùng cho strerror
 #include "../views/UserView.h"
+#include "../views/TeacherView.h"
+#include "../models/Timeslot.h"
 #include <vector>
 #include <sstream>
 
@@ -18,6 +20,7 @@ using namespace std;
 
 int clientSocket;
 struct sockaddr_in serverAddr;
+TeacherView teacherView;
 int user_id = 0;
 string role = "none";
 UserView userView;
@@ -113,7 +116,35 @@ void logout() {
     user_id = 0;
     role = "none";
 }
-void handleTeacherMenu(){}
+void handleDeclareTimeSlot() {
+    Timeslot ts = teacherView.showDeclareTimeSlots(user_id);
+    string request = "DECLARE_TIME_SLOT|" + ts.toStringDeclare() + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    } else if (status == "13") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+void handleTeacherMenu(){
+    int choice = teacherView.showMenu();
+    switch (choice) {
+    case 0:
+        logout();
+        break;
+    case 1:
+        handleDeclareTimeSlot();
+        handleTeacherMenu();
+        break;
+
+    default:
+        break;
+    }
+}
+
 void handleStudentMenu(){}
 void handleLogin() {
     map<string, string> info = userView.showLogin();

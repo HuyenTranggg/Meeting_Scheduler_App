@@ -1,2 +1,6 @@
-Received: LOGIN|buitrang|trang|<END>
-Server response: 0|Successfully login|33|student|<END>
+Received: LOGIN|trangbui|trang|<END>
+Server response: 2|Incorrect password|<END>
+Received: LOGIN|trangbui|123456|<END>
+Server response: 0|Successfully login|34|teacher|<END>
+Received: DECLARE_TIME_SLOT|14:30:00|11:30:00|2024-09-12|personal|34|<END>
+Server response: 6|Invalid time|<END>

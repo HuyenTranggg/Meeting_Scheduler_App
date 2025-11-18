@@ -4,6 +4,7 @@
 #include "../models/User.h"
 #include "../repository/UserRepository.h"
 #include "../utils/MessageUtils.h"
+#include "../controllers/TeacherResponseController.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -19,7 +20,7 @@ using namespace std;
 
 UserController userController;
 UserRepository userRepo;
-
+TeacherResponseController teacherResponseController;
 // Hàm ghi log vào file
 void logToFile(const string &message) {
     ofstream logFile("server_logs.txt", ios::app);
@@ -60,6 +61,8 @@ void processClientRequest(int clientSocket, const string &request) {
         string username = result[1];
         string password = result[2];
         res = userController.login(username, password);
+    } else if (command == "DECLARE_TIME_SLOT") {
+        res = teacherResponseController.declareTimeslot(request);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
