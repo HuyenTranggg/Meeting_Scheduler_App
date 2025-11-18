@@ -38,13 +38,13 @@ class UserController {
         User user = userRepository.getUserByUsername(username);
         if (user.getId() == 0) {
             res.setStatus(1);
-            res.setMessage("Invalid username|");
+            res.setMessage("Invalid username");
         } else if (user.getPassword() != password) {
             res.setStatus(2);
-            res.setMessage("Incorrect password|");
+            res.setMessage("Incorrect password");
         } else {
             res.setStatus(0);
-            string message = "Successfully login|" + to_string(user.getId()) + "|" + user.getRole() + "|";
+            string message = "Successfully login|" + to_string(user.getId()) + "|" + user.getRole();
             res.setMessage(message);
         }
 
@@ -65,12 +65,12 @@ class UserController {
         User user = userRepository.getUserByUsername(username);
         if (user.getId() != 0) {
             res.setStatus(3);
-            res.setMessage("Username already exists|");
+            res.setMessage("Username already exists");
         } else {
             User newUser(username, password, role, first_name, last_name);
             userRepository.create(newUser);
             User user = userRepository.getUserByUsername(username);
-            string message = "Successfully registered|" + to_string(user.getId()) + "|" + user.getRole() + "|" + user.getFirstName() + "|" + user.getLastName() + "|";
+            string message = "Successfully registered|" + to_string(user.getId()) + "|" + user.getRole() + "|" + user.getFirstName() + "|" + user.getLastName();
             res.setStatus(0);
             res.setMessage(message);
         }

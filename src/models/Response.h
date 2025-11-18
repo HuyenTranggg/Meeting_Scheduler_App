@@ -18,7 +18,7 @@ class Response {
 
     // Setters
     void setStatus(const int &newStatus) { status = newStatus; }
-    void setMessage(const string &newMessage) { message = newMessage + "<END>"; }
+    void setMessage(const string &newMessage) { message = newMessage + "|<END>"; }
 
     void show() { cout << "Response, Status: " << status << " ,message: " << message << endl; }
 };

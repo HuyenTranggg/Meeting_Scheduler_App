@@ -1,5 +1,6 @@
 #include "../Status.h"
 #include "../controllers/UserController.h"
+#include "../controllers/TeacherResponseController.h"
 #include "../models/Response.h"
 #include "../models/User.h"
 #include "../repository/UserRepository.h"
@@ -19,6 +20,7 @@ using namespace std;
 
 UserController userController;
 UserRepository userRepo;
+TeacherResponseController teacherController;
 
 class Server {
 public:
@@ -121,11 +123,13 @@ void processClientRequest(int clientSocket, const string &request) {
         string username = result[1];
         string password = result[2];
         res = userController.login(username, password);
+    } else if (command == "DECLARE_TIME_SLOT") {
+        res = teacherController.declareTimeslot(request);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
 
-    response = to_string(res.getStatus()) + "|" + res.getMessage();
+    response = to_string(res.getStatus()) + "|" + res.getMessage() + "|<END>";
 
     // Gửi phản hồi về client
     int totalSize = response.size();
