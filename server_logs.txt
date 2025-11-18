@@ -1,23 +1,2 @@
-Received: Hello, Server from Ubuntu!
-Received: REGISTER|buitrang|trang|student|Bui Thu Trang|Trang|<END>
-Server response: 0|Successfully registered|0||||<END>
-Received: LOGIN|buitrang|trang|<END>
-Server response: 1|Invalid username|<END>
-Received: REGISTER|buitrang|trang|student|Bui|Thu Trang|<END>
-Server response: 0|Successfully registered|33|student|Bui|Thu Trang|<END>
-Received: LOGIN|buitrang|trang|<END>
-Server response: 0|Successfully login|33|student|<END>
-Received: LOGIN|buitrang|trang|<END>
-Server response: 0|Successfully login|33|student|<END>
-Received: REGISTER|trangbui|123456|teacher|Bui|Trang|<END>
-Server response: 0|Successfully registered|34|teacher|Bui|Trang|<END>
-Received: LOGIN|lala|djdj|<END>
-Server response: 1|Invalid username|<END>
-Received: LOGIN|buitrang|d|<END>
-Server response: 2|Incorrect password|<END>
-Received: REGISTER|buitrang|ddjj|student|jddj|djdj|<END>
-Server response: 3|Username already exists|<END>
-Received: LOGIN|buitrang|trang|<END>
-Server response: 0|Successfully login|33|student|<END>
-Received: REGISTER|trangbui|trajjsj|student|djdjd|djdjd|<END>
-Server response: 3|Username already exists|<END>
+Received: LOGIN|trangbui|trang|<END>
+Server response: 0|Successfully login|35|student|<END>|<END>
