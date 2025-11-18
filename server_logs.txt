@@ -10,3 +10,5 @@ Received: REGISTER|trang|trang|student|trang|bui|<END>
 Server response: 0|Successfully registered|35|student|trang|bui|<END>|<END>
 Received: LOGIN|trangbui|trang|<END>
 Server response: 2|Incorrect password|<END>|<END>
+Received: LOGIN|trangbui|trang|<END>
+Server response: 2|Incorrect password|<END>|<END>
