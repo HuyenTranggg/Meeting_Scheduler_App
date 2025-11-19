@@ -1,0 +1,2 @@
+Received: LOGIN|trangbui|123456|<END>
+Server response: 0|Successfully login|34|teacher|<END>
