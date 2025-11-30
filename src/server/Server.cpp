@@ -5,6 +5,7 @@
 #include "../repository/UserRepository.h"
 #include "../utils/MessageUtils.h"
 #include "../controllers/TeacherResponseController.h"
+#include "../controllers/StudentResponseController.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -21,6 +22,7 @@ using namespace std;
 UserController userController;
 UserRepository userRepo;
 TeacherResponseController teacherResponseController;
+StudentResponseController studentResponseController;
 // Hàm ghi log vào file
 void logToFile(const string &message) {
     ofstream logFile("server_logs.txt", ios::app);
@@ -63,6 +65,13 @@ void processClientRequest(int clientSocket, const string &request) {
         res = userController.login(username, password);
     } else if (command == "DECLARE_TIME_SLOT") {
         res = teacherResponseController.declareTimeslot(request);
+    } else if (command == "FETCH_ALL_TEACHER") {
+        res = studentResponseController.getAllTeacher();
+    } else if (command == "VIEW_FREE_TIME_SLOTS") {
+        int teacher_id = stoi(result[1]);
+        res = studentResponseController.viewFreeTimeslots(teacher_id);
+    } else if (command == "BOOK_MEETING") {
+        res = studentResponseController.bookMeeting(request);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }

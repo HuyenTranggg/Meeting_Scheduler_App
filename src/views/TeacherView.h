@@ -28,6 +28,16 @@ class TeacherView {
             cin >> choice;
             cin.ignore();
             return choice;
+            switch (choice) {
+            case 0:
+            case 1:
+            case 2:
+                return choice;
+                break;
+            default:
+                cout << "Lua chon khong hop le, vui long thu lai!" << endl;
+                break;
+            }
         }
     }
 
