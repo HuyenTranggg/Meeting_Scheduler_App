@@ -196,7 +196,7 @@ void handleViewTimeslots() {
     } else if (status == "4") {
         vector<string> tokens = splitString(response, '|');
         cout << tokens[1] << endl;
-    } else if (status == "8") {
+    } else if (status == "15") {
         vector<string> tokens = splitString(response, '|');
         cout << tokens[1] << endl;
     }
@@ -243,7 +243,13 @@ void handleBookMeeting(const Meeting &meeting) {
     } else if (status == "11") {
         vector<string> tokens = splitString(response, '|');
         cout << tokens[1] << endl;
-    }
+    } else if (status == "17") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    } else if (status == "12") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    } 
 }
 
 void handleViewTimeslotsOfTeacher(const int &teacher_id, const string &teacherName) {

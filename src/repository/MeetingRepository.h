@@ -420,6 +420,55 @@ class MeetingRepository {
 
         return meetings;
     }
+
+    vector<Meeting> getMeetingsInDateByStudentId(const int &student_id, const string &date) {
+        vector<Meeting> meetings;
+
+        if (db.connect()) {
+            string query = R"(
+                SELECT meetings.*
+                FROM meetings
+                INNER JOIN attendances ON attendances.meeting_id = meetings.id
+                INNER JOIN timeslots ON meetings.timeslot_id = timeslots.id
+                WHERE attendances.student_id = ? 
+                AND timeslots.date = ?
+            )";
+            try {
+                sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
+                pstmt->setInt(1, student_id);
+                pstmt->setString(2, date);
+                sql::ResultSet *res = pstmt->executeQuery();
+
+                while (res->next()) {
+                    Meeting meeting;
+                    Timeslot timeslot = timeslotRepo.getTimeslotById(res->getInt("timeslot_id"));
+                    meeting.setId(res->getInt("id"));
+                    meeting.setTeacherId(timeslot.getTeacherId());
+                    meeting.setStatus(res->getString("status"));
+                    meeting.setType(res->getString("type"));
+                    meeting.setReport(res->getString("report"));
+                    meeting.setStart(timeslot.getStart());
+                    meeting.setEnd(timeslot.getEnd());
+                    meeting.setDate(timeslot.getDate());
+                    meeting.setTimeslotId(res->getInt("timeslot_id"));
+                    meetings.push_back(meeting);
+                }
+                delete res;
+                delete pstmt;
+            } catch (sql::SQLException &e) {
+                std::cerr << "Lỗi khi lấy dữ liệu từ meetings: " << e.what() << std::endl;
+            }
+
+        } else {
+            cout << "Lỗi không thể truy cập cơ sở dữ liệu." << endl;
+        }
+
+        // Sắp xếp lại meetings trong ngày theo giờ tăng dần
+        sort(meetings.begin(), meetings.end(),
+             [](const Meeting &a, const Meeting &b) { return a.getStart() < b.getStart(); });
+
+        return meetings;
+    }
 };
 
 #endif

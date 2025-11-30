@@ -10,7 +10,7 @@
 #include "./TeacherResponseController.h"
 #include "../repository/MeetingRepository.h"
 #include "../repository/AttendanceRepository.h"
-
+#include "../utils/Utils.h"
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -22,6 +22,7 @@ class StudentResponseController {
     TeacherResponseController trc;
     MeetingRepository meetingRepository;
     AttendanceRepository attendanceRepository;
+    Utils utils;
 
   public:
     StudentResponseController() {}
@@ -36,10 +37,6 @@ class StudentResponseController {
         } else {
             string message = "";
             for (int i = 0; i < teachers.size(); i++) {
-                // User teacherResponse;
-                // teacherResponse.setId(teachers[i].getId());
-                // teacherResponse.setFirstName(teachers[i].getFirstName());
-                // teacherResponse.setLastName(teachers[i].getLastName());
                 message += teachers[i].toStringProfile() + "|";
             }
             res.setStatus(0);
@@ -48,36 +45,7 @@ class StudentResponseController {
 
         return res;
     }
-
-    Response viewFreeTimeslots(const int &teacher_id) {
-        Response res;
-        User user = userRepository.getUserById(teacher_id);
-        if (user.getId() == 0) {
-            res.setStatus(15);
-            res.setMessage("No teacher was found|");
-        } else {
-            map<string, vector<Timeslot>> timeslots = timeslotRepository.getFreeTimeslotsByTeacherId(teacher_id);
-            if (timeslots.empty()) {
-                res.setStatus(4);
-                res.setMessage("Teacher has no available time|");
-            } else {
-                string message = "";
-                for (const auto &ts : timeslots) {
-                    message += ts.first + "|[";
-                    vector<Timeslot> tss = ts.second;
-                    for (int i = 0; i < tss.size(); i++) {
-                        message += "|" + tss[i].toString();
-                    }
-                    message += "|]|";
-                }
-                res.setStatus(0);
-                res.setMessage(message);
-            }
-        }
-
-        return res;
-    }
-
+    
     Response bookMeeting(const string &request) {
         Response res;
         vector<string> tokens = trc.splitString(request, '|');
@@ -88,7 +56,7 @@ class StudentResponseController {
         User student = userRepository.getUserById(student_id);
         if (student.getId() == 0) {
             res.setStatus(9);
-            res.setMessage("Student does not exist|");
+            res.setMessage("Student is not exist|");
             return res;
         }
 
@@ -99,11 +67,24 @@ class StudentResponseController {
             return res;
         }
 
+        if(timeslot.getStatus() == "busy") {
+            res.setStatus(17);
+            res.setMessage("Timeslot is busy|");
+            return res;
+        }
+        
+        // Kiểm tra xem có xung đột với thời gian của Timeslot đã hẹn không
+        if (check(timeslot.getStart(), timeslot.getEnd(), timeslot.getDate(), student_id)) {
+            res.setStatus(12);
+            res.setMessage("You have a meeting at this time|");
+            return res;
+        }
+
         // Kiem tra xem meeting ton tai chua
         Meeting meeting = meetingRepository.getMeetingByTimeslotId(timeslot_id);
         if (meeting.getId() != 0 && meeting.getType() == "personal") {
             res.setStatus(16);
-            res.setMessage("Meeting is existed|");
+            res.setMessage("Meeting already exists|");
             return res;
         } else if (meeting.getId() == 0) {
             // Tao meeting
@@ -117,9 +98,7 @@ class StudentResponseController {
             timeslotRepository.updateType(timeslot_id, type);
         }
 
-        if (type == "personal") {
-            timeslotRepository.updateStatus(timeslot_id, "busy");
-        }
+        timeslotRepository.updateStatus(timeslot_id, "busy");
 
         // Them attendance
         // Kiem tra attendance ton tai chua
@@ -138,7 +117,15 @@ class StudentResponseController {
 
         return res;
     }
-
+    bool check(const string &start, const string &end, const string &date, const int &student_id) {
+        vector<Meeting> studenMeetings = meetingRepository.getMeetingsInDateByStudentId(student_id, date);
+        for (const Meeting& meeting : studenMeetings) {
+            if (!(utils.checkTimeGreater(meeting.getStart(), end) || utils.checkTimeGreater(start, meeting.getEnd()))) {
+                return true;
+            }
+        }
+        return false;
+    }
     // Response viewMeetingsStudent(const string &request) {
     //     Response res;
     //     vector<string> tokens = trc.splitString(request, '|');

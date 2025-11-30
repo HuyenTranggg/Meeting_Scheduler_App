@@ -122,13 +122,13 @@ class StudentView {
                     type = "group";
                     break;
                 }
-                cout << "Lua chon khong hop le, vui long thu lai!" << endl;
+                cout << "Lựa chọn không hợp lệ vui lòng thử lại!" << endl;
             }
         }
-        cout << "Loai cuoc hop: " << type << endl;
+        cout << "Loại cuộc họp: " << type << endl;
         int opt;
         while (true) {
-            cout << "Ban muon dat lich hen khong? (1. Co, 2. Khong)" << endl;
+            cout << "Bạn có chắc chắn không? (1. Có, 2. Không)" << endl;
             cin >> opt;
             cin.ignore();
             if (opt == 1) {
@@ -138,7 +138,7 @@ class StudentView {
                 meeting.setId(-1);
                 return meeting;
             }
-            cout << "Lua chon khong hop le, vui long thu lai!" << endl;
+            cout << "Lựa chọn không hợp lệ vui lòng thử lại!" << endl;
         }
 
         return meeting;

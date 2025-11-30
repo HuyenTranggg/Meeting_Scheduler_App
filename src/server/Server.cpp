@@ -72,9 +72,6 @@ void processClientRequest(int clientSocket, const string &request) {
         res = teacherResponseController.declareTimeslot(request);
     } else if (command == "FETCH_ALL_TEACHER") {
         res = studentResponseController.getAllTeacher();
-    } else if (command == "VIEW_FREE_TIME_SLOTS") {
-        int teacher_id = stoi(result[1]);
-        res = studentResponseController.viewFreeTimeslots(teacher_id);
     } else if (command == "BOOK_MEETING") {
         res = studentResponseController.bookMeeting(request);
     } else if (command == "VIEW_FREE_TIME_SLOTS") {

@@ -1,0 +1,10 @@
+Received: LOGIN|trangbuitrang|trang|<END>
+Server response: 1|Invalid username|<END>
+Received: LOGIN|trangbui|123456|<END>
+Server response: 0|Successfully login|34|teacher|<END>
+Received: VIEW_FREE_TIME_SLOTS|34|<END>
+Server response: 0|2025-09-12|{|53|12:30:00|14:30:00|personal|busy|54|12:30:00|11:30:00|personal|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
+Received: EDIT_SLOT|34|53|13:20:00|15:20:00|2025-09-12|personal|<END>
+Server response: 0|Successfully updated free time|<END>
+Received: VIEW_FREE_TIME_SLOTS|34|<END>
+Server response: 0|2025-09-12|{|54|12:30:00|11:30:00|personal|busy|53|13:20:00|15:20:00|personal|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
