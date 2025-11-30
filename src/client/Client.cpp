@@ -12,9 +12,16 @@
 #include <vector>
 #include <sstream>
 
+#include "../controllers/TeacherController.h"
+#include "../controllers/UserController.h"
+
+#include "../utils/MessageUtils.h"
+#include "../views/TeacherView.h"
+#include "../views/UserView.h"
+
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 8080
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2500
 
 using namespace std;
 
@@ -23,7 +30,11 @@ struct sockaddr_in serverAddr;
 TeacherView teacherView;
 int user_id = 0;
 string role = "none";
+
 UserView userView;
+UserController userController;
+TeacherController teacherController;
+
 vector<string> splitString(const string &str, char delimiter) {
     vector<string> tokens;
     string token;
@@ -34,6 +45,20 @@ vector<string> splitString(const string &str, char delimiter) {
         tokens.push_back(token);
     }
     return tokens;
+}
+
+// Hàm an toàn để chuyển string sang int
+int safeStoi(const string &str, int defaultValue = 0) {
+    try {
+        if (str.empty()) return defaultValue;
+        return stoi(str);
+    } catch (const invalid_argument &e) {
+        cerr << "Invalid argument for stoi: '" << str << "'" << endl;
+        return defaultValue;
+    } catch (const out_of_range &e) {
+        cerr << "Out of range for stoi: '" << str << "'" << endl;
+        return defaultValue;
+    }
 }
 
 void connectToServer() {
@@ -101,7 +126,8 @@ string sendRequestToServer(const string &command) {
         // Thêm phần phản hồi vào response
         response += partResponse;
 
-        cout << "Server Response: " + response << endl;
+        cout << "Server response: " << response << endl;
+
         if (endsWith(partResponse, "|<END>")) {
             response = response.substr(0, response.length() - 6);
             break;
@@ -129,6 +155,48 @@ void handleDeclareTimeSlot() {
         cout << tokens[1] << endl;
     }
 }
+
+// Teacher
+
+void handleUpdateTimeslot(const Timeslot &timeslot) {
+    Timeslot tsUpdate = teacherView.showUpdateTimeslot(timeslot);
+    string request = "EDIT_SLOT|" + to_string(user_id) + "|" + tsUpdate.toStringUpdate() + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
+void handleViewTimeslots() {
+    string request = "VIEW_FREE_TIME_SLOTS|" + to_string(user_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        map<string, vector<Timeslot>> timeslots = teacherController.viewTimeslots(response);
+        Timeslot ts = teacherView.showTimeslots(timeslots);
+        if (ts.getId() == -1) {
+            return;
+        }
+        // Detail Timeslot
+        int choice = teacherView.showTimeslot(ts);
+        if (choice == 0) {
+            handleViewTimeslots();
+        } else {
+            handleUpdateTimeslot(ts);
+            handleViewTimeslots();
+        }
+
+    } else if (status == "4") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    } else if (status == "8") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
 void handleTeacherMenu(){
     int choice = teacherView.showMenu();
     switch (choice) {
@@ -139,23 +207,27 @@ void handleTeacherMenu(){
         handleDeclareTimeSlot();
         handleTeacherMenu();
         break;
-
+    case 2:
+        handleViewTimeslots();
+        handleTeacherMenu();
+        break;
+    
     default:
         break;
     }
 }
 
 void handleStudentMenu(){}
+
 void handleLogin() {
     map<string, string> info = userView.showLogin();
     string loginCommand = "LOGIN|" + info["username"] + "|" + info["password"] + "|<END>";
     cout << "Request Sent: " + loginCommand << endl;
     string response = sendRequestToServer(loginCommand);
-    
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {
-        user_id = stoi(result[2]);
+        user_id = safeStoi(result[2]);
         role = result[3];
         cout << user_id << " - " << role << endl;
         response = result[0] + "|" + result[1];
@@ -176,16 +248,17 @@ void handleRegister() {
     map<string, string> info = userView.showRegisterA(); // Lấy thông tin đăng ký
     string registerCommand = "REGISTER|" + info["username"] + "|" + info["password"] + "|" + info["role"] + "|" +
                              info["first_name"] + "|" + info["last_name"] + "|<END>";
+
     cout << "Request Sent: " + registerCommand << endl;
     // Gửi lệnh đăng ký tới server
     string response = sendRequestToServer(registerCommand);
-    
+
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
     if (result.size() >= 4 && result[0] == "0" && !result[2].empty()) {
         vector<string> tokens = splitString(response, '|');
         cout << tokens[1] << endl;
-        user_id = stoi(tokens[2]);
+        user_id = safeStoi(tokens[2]);
         role = tokens[3];
         if (role == "teacher" && user_id != 0) {
             handleTeacherMenu();

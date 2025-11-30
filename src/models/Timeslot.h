@@ -41,16 +41,26 @@ class Timeslot {
     void setStatus(const string &newStatus) { status = newStatus; }
     void setTeacherId(const int &newTeacherId) { teacher_id = newTeacherId; }
 
-    string toString() {
-        return to_string(id) + "|" + start + "|" + end + "|" + date + "|" + type + "|" + status + "|" +
-               to_string(teacher_id);
-    }
-
-    string toStringUpdate() { return to_string(id) + "|" + start + "|" + end + "|" + type; }
+//    string toString() {
+//        return to_string(id) + "|" + start + "|" + end + "|" + date + "|" + type + "|" + status + "|" +
+//               to_string(teacher_id);
+//    }
 
     string toStringDeclare() { return start + "|" + end + "|" + date + "|" + type + "|" + to_string(teacher_id); }
 
-    string toStringBookMeeting() { return start + "|" + end + "|" + date + "|" + type + "|" + to_string(teacher_id) + "|" + to_string(id); }
+//    string toStringBookMeeting() { return start + "|" + end + "|" + date + "|" + type + "|" + to_string(teacher_id) + "|" + to_string(id); }
+
+    std::string toString() {
+        return std::to_string(id) + "|" + start + "|" + end + "|" + type + "|" + status;
+    }
+
+    std::string toStringUpdate() { 
+        return std::to_string(id) + "|" + start + "|" + end + "|" + date + "|" + type;
+    }
+    
+    std::string toStringBookMeeting() { 
+        return std::to_string(teacher_id) + "|" + std::to_string(id) + "|" + type;
+    }
 
     void show() {
         cout << "TimeSlot, Id: " << id << " ,start: " << start << " ,end: " << end << " ,date: " << date
