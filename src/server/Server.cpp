@@ -1,10 +1,15 @@
 #include "../Status.h"
 #include "../controllers/UserController.h"
+#include "../controllers/TeacherResponseController.h"
 #include "../models/Response.h"
 #include "../models/User.h"
 #include "../repository/UserRepository.h"
 #include "../utils/MessageUtils.h"
 #include "../controllers/TeacherResponseController.h"
+#include <arpa/inet.h>
+#include <ifaddrs.h>
+#include <map>
+#include <sstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,13 +19,13 @@
 #include <sys/socket.h>  // Thư viện socket chính
 #include <netinet/in.h>  // Dùng cho cấu trúc sockaddr_in
 #define PORT 8080
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2024
 
 using namespace std;
 
 UserController userController;
-UserRepository userRepo;
 TeacherResponseController teacherResponseController;
+UserRepository userRepo;
 // Hàm ghi log vào file
 void logToFile(const string &message) {
     ofstream logFile("server_logs.txt", ios::app);
@@ -63,12 +68,24 @@ void processClientRequest(int clientSocket, const string &request) {
         res = userController.login(username, password);
     } else if (command == "DECLARE_TIME_SLOT") {
         res = teacherResponseController.declareTimeslot(request);
+    } else if (command == "VIEW_FREE_TIME_SLOTS") {
+        int teacher_id = stoi(result[1]);
+        res = teacherResponseController.viewTimeslots(teacher_id);
+    } else if (command == "EDIT_SLOT") {
+
+        string params = "";
+        size_t first_pipe = request.find('|');
+        if (first_pipe != string::npos) {
+            params = request.substr(first_pipe + 1);
+        }
+        res = teacherResponseController.updateTimeslot(params);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
 
     response = to_string(res.getStatus()) + "|" + res.getMessage();
     cout << "Server response: " << response << endl;
+
     // Gửi phản hồi về client
     int totalSize = response.size();
     int offset = 0;

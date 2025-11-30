@@ -108,6 +108,13 @@ class Utils {
         return h >= 1000 && h <= 2500;
     }
 
+
+    bool isTimeInvalid(const std::string &startTime, const std::string &endTime) {
+        // Với định dạng "HH:MM:SS", so sánh chuỗi trực tiếp là cách đơn giản và chính xác.
+        // Trả về true nếu startTime >= endTime.
+        return startTime >= endTime;
+    }
+
     bool checkTimeGreater(const string &time1, const string &time2) {
         vector<int> t1 = getTimeVector(time1);
         vector<int> t2 = getTimeVector(time2);

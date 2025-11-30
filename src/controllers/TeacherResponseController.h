@@ -11,12 +11,16 @@
 #include <cppconn/prepared_statement.h>
 #include <iostream>
 #include <map>
+#include <sstream> // Thêm thư viện cần thiết
+#include <vector>  // Thêm thư viện cần thiết
 
 using namespace std;
 
 class TeacherResponseController {
   private:
+    UserRepository userRepository;
     TimeslotRepository timeslotRepo;
+    Utils utils; // them utils
 
   public:
     TeacherResponseController() {}
@@ -54,6 +58,84 @@ class TeacherResponseController {
             timeslotRepo.create(ts);
             res.setStatus(0);
             res.setMessage("Successfully declared free time|");
+        }
+
+        return res;
+    }
+    // Teacher
+    Response viewTimeslots(const int &teacher_id) {
+        Response res;
+        User user = userRepository.getUserById(teacher_id);
+        if (user.getId() == 0) {
+            res.setStatus(7);
+            res.setMessage("Giao vien khong ton tai|");
+        } else {
+            map<string, vector<Timeslot>> timeslots = timeslotRepo.getTimeslotsByTeacherId(teacher_id);
+            if (timeslots.empty()) {
+                res.setStatus(4);
+                res.setMessage("Teacher has no available time|");
+            } else {
+                string message = "";
+                bool first_date = true;
+                for (const auto &ts : timeslots) {
+
+                    if (!first_date) {
+                        message += "|";
+                    }
+                    message += ts.first + "|{|"; 
+                    vector<Timeslot> tss = ts.second;
+                    for (int i = 0; i < tss.size(); i++) {
+                        message += tss[i].toString();
+                        if (i < tss.size() - 1) {
+                            message += "|"; // Thêm | giữa các timeslot
+                        }
+                    }
+                    message += "|}"; 
+                    first_date = false;
+                }
+                res.setStatus(0);
+                res.setMessage(message + "|");
+
+            }
+        }
+
+        return res;
+    }
+
+    Response updateTimeslot(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+
+        if (tokens.size() < 6) {
+             res.setStatus(99); // Mã lỗi tự định nghĩa cho request sai
+             res.setMessage("Yeu cau khong hop le|");
+             return res;
+        }
+        
+        int teacher_id = stoi(tokens[0]); // Bị thiếu
+        int slot_id = stoi(tokens[1]);    // Sai index
+        string start = tokens[2];         // Sai index
+        string end = tokens[3];           // Sai index
+        string date = tokens[4];          // Bị thiếu
+        string type = tokens[5];          // Sai index
+
+        Timeslot ts = timeslotRepo.getTimeslotById(slot_id);
+        if (ts.getId() == 0) {
+
+            res.setStatus(7);
+
+            res.setMessage("Time slot not found|");
+
+        } else if (utils.isTimeInvalid(start, end)) { 
+            res.setStatus(6);
+            res.setMessage("Invalid time|");
+        } else if (timeslotRepo.check2(start, end, ts.getDate(), ts.getTeacherId(), slot_id)) {
+            res.setStatus(14);
+            res.setMessage("Time slot conflicts with another slot|");
+        } else {
+            timeslotRepo.updateTimeAndType(slot_id, start, end, type);
+            res.setStatus(0);
+            res.setMessage("Successfully updated free time|");
         }
 
         return res;

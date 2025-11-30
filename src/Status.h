@@ -3,12 +3,19 @@
 
 enum class Status {
     SUCCESS = 0,
+
     USER_NOT_FOUND = 1,
     WRONG_PASSWORD = 2,
     USERNAME_EXISTS = 3,
-    UNKNOWN_ERROR = 99,
-    INVALID_TIME = 6,   
-    TIME_CONFLICT = 14
+
+    INVALID_TIME = 6,  
+    NO_MEETING_FOUND = 8,
+    TEACHER_NO_AVAILABLE_TIME = 4,
+
+    TIME_SLOT_NOT_FOUND = 7,
+    TIME_SLOT_CONFLICTS = 14,   // Time slot conflicts with another slot
+
+    UNKNOWN_ERROR = 99
 };
 
 #endif
