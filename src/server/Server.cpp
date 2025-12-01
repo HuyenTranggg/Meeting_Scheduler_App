@@ -85,6 +85,12 @@ void processClientRequest(int clientSocket, const string &request) {
             params = request.substr(first_pipe + 1);
         }
         res = teacherResponseController.updateTimeslot(params);
+    } else if (command == "VIEW_MEETINGS_STUDENT") {
+        res = studentResponseController.viewMeetingsStudent(request);
+    } else if (command == "CANCEL_APPOINTMENT") {
+        res = studentResponseController.cancelMeeting(request);
+    } else if (command == "VIEW_MEETING_STUDENT") {
+        res = studentResponseController.viewMeetingStudent(request);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
