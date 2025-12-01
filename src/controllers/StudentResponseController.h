@@ -27,6 +27,16 @@ class StudentResponseController {
   public:
     StudentResponseController() {}
 
+    bool check(const string &start, const string &end, const string &date, const int &student_id) {
+        vector<Meeting> studenMeetings = meetingRepository.getMeetingsInDateByStudentId(student_id, date);
+        for (const Meeting& meeting : studenMeetings) {
+            if (!(utils.checkTimeGreater(meeting.getStart(), end) || utils.checkTimeGreater(start, meeting.getEnd()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     Response getAllTeacher() {
         Response res;
         vector<User> teachers = userRepository.getAllTeachers();
@@ -82,7 +92,7 @@ class StudentResponseController {
 
         // Kiem tra xem meeting ton tai chua
         Meeting meeting = meetingRepository.getMeetingByTimeslotId(timeslot_id);
-        if (meeting.getId() != 0 && meeting.getType() == "personal") {
+        if (meeting.getId() != 0) {
             res.setStatus(16);
             res.setMessage("Meeting already exists|");
             return res;
@@ -117,104 +127,7 @@ class StudentResponseController {
 
         return res;
     }
-    bool check(const string &start, const string &end, const string &date, const int &student_id) {
-        vector<Meeting> studenMeetings = meetingRepository.getMeetingsInDateByStudentId(student_id, date);
-        for (const Meeting& meeting : studenMeetings) {
-            if (!(utils.checkTimeGreater(meeting.getStart(), end) || utils.checkTimeGreater(start, meeting.getEnd()))) {
-                return true;
-            }
-        }
-        return false;
-    }
-    // Response viewMeetingsStudent(const string &request) {
-    //     Response res;
-    //     vector<string> tokens = trc.splitString(request, '|');
-    //     int student_id = stoi(tokens[1]);
-    //     User student = userRepository.getUserById(student_id);
-    //     if (student.getId() == 0 || student.getRole() != "student") {
-    //         res.setStatus(17);
-    //         res.setMessage("Khong tim thay sinh vien|");
-    //         return res;
-    //     } else {
-    //         map<string, map<string, vector<Meeting>>> meetings =
-    //             meetingRepository.getMeetingsInWeeksByStudentId(student_id);
-    //         if (meetings.empty()) {
-    //             res.setStatus(16);
-    //             res.setMessage("Ban khong co lich hop nao|");
-    //             return res;
-    //         } else {
-    //             string message = "";
-    //             for (const auto &week : meetings) {
-    //                 const string weekName = week.first;
-    //                 const map<string, vector<Meeting>> dailyMeetings = week.second;
-    //                 message += weekName + "|{";
-    //                 for (const auto &day : dailyMeetings) {
-    //                     const string dayName = day.first;
-    //                     vector<Meeting> mts = day.second;
-    //                     message += "|" + dayName + "|[";
-    //                     for (int i = 0; i < mts.size(); i++) {
-    //                         message += "|" + mts[i].toString();
-    //                         User teacher = userRepository.getTeacherFromMeeting(mts[i].getId());
-    //                         message += "|teacher|{";
-    //                         message += "|" + to_string(teacher.getId()) + "|" + teacher.getFirstName() + "|" +
-    //                                    teacher.getLastName();
-    //                         message += "|}";
-    //                     }
-    //                     message += "|]";
-    //                 }
-    //                 message += "|}|";
-    //             }
-    //             res.setStatus(0);
-    //             res.setMessage(message);
-    //         }
-    //     }
 
-    //     return res;
-    // }
-
-    // Response viewMeetingStudent(const string &request) {
-    //     Response res;
-    //     vector<string> tokens = trc.splitString(request, '|');
-    //     int meeting_id = stoi(tokens[1]);
-    //     User teacher = userRepository.getTeacherFromMeeting(meeting_id);
-
-    //     Meeting meeting = meetingRepository.getMeetingById(meeting_id);
-    //     string message = meeting.toString();
-    //     message += "|[";
-    //     message += "|" + to_string(teacher.getId()) + "|" + teacher.getFirstName() + "|" + teacher.getLastName();
-    //     message += "|]|";
-    //     res.setStatus(0);
-    //     res.setMessage(message);
-
-    //     return res;
-    // }
-
-    // Response cancelMeeting(const string &request) {
-    //     Response res;
-    //     vector<string> tokens = trc.splitString(request, '|');
-    //     int student_id = stoi(tokens[1]);
-    //     int meeting_id = stoi(tokens[2]);
-    //     Meeting meeting = meetingRepository.getMeetingById(meeting_id);
-    //     if (meeting.getId() == 0) {
-    //         res.setStatus(12);
-    //         res.setMessage("Khong tim thay meeting de huy|");
-    //         return res;
-    //     }
-    //     if (meeting.getType() == "group") {
-    //         vector<Attendance> attendances = attendanceRepository.getAttendancesByMeetingId(meeting_id);
-    //         if (attendances.size() == 1) {
-    //             meetingRepository.deleteMeeting(meeting_id);
-    //         }
-    //     }
-    //     if (meeting.getType() == "personal") {
-    //         timeslotRepository.updateStatus(meeting.getTimeslotId(), "free");
-    //         meetingRepository.deleteMeeting(meeting_id);
-    //     }
-    //     attendanceRepository.deleteAttendanceByMeetingIdAndStudentId(meeting_id, student_id);
-    //     res.setStatus(0);
-    //     res.setMessage("Huy lich hen thanh cong|");
-    //     return res;
-    // }
 };
 
 #endif

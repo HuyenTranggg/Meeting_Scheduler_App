@@ -1,10 +1,44 @@
-Received: LOGIN|trangbuitrang|trang|<END>
-Server response: 1|Invalid username|<END>
+Received: LOGIN|buithutrang|trangthubui|<END>
+Server response: 0|Successfully login|36|student|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>
+Received: VIEW_FREE_TIME_SLOTS|7|<END>
+Server response: 4|Teacher has no available time|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>
+Received: VIEW_FREE_TIME_SLOTS|8|<END>
+Server response: 4|Teacher has no available time|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>
+Received: VIEW_FREE_TIME_SLOTS|19|<END>
+Server response: 4|Teacher has no available time|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>
+Received: VIEW_FREE_TIME_SLOTS|37|<END>
+Server response: 0|2025-09-12|{|56|12:30:00|15:30:00|personal|free|}|<END>
+Received: BOOK_MEETING|36|56|personal|<END>
+Server response: 12|You have a meeting at this time|<END>
+Received: VIEW_FREE_TIME_SLOTS|37|<END>
+Server response: 0|2025-09-12|{|56|12:30:00|15:30:00|personal|free|}|<END>
 Received: LOGIN|trangbui|123456|<END>
 Server response: 0|Successfully login|34|teacher|<END>
 Received: VIEW_FREE_TIME_SLOTS|34|<END>
-Server response: 0|2025-09-12|{|53|12:30:00|14:30:00|personal|busy|54|12:30:00|11:30:00|personal|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
-Received: EDIT_SLOT|34|53|13:20:00|15:20:00|2025-09-12|personal|<END>
-Server response: 0|Successfully updated free time|<END>
-Received: VIEW_FREE_TIME_SLOTS|34|<END>
 Server response: 0|2025-09-12|{|54|12:30:00|11:30:00|personal|busy|53|13:20:00|15:20:00|personal|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
+Received: DECLARE_TIME_SLOT|12:23:00|15:23:00|2025-10-11|group|34|<END>
+Server response: 0|Successfully declared free time|<END>
+Received: LOGIN|buithutrang|trangthubui|<END>
+Server response: 0|Successfully login|36|student|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>
+Received: VIEW_FREE_TIME_SLOTS|34|<END>
+Server response: 0|2025-09-12|{|54|12:30:00|11:30:00|personal|busy|53|13:20:00|15:20:00|personal|busy|}|2025-10-11|{|57|12:23:00|15:23:00|group|free|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
+Received: BOOK_MEETING|36|57|group|<END>
+Server response: 0|Meeting booked successfully|<END>
+Received: VIEW_FREE_TIME_SLOTS|34|<END>
+Server response: 0|2025-09-12|{|54|12:30:00|11:30:00|personal|busy|53|13:20:00|15:20:00|personal|busy|}|2025-10-11|{|57|12:23:00|15:23:00|group|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
+Received: BOOK_MEETING|36|57|group|<END>
+Server response: 17|Timeslot is busy|<END>
+Received: VIEW_FREE_TIME_SLOTS|34|<END>
+Server response: 0|2025-09-12|{|54|12:30:00|11:30:00|personal|busy|53|13:20:00|15:20:00|personal|busy|}|2025-10-11|{|57|12:23:00|15:23:00|group|busy|}|2025-10-12|{|55|12:12:00|12:40:00|both|free|}|<END>
+Received: FETCH_ALL_TEACHER|<END>
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|Bui|Trang|37|Teacher|Claude|<END>

@@ -131,8 +131,6 @@ string sendRequestToServer(const string &command) {
         // Thêm phần phản hồi vào response
         response += partResponse;
 
-        cout << "Server response: " << response << endl;
-
         if (endsWith(partResponse, "|<END>")) {
             response = response.substr(0, response.length() - 6);
             break;
@@ -320,7 +318,6 @@ void handleStudentMenu() {
 void handleLogin() {
     map<string, string> info = userView.showLogin();
     string loginCommand = "LOGIN|" + info["username"] + "|" + info["password"] + "|<END>";
-    cout << "Request Sent: " + loginCommand << endl;
     string response = sendRequestToServer(loginCommand);
     // Phân tích phản hồi từ server
     vector<string> result = splitString(response, '|');
@@ -347,7 +344,6 @@ void handleRegister() {
     string registerCommand = "REGISTER|" + info["username"] + "|" + info["password"] + "|" + info["role"] + "|" +
                              info["first_name"] + "|" + info["last_name"] + "|<END>";
 
-    cout << "Request Sent: " + registerCommand << endl;
     // Gửi lệnh đăng ký tới server
     string response = sendRequestToServer(registerCommand);
 
