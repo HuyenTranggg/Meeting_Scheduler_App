@@ -67,8 +67,8 @@ class TeacherResponseController {
         Response res;
         User user = userRepository.getUserById(teacher_id);
         if (user.getId() == 0) {
-            res.setStatus(7);
-            res.setMessage("Giao vien khong ton tai|");
+            res.setStatus(15);
+            res.setMessage("Teacher not found|");
         } else {
             map<string, vector<Timeslot>> timeslots = timeslotRepo.getTimeslotsByTeacherId(teacher_id);
             if (timeslots.empty()) {

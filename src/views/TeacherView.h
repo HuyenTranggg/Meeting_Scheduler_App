@@ -35,12 +35,10 @@ class TeacherView {
             case 0:
             case 1:
             case 2:
-            case 3:
-            case 4:
-            case 5:
                 return choice;
                 break;
             default:
+                cout << "Lua chon khong hop le, vui long thu lai!" << endl;
                 break;
             }
         }

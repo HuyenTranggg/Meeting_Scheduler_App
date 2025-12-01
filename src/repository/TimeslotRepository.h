@@ -258,6 +258,23 @@ class TimeslotRepository {
         }
         return ts;
     }
+    void updateStatus(const int &id, const string &status) {
+        if (db.connect()) {
+            string query = "UPDATE timeslots SET status = ? WHERE id = ?";
+            try {
+                sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
+                pstmt->setString(1, status);
+                pstmt->setInt(2, id);
+                pstmt->executeUpdate();
+                delete pstmt;
+            } catch (sql::SQLException &e) {
+                cerr << "Lỗi khi cập nhật trạng thái timeslot: " << e.what() << endl;
+            }
+
+        } else {
+            cout << "Lỗi không thể truy cập cơ sở dữ liệu." << endl;
+        }
+    }
 
     void updateType(const int &id, const string &type) {
         if (db.connect()) {

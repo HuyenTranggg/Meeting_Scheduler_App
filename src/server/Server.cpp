@@ -6,6 +6,7 @@
 #include "../repository/UserRepository.h"
 #include "../utils/MessageUtils.h"
 #include "../controllers/TeacherResponseController.h"
+#include "../controllers/StudentResponseController.h"
 #include <arpa/inet.h>
 #include <ifaddrs.h>
 #include <map>
@@ -25,6 +26,7 @@ using namespace std;
 
 UserController userController;
 TeacherResponseController teacherResponseController;
+StudentResponseController studentResponseController;
 UserRepository userRepo;
 // Hàm ghi log vào file
 void logToFile(const string &message) {
@@ -68,6 +70,10 @@ void processClientRequest(int clientSocket, const string &request) {
         res = userController.login(username, password);
     } else if (command == "DECLARE_TIME_SLOT") {
         res = teacherResponseController.declareTimeslot(request);
+    } else if (command == "FETCH_ALL_TEACHER") {
+        res = studentResponseController.getAllTeacher();
+    } else if (command == "BOOK_MEETING") {
+        res = studentResponseController.bookMeeting(request);
     } else if (command == "VIEW_FREE_TIME_SLOTS") {
         int teacher_id = stoi(result[1]);
         res = teacherResponseController.viewTimeslots(teacher_id);
