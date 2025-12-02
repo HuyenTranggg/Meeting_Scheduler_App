@@ -19,6 +19,9 @@ enum class Status {
     TIME_SLOT_NOT_FOUND = 7,
     TIME_SLOT_CONFLICTS = 14,   // Time slot conflicts with another slot
 
+    STUDENT_DOES_NOT_EXIST = 17,
+    MEETING_DOES_NOT_EXIST = 5, 
+
     UNKNOWN_ERROR = 99
 };
 

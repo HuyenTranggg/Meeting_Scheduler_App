@@ -143,6 +143,73 @@ class StudentView {
 
         return meeting;
     }
+
+    Meeting showMeetingsInWeeks(const map<string, map<string, vector<pair<Meeting, User>>>> &meetings) {
+        Meeting meeting;
+        meeting.setId(-1);  // ← THÊM DÒNG NÀY
+        if (meetings.empty()) {
+            cout << "Ban chua co cuoc hen nao" << endl;
+            return meeting;
+        }
+
+        map<int, Meeting> editMeetings;
+        int index = 0, choice = 0;
+        cout << "------------------Lich hen cua ban theo tuan-------------------" << endl;
+        for (const auto &week : meetings) {
+            cout << "---------------" << week.first << "---------------" << endl;
+            map<string, vector<pair<Meeting, User>>> dailyMeetings = week.second;
+            for (const auto &day : dailyMeetings) {
+                cout << "----Ngay: " << day.first << endl;
+                vector<pair<Meeting, User>> currentMeetings = day.second;
+                for (int i = 0; i < currentMeetings.size(); i++) {
+                    index++;
+                    Meeting currentMeeting = currentMeetings[i].first;
+                    editMeetings[index] = currentMeeting;
+                    User teacher = currentMeetings[i].second;
+                    cout << index << ". Tu: " << currentMeeting.getStart() << " - Den: " << currentMeeting.getEnd()
+                         << "( " << currentMeeting.getType() << " - " << currentMeeting.getStatus() << " ). ";
+                    cout << "Giao vien huong dan: " << teacher.getFirstName() << " " << teacher.getLastName() << endl;
+                }
+            }
+            cout << "" << endl;
+        }
+
+        cout << "-----------" << endl;
+        while (true) {
+            cout << "Ban co muon xem chi tiet hoac sua doi? Nhap so dong can sua: ";
+            cin >> choice;
+            cin.ignore();
+            if (choice > 0 && choice <= editMeetings.size()) {
+                return editMeetings[choice];
+            } else if (choice == 0) {
+                Meeting meeting;
+                meeting.setId(-1);
+                return meeting;
+            }
+        }
+    }
+
+    int showMeeting(const Meeting &meeting, const User &teacher) {
+        int choice;
+        cout << "-------------Thong tin lich hen-----------------" << endl;
+        cout << "Ngay: " << meeting.getDate() << endl;
+        cout << "Tu: " << meeting.getStart() << endl;
+        cout << "Den: " << meeting.getEnd() << endl;
+        cout << "Loai: " << meeting.getType() << endl;
+        cout << "Trang thai: " << meeting.getStatus() << endl;
+        cout << "Van ban cuoc hop: " << meeting.getReport() << endl;
+        cout << "Giao vien: " << teacher.getFirstName() << " " << teacher.getLastName() << endl;
+        cout << "------------------" << endl;
+        while (true) {
+            cout << "Ban co muon huy lich hen khong (1 de huy, 0 de quai lai)" << endl;
+            cin >> choice;
+            cin.ignore();
+            if (choice == 0 || choice == 1) {
+                return choice;
+            }
+        }
+    }
+
 };
 
 #endif

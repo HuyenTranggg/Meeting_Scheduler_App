@@ -156,6 +156,44 @@ class UserRepository {
 
         return teachers;
     }    
+
+    User getTeacherFromMeeting(const int &meeting_id) {
+        User teacher;
+
+        if (db.connect()) {
+            string query = R"(
+                SELECT users.*
+                FROM users
+                INNER JOIN timeslots ON timeslots.teacher_id = users.id
+                INNER JOIN meetings ON meetings.timeslot_id = timeslots.id
+                WHERE meetings.id = ? 
+            )";
+            try {
+                sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
+                pstmt->setInt(1, meeting_id);
+                sql::ResultSet *res = pstmt->executeQuery();
+
+                if (res->next()) {
+                    teacher.setId(res->getInt("id"));
+                    teacher.setUsername(res->getString("username"));
+                    teacher.setPassword(res->getString("password"));
+                    teacher.setRole(res->getString("role"));
+                    teacher.setFirstName(res->getString("first_name"));
+                    teacher.setLastName(res->getString("last_name"));
+                }
+                delete res;
+                delete pstmt;
+            } catch (sql::SQLException &e) {
+                std::cerr << "Lỗi khi lấy dữ liệu từ meetings: " << e.what() << std::endl;
+            }
+
+        } else {
+            cout << "Lỗi không thể truy cập cơ sở dữ liệu." << endl;
+        }
+
+        return teacher;
+    }
+    
 };
 
 #endif

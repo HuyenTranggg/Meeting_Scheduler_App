@@ -250,6 +250,14 @@ void handleBookMeeting(const Meeting &meeting) {
     } 
 }
 
+void handleCancelMeeting(const int &meeting_id) {
+    string request = "CANCEL_APPOINTMENT|" + to_string(user_id) + "|" + to_string(meeting_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    vector<string> tokens = splitString(response, '|');
+    cout << tokens[1] << endl;
+}
+
 void handleViewTimeslotsOfTeacher(const int &teacher_id, const string &teacherName) {
     string request = "VIEW_FREE_TIME_SLOTS|" + to_string(teacher_id) + "|<END>";
     string response = sendRequestToServer(request);
@@ -294,7 +302,41 @@ void handleViewAllTeacher() {
         cout << tokens[1] << endl;
     }
 }
-void handleStudentViewMeetings(){}
+
+void handleStudentViewMeeting(const int &meeting_id) {
+    string request = "VIEW_MEETING_STUDENT|" + to_string(meeting_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        pair<Meeting, User> meetingDetail = studentController.getMeetingFromResponse(response);
+        int choice = studentView.showMeeting(meetingDetail.first, meetingDetail.second);
+        if (choice == 0) {
+            return;
+        } else if (choice == 1) {
+            handleCancelMeeting(meeting_id);
+        }
+    }
+}
+
+void handleStudentViewMeetings() {
+    string request = "VIEW_MEETINGS_STUDENT|" + to_string(user_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find("|"));
+    if (status == "0") {
+        map<string, map<string, vector<pair<Meeting, User>>>> meetings =
+            studentController.getMeetingsInWeeksFromResponse(response);
+        Meeting meeting = studentView.showMeetingsInWeeks(meetings);
+        if (meeting.getId() == -1) {
+            return;
+        }
+        handleStudentViewMeeting(meeting.getId());
+        handleStudentViewMeetings();
+    } else if (status == "8") {  // Đổi từ 16 sang 8
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
 void handleStudentMenu() {
     int choice = studentView.showMenu();
     switch (choice) {
@@ -305,10 +347,10 @@ void handleStudentMenu() {
         handleViewAllTeacher();
         handleStudentMenu();
         break;
-    // case 2:
-    //     handleStudentViewMeetings();
-    //     handleStudentMenu();
-    //     break;
+    case 2:
+        handleStudentViewMeetings();
+        handleStudentMenu();
+        break;
 
     default:
         break;

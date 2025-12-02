@@ -128,6 +128,115 @@ class StudentResponseController {
         return res;
     }
 
+    Response viewMeetingsStudent(const string &request) {
+        Response res;
+        vector<string> tokens = trc.splitString(request, '|');
+        int student_id = stoi(tokens[1]);
+        User student = userRepository.getUserById(student_id);
+        if (student.getId() == 0 || student.getRole() != "student") {
+            res.setStatus(17);
+            res.setMessage("Student not found|");
+            return res;
+        } else {
+            map<string, map<string, vector<Meeting>>> meetings =
+                meetingRepository.getMeetingsInWeeksByStudentId(student_id);
+            if (meetings.empty()) {
+                res.setStatus(8);
+                res.setMessage("No meeting found|");
+                return res;
+            } else {
+                string message = "";
+                for (const auto &week : meetings) {
+                    const string weekName = week.first;
+                    const map<string, vector<Meeting>> dailyMeetings = week.second;
+                    message += weekName + "|{";  // Bắt đầu week
+                    
+                    for (const auto &day : dailyMeetings) {
+                        const string dayName = day.first;
+                        vector<Meeting> mts = day.second;
+                        message += "|" + dayName;  // Thêm date
+                        
+                        // Thêm từng meeting
+                        for (int i = 0; i < mts.size(); i++) {
+                            // Format meeting: meeting_id|timeslot_id|status|type|start|end
+                            message += "|" + to_string(mts[i].getId()) + "|" + 
+                                    to_string(mts[i].getTimeslotId()) + "|" + 
+                                    mts[i].getStatus() + "|" + 
+                                    mts[i].getType() + "|" + 
+                                    mts[i].getStart() + "|" + 
+                                    mts[i].getEnd();
+                            
+                            // Format teacher: teacher_id|teacher_name
+                            User teacher = userRepository.getTeacherFromMeeting(mts[i].getId());
+                            message += "|" + to_string(teacher.getId()) + "|" + 
+                                    teacher.getFirstName() + " " + teacher.getLastName();
+                        }
+                    }
+                    message += "|}";  // Kết thúc week
+                    message += "|";  // Phân cách giữa các week
+                }
+                res.setStatus(0);
+                res.setMessage(message);
+            }
+        }
+        return res;
+    }
+
+    Response viewMeetingStudent(const string &request) {
+        Response res;
+        vector<string> tokens = trc.splitString(request, '|');
+        int meeting_id = stoi(tokens[1]);
+        User teacher = userRepository.getTeacherFromMeeting(meeting_id);
+
+        Meeting meeting = meetingRepository.getMeetingById(meeting_id);
+        string message = meeting.toString();
+        message += "|[";
+        message += "|" + to_string(teacher.getId()) + "|" + teacher.getFirstName() + "|" + teacher.getLastName();
+        message += "|]|";
+        res.setStatus(0);
+        res.setMessage(message);
+
+        return res;
+    }
+
+    Response cancelMeeting(const string &request) {
+        Response res;
+        vector<string> tokens = trc.splitString(request, '|');
+        int student_id = stoi(tokens[1]);
+        int meeting_id = stoi(tokens[2]);
+        
+        // THÊM: Kiểm tra student_id
+        User student = userRepository.getUserById(student_id);
+        if (student.getId() == 0 || student.getRole() != "student") {
+            res.setStatus(9);
+            res.setMessage("Student does not exist|");
+            return res;
+        }
+        
+        Meeting meeting = meetingRepository.getMeetingById(meeting_id);
+        if (meeting.getId() == 0) {
+            res.setStatus(5);
+            res.setMessage("Meeting does not exist|");
+            return res;
+        }
+        
+        if (meeting.getType() == "group") {
+            vector<Attendance> attendances = attendanceRepository.getAttendancesByMeetingId(meeting_id);
+            if (attendances.size() == 1) {
+                meetingRepository.deleteMeeting(meeting_id);
+            }
+        }
+        if (meeting.getType() == "personal") {
+            timeslotRepository.updateStatus(meeting.getTimeslotId(), "free");
+            meetingRepository.deleteMeeting(meeting_id);
+        }
+        attendanceRepository.deleteAttendanceByMeetingIdAndStudentId(meeting_id, student_id);
+        
+        res.setStatus(0);
+        res.setMessage("Meeting is cancelled|");
+        return res;
+    }
+
 };
 
 #endif
