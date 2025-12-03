@@ -77,6 +77,13 @@ void processClientRequest(int clientSocket, const string &request) {
     } else if (command == "VIEW_FREE_TIME_SLOTS") {
         int teacher_id = stoi(result[1]);
         res = teacherResponseController.viewTimeslots(teacher_id);
+    } else if (command == "VIEW_MEETINGS") {
+        int teacher_id = stoi(result[1]);
+        if (result.size() >= 3) {
+            // Has date parameter - view meetings by date
+            string date = result[2];
+            res = teacherResponseController.viewMeetingsByDate(teacher_id, date);
+        }
     } else if (command == "EDIT_SLOT") {
 
         string params = "";

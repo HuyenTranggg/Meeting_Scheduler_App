@@ -200,6 +200,79 @@ void handleViewTimeslots() {
     }
 }
 
+void handleTeacherViewMeeting(const int &meeting_id) {
+    string request = "VIEW_MEETING|" + to_string(meeting_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        pair<Meeting, vector<User>> meetingDetail = teacherController.getMeetingFromResponse(response);
+        int choice = teacherView.showMeeting(meetingDetail.first, meetingDetail.second);
+        if (choice == 0) {
+            return;
+        }
+    } else if (status == "12") {
+        return;
+    }
+}
+
+void handleTeacherViewMeetings() {
+    string request = "VIEW_MEETINGS|" + to_string(user_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        map<string, vector<Meeting>> meetings = teacherController.getMeetingsFromResponse(response);
+        Meeting meeting = teacherView.showMeetings(meetings);
+        if (meeting.getId() == -1) {
+            return;
+        }
+        // Detail Meeting
+        handleTeacherViewMeeting(meeting.getId());
+        handleTeacherViewMeetings();
+    } else if (status == "16") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
+void handleTeacherViewMeetingsByDate() {
+    // Get date from user
+    string day, month, year;
+    cout << "Nhap ngay can xem (dd mm yyyy):" << endl;
+    cout << "Ngay: ";
+    cin >> day;
+    cout << "Thang: ";
+    cin >> month;
+    cout << "Nam: ";
+    cin >> year;
+    cin.ignore();
+    
+    string date = year + "-" + month + "-" + day;
+    
+    string request = "VIEW_MEETINGS|" + to_string(user_id) + "|" + date + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    
+    if (status == "0") {
+        vector<pair<Meeting, vector<int>>> meetings = teacherController.getMeetingsByDateFromResponse(response);
+        if (meetings.empty()) {
+            cout << "Khong co lich hen nao trong ngay " << day << "/" << month << "/" << year << endl;
+            return;
+        }
+        
+        Meeting selectedMeeting = teacherView.showMeetingsByDate(meetings, date);
+        if (selectedMeeting.getId() == -1) {
+            return;
+        }
+        
+        // Detail Meeting
+        handleTeacherViewMeeting(selectedMeeting.getId());
+        // Return to date view after viewing details
+        handleTeacherViewMeetingsByDate();
+    } else {
+        cout << "Loi khi lay danh sach lich hen" << endl;
+    }
+}
+
 void handleTeacherMenu(){
     int choice = teacherView.showMenu();
     switch (choice) {
@@ -214,7 +287,10 @@ void handleTeacherMenu(){
         handleViewTimeslots();
         handleTeacherMenu();
         break;
-    
+    case 3:
+        handleTeacherViewMeetingsByDate();
+        handleTeacherMenu();
+        break;
     default:
         break;
     }

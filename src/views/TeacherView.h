@@ -2,6 +2,7 @@
 #define TEACHERVIEW_H
 #include "../models/Meeting.h"
 #include "../models/Timeslot.h"
+#include "../models/User.h"
 #include "../utils/Utils.h"
 #include <iostream>
 #include <map>
@@ -24,7 +25,7 @@ class TeacherView {
             cout << "----------------Teacher menu----------------" << endl;
             cout << "1. Khai bao thoi gian ranh" << endl;
             cout << "2. Kiem tra thoi gian ranh" << endl;
-            cout << "3. Xem lich hen voi sinh vien" << endl;
+            cout << "3. Xem lich hen voi sinh vien theo ngay" << endl;
             cout << "4. Xem lich su cuoc hen" << endl;
             cout << "5. Xem lich hen voi sinh vien theo tuan" << endl;
             cout << "0. Dang xuat" << endl;
@@ -35,6 +36,7 @@ class TeacherView {
             case 0:
             case 1:
             case 2:
+            case 3:
                 return choice;
                 break;
             default:
@@ -270,6 +272,117 @@ class TeacherView {
         ts.setEnd(end);
         ts.setType(type);
         return ts;
+    }
+
+    Meeting showMeetings(const map<string, vector<Meeting>> &meetings) {
+        if (meetings.empty()) {
+            Meeting meeting;
+            cout << "Ban chua co cuoc hen nao" << endl;
+            return meeting;
+        }
+
+        map<int, Meeting> editMeetings;
+        int index = 0, choice = 0;
+        cout << "------------------Lich hen cua ban-------------------" << endl;
+        for (const auto &meeting : meetings) {
+            cout << "--Ngay: " << meeting.first << endl;
+            vector<Meeting> currentMeetings = meeting.second;
+            for (int i = 0; i < currentMeetings.size(); i++) {
+                index++;
+                editMeetings[index] = currentMeetings[i];
+                cout << index << ". Tu: " << currentMeetings[i].getStart() << " - Den: " << currentMeetings[i].getEnd()
+                     << "( " << currentMeetings[i].getType() << " - " << currentMeetings[i].getStatus() << " )" << endl;
+            }
+        }
+
+        cout << "-----------" << endl;
+        while (true) {
+            cout << "Ban co muon xem chi tiet hoac sua doi? Nhap so dong can sua: ";
+            cin >> choice;
+            cin.ignore();
+            if (choice > 0 && choice <= editMeetings.size()) {
+                return editMeetings[choice];
+            } else if (choice == 0) {
+                Meeting meeting;
+                meeting.setId(-1);
+                return meeting;
+            }
+        }
+    }
+
+    int showMeeting(const Meeting &meeting, const vector<User> &students) {
+        int choice;
+        cout << "-------------Thong tin lich hen-----------------" << endl;
+        cout << "Ngay: " << meeting.getDate() << endl;
+        cout << "Tu: " << meeting.getStart() << endl;
+        cout << "Den: " << meeting.getEnd() << endl;
+        cout << "Loai: " << meeting.getType() << endl;
+        cout << "Trang thai: " << meeting.getStatus() << endl;
+        cout << "Van ban cuoc hop: " << meeting.getReport() << endl;
+        cout << "Nguoi hen: " << endl;
+        for (const auto &student : students) {
+            cout << " - " << student.getFirstName() << " " << student.getLastName() << endl;
+        }
+        cout << "------------------" << endl;
+        while (true) {
+            cout << "Ban co muon chinh sua gi khong(1 de sua van ban cuoc hop, 2 de sua trang thai, 0 de quai lai)"
+                 << endl;
+            cin >> choice;
+            cin.ignore();
+            if (choice == 0 || choice == 1 || choice == 2) {
+                return choice;
+            }
+        }
+    }
+
+    Meeting showMeetingsByDate(const vector<pair<Meeting, vector<int>>> &meetings, const string &date) {
+        if (meetings.empty()) {
+            Meeting meeting;
+            cout << "Khong co lich hen nao" << endl;
+            return meeting;
+        }
+
+        map<int, Meeting> meetingMap;
+        int index = 0;
+        cout << "------------------Lich hen ngay " << date << "-------------------" << endl;
+        
+        for (const auto &meetingPair : meetings) {
+            index++;
+            const Meeting &meeting = meetingPair.first;
+            const vector<int> &studentIds = meetingPair.second;
+            
+            meetingMap[index] = meeting;
+            
+            cout << index << ". Tu: " << meeting.getStart() << " - Den: " << meeting.getEnd()
+                 << " (" << meeting.getType() << ")";
+            
+            if (!studentIds.empty()) {
+                cout << " - Sinh vien IDs: ";
+                for (size_t i = 0; i < studentIds.size(); i++) {
+                    cout << studentIds[i];
+                    if (i < studentIds.size() - 1) cout << ", ";
+                }
+            }
+            cout << endl;
+        }
+
+        cout << "-----------" << endl;
+        int choice = 0;
+        while (true) {
+            cout << "Chon so dong de xem chi tiet (0 de quay lai): ";
+            cin >> choice;
+            cin.ignore();
+            
+            if (choice > 0 && choice <= meetingMap.size()) {
+                return meetingMap[choice];
+            } else if (choice == 0) {
+                Meeting meeting;
+                meeting.setId(-1);
+                return meeting;
+            } else {
+                cout << "Lua chon khong hop le!" << endl;
+            }
+        }
     }
 };
 

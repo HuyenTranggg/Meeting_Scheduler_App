@@ -5,6 +5,8 @@
 #include "../models/Response.h"
 #include "../models/Timeslot.h"
 #include "../models/User.h"
+#include "../repository/AttendanceRepository.h"
+#include "../repository/MeetingRepository.h"
 #include "../repository/TimeslotRepository.h"
 #include "../repository/UserRepository.h"
 
@@ -20,6 +22,8 @@ class TeacherResponseController {
   private:
     UserRepository userRepository;
     TimeslotRepository timeslotRepo;
+    MeetingRepository meetingRepo;
+    AttendanceRepository attendanceRepo;
     Utils utils; // them utils
 
   public:
@@ -138,6 +142,41 @@ class TeacherResponseController {
             res.setMessage("Successfully updated free time|");
         }
 
+        return res;
+    }
+
+    Response viewMeetingsByDate(const int &teacher_id, const string &date) {
+        Response res;
+        vector<Meeting> meetings = meetingRepo.getMeetingsByTeacherIdAndDate(teacher_id, date);
+        
+        if (meetings.empty()) {
+            res.setStatus(0);
+            res.setMessage("No meetings found|");
+        } else {
+            string message = "";
+            for (size_t i = 0; i < meetings.size(); i++) {
+                const Meeting &meeting = meetings[i];
+                
+                // Format: meeting_id|start|end|type|student_ids
+                message += to_string(meeting.getId()) + "|";
+                message += meeting.getStart() + "|";
+                message += meeting.getEnd() + "|";
+                message += meeting.getType() + "|";
+                
+                // Get student IDs for this meeting
+                vector<User> students = attendanceRepo.getStudentsFromMeeting(meeting.getId());
+                for (size_t j = 0; j < students.size(); j++) {
+                    message += to_string(students[j].getId());
+                    if (j < students.size() - 1) {
+                        message += ",";
+                    }
+                }
+                message += "|";
+            }
+            res.setStatus(0);
+            res.setMessage(message);
+        }
+        
         return res;
     }
 };

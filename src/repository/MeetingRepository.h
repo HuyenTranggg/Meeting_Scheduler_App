@@ -469,6 +469,45 @@ class MeetingRepository {
 
         return meetings;
     }
+
+    vector<Meeting> getMeetingsByTeacherIdAndDate(const int &teacher_id, const string &date) {
+        vector<Meeting> meetings;
+        if (db.connect()) {
+            string query = "SELECT m.id, m.timeslot_id, m.status, m.type, m.report, "
+                          "t.start, t.end, t.date "
+                          "FROM meetings m "
+                          "JOIN timeslots t ON m.timeslot_id = t.id "
+                          "WHERE t.teacher_id = ? AND t.date = ? "
+                          "ORDER BY t.start";
+            
+            try {
+                sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
+                pstmt->setInt(1, teacher_id);
+                pstmt->setString(2, date);
+                sql::ResultSet *res = pstmt->executeQuery();
+
+                while (res->next()) {
+                    Meeting meeting;
+                    meeting.setId(res->getInt("id"));
+                    meeting.setTimeslotId(res->getInt("timeslot_id"));
+                    meeting.setStatus(res->getString("status"));
+                    meeting.setType(res->getString("type"));
+                    meeting.setReport(res->getString("report"));
+                    meeting.setStart(res->getString("start"));
+                    meeting.setEnd(res->getString("end"));
+                    meeting.setDate(res->getString("date"));
+                    meetings.push_back(meeting);
+                }
+                delete res;
+                delete pstmt;
+            } catch (sql::SQLException &e) {
+                cerr << "Lỗi khi lấy meetings theo ngày: " << e.what() << endl;
+            }
+        } else {
+            cout << "Lỗi không thể truy cập cơ sở dữ liệu." << endl;
+        }
+        return meetings;
+    }
 };
 
 #endif
