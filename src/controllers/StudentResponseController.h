@@ -186,9 +186,16 @@ class StudentResponseController {
         Response res;
         vector<string> tokens = trc.splitString(request, '|');
         int meeting_id = stoi(tokens[1]);
-        User teacher = userRepository.getTeacherFromMeeting(meeting_id);
-
+        
+        // Kiểm tra meeting có tồn tại không
         Meeting meeting = meetingRepository.getMeetingById(meeting_id);
+        if (meeting.getId() == 0) {
+            res.setStatus(5);
+            res.setMessage("Meeting does not exist|");
+            return res;
+        }
+        
+        User teacher = userRepository.getTeacherFromMeeting(meeting_id);
         string message = meeting.toString();
         message += "|[";
         message += "|" + to_string(teacher.getId()) + "|" + teacher.getFirstName() + "|" + teacher.getLastName();
