@@ -391,6 +391,11 @@ void handleStudentViewMeeting(const int &meeting_id) {
         } else if (choice == 1) {
             handleCancelMeeting(meeting_id);
         }
+    } else if (status == "5") {
+        // Meeting không tồn tại
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+        // Không làm gì thêm, sẽ quay về handleStudentViewMeetings và yêu cầu chọn lại
     }
 }
 
@@ -401,13 +406,13 @@ void handleStudentViewMeetings() {
     if (status == "0") {
         map<string, map<string, vector<pair<Meeting, User>>>> meetings =
             studentController.getMeetingsInWeeksFromResponse(response);
-        Meeting meeting = studentView.showMeetingsInWeeks(meetings);
-        if (meeting.getId() == -1) {
-            return;
+        int meeting_id = studentView.showMeetingsInWeeks(meetings);
+        if (meeting_id == -1) {
+            return;  // User chọn 0 để quay lại
         }
-        handleStudentViewMeeting(meeting.getId());
+        handleStudentViewMeeting(meeting_id);
         handleStudentViewMeetings();
-    } else if (status == "8") {  // Đổi từ 16 sang 8
+    } else if (status == "8") {
         vector<string> tokens = splitString(response, '|');
         cout << tokens[1] << endl;
     }

@@ -144,15 +144,13 @@ class StudentView {
         return meeting;
     }
 
-    Meeting showMeetingsInWeeks(const map<string, map<string, vector<pair<Meeting, User>>>> &meetings) {
-        Meeting meeting;
-        meeting.setId(-1);  // ← THÊM DÒNG NÀY
+    int showMeetingsInWeeks(const map<string, map<string, vector<pair<Meeting, User>>>> &meetings) {
         if (meetings.empty()) {
             cout << "Ban chua co cuoc hen nao" << endl;
-            return meeting;
+            return -1;
         }
 
-        map<int, Meeting> editMeetings;
+        map<int, int> editMeetings;  // Lưu index → meeting_id
         int index = 0, choice = 0;
         cout << "------------------Lich hen cua ban theo tuan-------------------" << endl;
         for (const auto &week : meetings) {
@@ -164,7 +162,7 @@ class StudentView {
                 for (int i = 0; i < currentMeetings.size(); i++) {
                     index++;
                     Meeting currentMeeting = currentMeetings[i].first;
-                    editMeetings[index] = currentMeeting;
+                    editMeetings[index] = currentMeeting.getId();  // Lưu meeting_id
                     User teacher = currentMeetings[i].second;
                     cout << index << ". Tu: " << currentMeeting.getStart() << " - Den: " << currentMeeting.getEnd()
                          << "( " << currentMeeting.getType() << " - " << currentMeeting.getStatus() << " ). ";
@@ -175,17 +173,17 @@ class StudentView {
         }
 
         cout << "-----------" << endl;
-        while (true) {
-            cout << "Ban co muon xem chi tiet hoac sua doi? Nhap so dong can sua: ";
-            cin >> choice;
-            cin.ignore();
-            if (choice > 0 && choice <= editMeetings.size()) {
-                return editMeetings[choice];
-            } else if (choice == 0) {
-                Meeting meeting;
-                meeting.setId(-1);
-                return meeting;
-            }
+        cout << "Ban co muon xem chi tiet hoac sua doi? Nhap so dong can sua (0 de quay lai): ";
+        cin >> choice;
+        cin.ignore();
+        
+        if (choice == 0) {
+            return -1;  // Quay lại
+        } else if (choice > 0 && choice <= editMeetings.size()) {
+            return editMeetings[choice];  // Trả về meeting_id hợp lệ
+        } else {
+            // Trả về meeting_id không hợp lệ để server xử lý
+            return 99999;  // Số này chắc chắn không tồn tại trong DB
         }
     }
 

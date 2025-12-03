@@ -32,7 +32,7 @@ UserRepository userRepo;
 void logToFile(const string &message) {
     ofstream logFile("server_logs.txt", ios::app);
     if (logFile.is_open()) {
-        logFile << message << std::endl;
+        logFile << message << std::endl << std::endl;
         logFile.close();
     }
 }
