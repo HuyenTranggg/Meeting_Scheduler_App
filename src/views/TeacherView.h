@@ -37,6 +37,7 @@ class TeacherView {
             case 1:
             case 2:
             case 3:
+            case 4:
                 return choice;
                 break;
             default:
@@ -382,6 +383,112 @@ class TeacherView {
             } else {
                 cout << "Lua chon khong hop le!" << endl;
             }
+        }
+    }
+
+    Meeting showHistory(const map<string, map<string, vector<pair<Meeting, vector<User>>>>> &meetings) {
+        if (meetings.empty()) {
+            Meeting meeting;
+            cout << "Bạn không có cuộc hẹn nào" << endl;
+            return meeting;
+        }
+
+        map<int, Meeting> editMeetings;
+        int index = 0, choice = 0;
+        cout << "------------------Lịch sử cuộc hẹn của bạn-------------------" << endl;
+        for (const auto &week : meetings) {
+            cout << "---------------" << week.first << "---------------" << endl;
+            map<string, vector<pair<Meeting, vector<User>>>> dailyMeetings = week.second;
+            for (const auto &day : dailyMeetings) {
+                cout << "----Ngày: " << day.first << endl;
+                vector<pair<Meeting, vector<User>>> currentMeetings = day.second;
+                for (int i = 0; i < currentMeetings.size(); i++) {
+                    index++;
+                    Meeting currentMeeting = currentMeetings[i].first;
+                    editMeetings[index] = currentMeeting;
+                    vector<User> students = currentMeetings[i].second;
+                    cout << index << ". Từ: " << currentMeeting.getStart() << " - Đến: " << currentMeeting.getEnd()
+                         << "( " << currentMeeting.getType() << " - " << currentMeeting.getStatus() << " ). ";
+                    cout << "Người tham gia: ";
+                    for (size_t i = 0; i < students.size(); ++i) {
+                        cout << students[i].getFirstName() << " " << students[i].getLastName();
+                        if (i != students.size() - 1) {
+                            cout << ", ";
+                        }
+                    }
+                    cout << "" << endl;
+                }
+            }
+            cout << "" << endl;
+        }
+
+        cout << "-----------" << endl;
+        while (true) {
+            cout << "Bạn có muốn xem chi tiết hoặc sửa đổi? Nhập số dòng cần sửa: ";
+            cin >> choice;
+            cin.ignore();
+            if (choice > 0 && choice <= editMeetings.size()) {
+                return editMeetings[choice];
+            } else if (choice == 0) {
+                Meeting meeting;
+                meeting.setId(-1);
+                return meeting;
+            }
+        }
+    }
+
+    int showMeetingHistory(const Meeting &meeting, const vector<User> &students) {
+        int choice;
+        cout << "-------------Thông tin lịch hẹn-----------------" << endl;
+        cout << "Ngày: " << meeting.getDate() << endl;
+        cout << "Từ: " << meeting.getStart() << endl;
+        cout << "Đến: " << meeting.getEnd() << endl;
+        cout << "Loại: " << meeting.getType() << endl;
+        cout << "Trạng thái: " << meeting.getStatus() << endl;
+        cout << "Văn bản cuộc họp: " << meeting.getReport() << endl;
+        cout << "Người hẹn: " << endl;
+        for (const auto &student : students) {
+            cout << " - " << student.getFirstName() << " " << student.getLastName() << endl;
+        }
+        cout << "------------------" << endl;
+        while (true) {
+            cout << "Nhấn 0 để quay lại" << endl;
+            cin >> choice;
+            cin.ignore();
+            if (choice == 0) {
+                return choice;
+            }
+        }
+    }
+
+    int showStudentList(const vector<User> &students) {
+        int studentId;
+        if (students.empty()) {
+            cout << "Không có sinh vien nao nào để chọn." << endl;
+            studentId = -1;
+            return studentId;
+        }
+
+        cout << "------------Danh sách sinh viên đã hẹn------------" << endl;
+        for (int i = 0; i < students.size(); i++) {
+            cout << i + 1 << ". " << students[i].getFirstName() << " " << students[i].getLastName()
+                 << " (ID: " << students[i].getId() << ")" << endl;
+        }
+        cout << "------------------------------------------" << endl;
+
+        int choice;
+        while (true) {
+            cout << "Nhập số thứ tự của sinh viên bạn muốn xem: ";
+            cin >> choice;
+            cin.ignore();
+
+            if (choice > 0 && choice <= students.size()) {
+                return students[choice - 1].getId();
+            } else if (choice == 0) {
+                studentId = -1;
+                return studentId;
+            }
+            cout << "Lựa chọn không hợp lệ, vui lòng thử lại!" << endl;
         }
     }
 };

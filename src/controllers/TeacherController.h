@@ -243,6 +243,72 @@ class TeacherController {
         
         return meetings;
     }
+
+    map<string, map<string, vector<pair<Meeting, vector<User>>>>>
+    getMeetingsInWeeksFromResponse(const string &message) {
+        map<string, map<string, vector<pair<Meeting, vector<User>>>>> meetings;
+        vector<string> tokens = splitString(message, '|');
+        string week = tokens[1];
+        string date = tokens[3];
+        int i = 2;
+        while (i < tokens.size()) {
+            if (tokens[i - 1] == "}" && tokens[i - 2] == "]") {
+                week = tokens[i];
+                i++;
+            } else if ((tokens[i - 1] == "{" && tokens[i - 2] != "students") ||
+                       (tokens[i - 1] == "]" && tokens[i - 2] == "}")) {
+                date = tokens[i];
+                i++;
+            } else if (tokens[i] == "]" || tokens[i] == "[" || tokens[i] == "}" || tokens[i] == "{") {
+                i++;
+            } else {
+                // [
+                pair<Meeting, vector<User>> meetingWithUser;
+                vector<User> students;
+                Meeting meeting;
+                meeting.setId(stoi(tokens[i]));
+                meeting.setTimeslotId(stoi(tokens[i + 1]));
+                meeting.setStatus(tokens[i + 2]);
+                meeting.setType(tokens[i + 3]);
+                meeting.setReport(tokens[i + 4]);
+                meeting.setStart(tokens[i + 5]);
+                meeting.setEnd(tokens[i + 6]);
+                meeting.setDate(tokens[i + 7]);
+                meetingWithUser.first = meeting;
+                // i + 8 == students; i + 9 == "{"
+                i = i + 10; //
+                while (tokens[i] != "}") {
+                    User student;
+                    student.setId(stoi(tokens[i]));
+                    student.setFirstName(tokens[i + 1]);
+                    student.setLastName(tokens[i + 2]);
+                    students.push_back(student);
+                    i = i + 3;
+                }
+                meetingWithUser.second = students;
+                meetings[week][date].push_back(meetingWithUser);
+            }
+        }
+        return meetings;
+    }
+
+    vector<User> seeStudentList(const string &message) {
+        vector<User> students;
+
+        vector<string> tokens = splitString(message, '|');
+        int i = 1;
+
+        while (i < tokens.size()) {
+            User user;
+            user.setId(stoi(tokens[i]));
+            user.setFirstName(tokens[i + 1]);
+            user.setLastName(tokens[i + 2]);
+            students.push_back(user);
+            i = i + 3;
+        }
+
+        return students;
+    }
 };
 
 #endif

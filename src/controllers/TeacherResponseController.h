@@ -179,6 +179,94 @@ class TeacherResponseController {
         
         return res;
     }
+
+    Response viewMeeting(const int &meeting_id) {
+        Response res;
+        Meeting meeting = meetingRepo.getMeetingById(meeting_id);
+
+        if (meeting.getId() == 0) {
+            res.setStatus(12);
+            res.setMessage("Không tìm thấy cuộc họp|");
+            return res;
+        }
+
+        vector<User> students = attendanceRepo.getStudentsFromMeeting(meeting_id);
+
+        string message = meeting.toString();
+        message += "|[";
+        for (const auto &student : students) {
+            message += "|" + to_string(student.getId()) + "|" + student.getFirstName() + "|" + student.getLastName();
+        }
+        message += "|]|";
+        res.setStatus(0);
+        res.setMessage(message);
+
+        return res;
+    }
+
+    Response viewHistory(const int &teacher_id, const int &student_id) {
+        Response res;
+        User user = userRepository.getUserById(teacher_id);
+        if (user.getId() == 0) {
+            res.setStatus(8);
+            res.setMessage("Giáo viên không tồn tại|");
+        } else {
+            map<string, map<string, vector<Meeting>>> meetings =
+                meetingRepo.getDoneMeetingsByTeacherIdAndStudentId(teacher_id, student_id);
+            if (meetings.empty()) {
+                res.setStatus(18);
+                res.setMessage("Không có lịch sử cuộc họp|");
+            } else {
+                string message = "";
+                for (const auto &week : meetings) {
+                    const string weekName = week.first;
+                    const map<string, vector<Meeting>> dailyMeetings = week.second;
+                    message += weekName + "|{";
+                    for (const auto &day : dailyMeetings) {
+                        const string dayName = day.first;
+                        vector<Meeting> mts = day.second;
+                        message += "|" + dayName + "|[";
+                        for (int i = 0; i < mts.size(); i++) {
+                            message += "|" + mts[i].toString();
+                            vector<User> students = attendanceRepo.getStudentsFromMeeting(mts[i].getId());
+                            message += "|students|{";
+                            for (const auto &student : students) {
+                                message += "|" + to_string(student.getId()) + "|" + student.getFirstName() + "|" +
+                                           student.getLastName();
+                            }
+                            message += "|}";
+                        }
+                        message += "|]";
+                    }
+                    message += "|}|";
+                }
+                res.setStatus(0);
+                res.setMessage(message);
+            }
+        }
+
+        return res;
+    }
+
+    Response getStudentList(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+        int teacher_id = stoi(tokens[1]);
+        vector<User> students = userRepository.getStudentsInHistory(teacher_id);
+
+        if (students.empty()) {
+            res.setStatus(17);
+            res.setMessage("Không có sinh viên nào đã hẹn với bạn|");
+        } else {
+            string message = "";
+            for (int i = 0; i < students.size(); i++) {
+                message += students[i].toStringProfile() + "|";
+            }
+            res.setStatus(0);
+            res.setMessage(message);
+        }
+        return res;
+    }    
 };
 // Nếu thành công: 0 | Successfully declared free time | <END>
 // Nếu thời gian không hợp lệ: 6 | Invalid time | <END>
