@@ -194,6 +194,46 @@ class UserRepository {
         return teacher;
     }
     
+    vector<User> getStudentsInHistory(const int &teacher_id) {
+        vector<User> students;
+
+        if (db.connect()) {
+            string query = R"(
+                SELECT DISTINCT users.*                
+                FROM users
+                INNER JOIN attendances ON attendances.student_id = users.id
+                INNER JOIN meetings ON meetings.id = attendances.meeting_id
+                INNER JOIN timeslots ON timeslots.id = meetings.timeslot_id
+                WHERE timeslots.teacher_id = ? 
+                AND meetings.status = 'completed'
+            )";
+            try {
+                sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
+                pstmt->setInt(1, teacher_id);
+                sql::ResultSet *res = pstmt->executeQuery();
+
+                while (res->next()) {
+                    User student;
+                    student.setId(res->getInt("id"));
+                    student.setUsername(res->getString("username"));
+                    student.setPassword(res->getString("password"));
+                    student.setRole(res->getString("role"));
+                    student.setFirstName(res->getString("first_name"));
+                    student.setLastName(res->getString("last_name"));
+                    students.push_back(student);
+                }
+                delete res;
+                delete pstmt;
+            } catch (sql::SQLException &e) {
+                std::cerr << "Lỗi khi lấy dữ liệu từ meetings: " << e.what() << std::endl;
+            }
+
+        } else {
+            cout << "Lỗi không thể truy cập cơ sở dữ liệu." << endl;
+        }
+
+        return students;
+    }    
 };
 
 #endif

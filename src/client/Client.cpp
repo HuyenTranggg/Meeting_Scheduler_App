@@ -273,6 +273,57 @@ void handleTeacherViewMeetingsByDate() {
     }
 }
 
+void handleTeacherViewHistoryMeeting(const int &meeting_id) {
+    string request = "VIEW_MEETING|" + to_string(meeting_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        pair<Meeting, vector<User>> meetingDetail = teacherController.getMeetingFromResponse(response);
+        int choice = teacherView.showMeetingHistory(meetingDetail.first, meetingDetail.second);
+        if (choice == 0) {
+            return;
+        }
+    }
+}
+
+void handleTeacherViewHistory(const int &student_id) {
+    string request = "VIEW_HISTORY|" + to_string(user_id) + "|" + to_string(student_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    if (status == "0") {
+        map<string, map<string, vector<pair<Meeting, vector<User>>>>> meetings =
+            teacherController.getMeetingsInWeeksFromResponse(response);
+        Meeting meeting = teacherView.showHistory(meetings);
+        if (meeting.getId() == -1) {
+            return;
+        }
+        // Detail Meeting
+        handleTeacherViewHistoryMeeting(meeting.getId());
+        handleTeacherViewHistory(student_id);
+    } else if (status == "18") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
+void handleTeacherSeeStudentList() {
+    string request = "FETCH_ALL_STUDENT|" + to_string(user_id) + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find("|"));
+    if (status == "0") {
+        vector<User> students = teacherController.seeStudentList(response);
+        int studentId = teacherView.showStudentList(students);
+        if (studentId == -1) {
+            return;
+        }
+        handleTeacherViewHistory(studentId);
+        handleTeacherSeeStudentList();
+    } else if (status == "21") {
+        vector<string> tokens = splitString(response, '|');
+        cout << tokens[1] << endl;
+    }
+}
+
 void handleTeacherMenu(){
     int choice = teacherView.showMenu();
     switch (choice) {
@@ -289,6 +340,10 @@ void handleTeacherMenu(){
         break;
     case 3:
         handleTeacherViewMeetingsByDate();
+        handleTeacherMenu();
+        break;
+    case 4:
+        handleTeacherSeeStudentList();
         handleTeacherMenu();
         break;
     default:

@@ -98,6 +98,15 @@ void processClientRequest(int clientSocket, const string &request) {
         res = studentResponseController.cancelMeeting(request);
     } else if (command == "VIEW_MEETING_STUDENT") {
         res = studentResponseController.viewMeetingStudent(request);
+    } else if (command == "FETCH_ALL_STUDENT") {
+        res = teacherResponseController.getStudentList(request);
+    } else if (command == "VIEW_HISTORY") {
+        int teacher_id = stoi(result[1]);
+        int student_id = stoi(result[2]);
+        res = teacherResponseController.viewHistory(teacher_id, student_id);
+    } else if (command == "VIEW_MEETING") {
+        int meeting_id = stoi(result[1]);
+        res = teacherResponseController.viewMeeting(meeting_id);
     } else {
         response = MessageUtils::createMessage(Status::UNKNOWN_ERROR, "Invalid request");
     }
