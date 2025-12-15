@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MeetingBooking</class>
+ <widget class="QDialog" name="MeetingBooking">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Đặt lịch hẹn</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="infoGroupBox">
+     <property name="title">
+      <string>Thông tin lịch hẹn</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+         <widget class="QLabel" name="dateLabelTitle">
+           <property name="text">
+             <string>Ngày:</string>
+           </property>
+         </widget>
+       </item>
+       <item row="0" column="1">
+         <widget class="QLabel" name="dateLabel">
+           <property name="text">
+             <string/>
+           </property>
+         </widget>
+       </item>
+       <item row="1" column="0">
+         <widget class="QLabel" name="timeLabelTitle">
+           <property name="text">
+             <string>Thời gian:</string>
+           </property>
+         </widget>
+       </item>
+       <item row="1" column="1">
+         <widget class="QLabel" name="timeLabel">
+           <property name="text">
+             <string/>
+           </property>
+         </widget>
+       </item>
+       <item row="2" column="0">
+         <widget class="QLabel" name="typeLabelTitle">
+           <property name="text">
+             <string>Loại cuộc họp:</string>
+           </property>
+         </widget>
+       </item>
+       <item row="2" column="1">
+         <widget class="QLabel" name="typeLabel">
+           <property name="text">
+             <string/>
+           </property>
+         </widget>
+       </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="typeGroupBox">
+     <property name="title">
+      <string>Chọn loại cuộc họp</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+         <widget class="QRadioButton" name="personalRadio">
+           <property name="text">
+             <string>Cá nhân</string>
+           </property>
+         </widget>
+       </item>
+       <item>
+         <widget class="QRadioButton" name="groupRadio">
+           <property name="text">
+             <string>Nhóm</string>
+           </property>
+         </widget>
+       </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

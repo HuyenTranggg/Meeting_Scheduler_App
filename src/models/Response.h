@@ -4,12 +4,12 @@
 using namespace std;
 
 class Response {
-    int status;
-    string message;
+    int status = 0;
+    string message = "";
 
   public:
     // Constructor
-    Response() {};
+    Response() : status(0), message("") {};
     Response(const int &nstatus, const string &nmessage) : status(nstatus), message(nmessage) {}
 
     // Getters

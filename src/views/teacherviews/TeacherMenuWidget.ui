@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TeacherMenuWidget</class>
+ <widget class="QWidget" name="TeacherMenuWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Teacher Menu</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>Teacher Menu</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="declareTimeSlotButton">
+     <property name="text">
+      <string>Khai báo thời gian rảnh</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="checkAvailabilityButton">
+     <property name="text">
+      <string>Kiểm tra thời gian rảnh</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="viewMeetingsButton">
+     <property name="text">
+      <string>Xem lịch hẹn với sinh viên</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="viewHistoryButton">
+     <property name="text">
+      <string>Xem lịch sử cuộc hẹn</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="viewWeeklyMeetingsButton">
+     <property name="text">
+      <string>Xem lịch hẹn theo tuần</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="logoutButton">
+     <property name="text">
+      <string>Đăng xuất</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+</ui>
