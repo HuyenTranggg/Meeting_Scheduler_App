@@ -461,6 +461,61 @@ class TeacherView {
         }
     }
 
+    string showEditReport() {
+        string report = "";
+        cout << "-------------Van ban cuoc hop-----------------" << endl;
+        cout << "Moi ban nhap noi dung: (ket thuc bang <END> trong dong moi)" << endl;
+        vector<string> lines;
+        string input;
+        while (true) {
+            getline(cin, input);
+            if (input == "<END>") {
+                break;
+            }
+            lines.push_back(input);
+        }
+
+        for (int i = 0; i < lines.size(); i++) {
+            if (i == lines.size() - 1) {
+                report += lines[i];
+            } else {
+                report += lines[i] + "\n";
+            }
+        }
+        return report;
+    }
+
+    string showUpdateStatus() {
+        int choice;
+        cout << "-------------Sua doi trang thai cuoc hen-----------------" << endl;
+        cout << "1. Cho phe duyet (pending)" << endl;
+        cout << "2. Chap nhan (confirmed)" << endl;
+        cout << "3. Dang dien ra (doing)" << endl;
+        cout << "4. Hoan thanh (completed)" << endl;
+        cout << "5. Huy (canceled)" << endl;
+        while (true) {
+            cout << "Ban muon chon trang thai nao" << endl;
+            cin >> choice;
+            cin.ignore();
+            switch (choice) {
+            case 1:
+                return "pending";
+            case 2:
+                return "confirmed";
+            case 3:
+                return "doing";
+            case 4:
+                return "completed";
+            case 5:
+                return "canceled";
+            default:
+                cout << "Lua chon khong hop le, vui long chon lai!" << endl;
+                break;
+            }
+        }
+        return "pending"; // Default fallback (should never reach here)
+    }
+
     int showStudentList(const vector<User> &students) {
         int studentId;
         if (students.empty()) {
