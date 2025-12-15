@@ -248,6 +248,45 @@ class TeacherResponseController {
         return res;
     }
 
+    Response updateReport(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+        int meeting_id = stoi(tokens[1]);
+        string report = tokens[2];
+        Meeting meeting = meetingRepo.getMeetingById(meeting_id);
+        if (meeting.getId() == 0) {
+            res.setStatus(5);
+            res.setMessage("Meeting does not exist|");
+        } else {
+            meetingRepo.updateReport(meeting_id, report);
+            res.setStatus(0);
+            res.setMessage("Success|");
+        }
+        return res;
+    }
+
+    Response updateStatus(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+        int meeting_id = stoi(tokens[1]);
+        string status = tokens[2];
+        Meeting meeting = meetingRepo.getMeetingById(meeting_id);
+        if (meeting.getId() == 0) {
+            res.setStatus(12);
+            res.setMessage("Khong tim thay cuoc hen|");
+        } else {
+            if (status == "canceled") {
+                meetingRepo.deleteMeeting(meeting_id);
+                timeslotRepo.updateStatus(meeting.getTimeslotId(), "free");
+            } else {
+                meetingRepo.updateStatus(meeting_id, status);
+            }
+            res.setStatus(0);
+            res.setMessage("Success|");
+        }
+        return res;
+    }
+
     Response getStudentList(const string &message) {
         Response res;
         vector<string> tokens = splitString(message, '|');

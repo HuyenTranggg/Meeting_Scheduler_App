@@ -200,6 +200,23 @@ void handleViewTimeslots() {
     }
 }
 
+void handleEditReport(const int &meeting_id, const string &report) {
+    string request = "ENTER_MEETING_NOTE|" + to_string(meeting_id) + "|" + report + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    vector<string> tokens = splitString(response, '|');
+    cout << tokens[1] << endl;
+}
+
+void handleUpdateStatus(const int &meeting_id, const string &mstatus) {
+    string request = "UPDATE_MEETING_STATUS|" + to_string(meeting_id) + "|" + mstatus + "|<END>";
+    string response = sendRequestToServer(request);
+    string status = response.substr(0, response.find('|'));
+    vector<string> tokens = splitString(response, '|');
+    cout << tokens[1] << endl;
+}
+
+
 void handleTeacherViewMeeting(const int &meeting_id) {
     string request = "VIEW_MEETING|" + to_string(meeting_id) + "|<END>";
     string response = sendRequestToServer(request);
@@ -209,6 +226,20 @@ void handleTeacherViewMeeting(const int &meeting_id) {
         int choice = teacherView.showMeeting(meetingDetail.first, meetingDetail.second);
         if (choice == 0) {
             return;
+        } else if (choice == 1) {
+            // Sua van ban cuoc hop
+            string report;
+            cout << "Nhap noi dung van ban cuoc hop: ";
+            getline(cin, report);
+            handleEditReport(meeting_id, report);
+            // Refresh meeting detail after update
+            handleTeacherViewMeeting(meeting_id);
+        } else if (choice == 2) {
+            // Sua trang thai cuoc hop
+            string newStatus = teacherView.showUpdateStatus();
+            handleUpdateStatus(meeting_id, newStatus);
+            // Refresh meeting detail after update
+            handleTeacherViewMeeting(meeting_id);
         }
     } else if (status == "12") {
         return;
