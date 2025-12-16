@@ -32,6 +32,11 @@
 #include "../views/studentviews/MeetingDialog.h"
 #include "../views/studentviews/StudentMenu.h"
 #include <QMessageBox>
+#include <QDialog>
+#include <QListWidget>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QDialogButtonBox>
 
 #include <algorithm>
 #include <arpa/inet.h>
@@ -64,6 +69,10 @@ TeacherController teacherController;
 StudentController studentController;
 int user_id = 0;
 string role = "none";
+
+// Forward declarations
+class TeacherMenuWidget;
+extern TeacherMenuWidget* g_teacherMenuWidget;
 
 void connectToServer() {
     // Tạo socket
@@ -199,16 +208,28 @@ void handleDeclareTimeSlot() {
         cout << request << endl;
         string response = sendRequestToServer(request);
         string status = response.substr(0, response.find('|'));
+        vector<string> tokens = splitString(response, '|');
+        
         if (status == "0") {
-            vector<string> tokens = splitString(response, '|');
-            QMessageBox::information(nullptr, "Thông báo", 
+            // Thành công
+            QMessageBox::information(nullptr, "Thành công", 
                 QString::fromStdString(tokens[1]));
-
+        } else if (status == "14") {
+            // Conflict với time slot khác
+            QMessageBox::warning(nullptr, "Lỗi - Thời gian bị trùng", 
+                QString::fromStdString(tokens[1]));
+        } else if (status == "6") {
+            // Thời gian không hợp lệ
+            QMessageBox::warning(nullptr, "Lỗi - Thời gian không hợp lệ", 
+                QString::fromStdString(tokens[1]));
         } else if (status == "13") {
-            vector<string> tokens = splitString(response, '|');
-            QMessageBox::information(nullptr, "Thông báo", 
+            // Format request không hợp lệ
+            QMessageBox::warning(nullptr, "Lỗi", 
                 QString::fromStdString(tokens[1]));
-            
+        } else {
+            // Các lỗi khác
+            QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
+            QMessageBox::critical(nullptr, "Lỗi", errorMsg);
         }
     }
 }
@@ -518,34 +539,90 @@ void handleTeacherViewHistory() {
             map<string, map<string, vector<pair<Meeting, vector<User>>>>> meetingsWeekly =
                 teacherController.getMeetingsInWeeksFromResponse(response);
             
-            // Flatten structure: chuyển từ nested map thành map<date, vector<Meeting>>
-            map<string, vector<Meeting>> meetingsFlat;
+            // Flatten structure: chuyển từ nested map thành vector<Meeting> với thông tin ngày
+            vector<pair<string, Meeting>> allMeetings; // pair<date, meeting>
             for (const auto& weekPair : meetingsWeekly) {
                 for (const auto& dayPair : weekPair.second) {
                     string date = dayPair.first;
-                    vector<Meeting> dateMeetings;
                     for (const auto& meetingPair : dayPair.second) {
-                        dateMeetings.push_back(meetingPair.first);
+                        allMeetings.push_back(make_pair(date, meetingPair.first));
                     }
-                    meetingsFlat[date] = dateMeetings;
                 }
             }
             
-            if (meetingsFlat.empty()) {
+            if (allMeetings.empty()) {
                 QMessageBox::information(nullptr, "Thông báo", "Không có lịch sử cuộc họp");
                 return;
             }
             
-            ViewMeetingHistoryDialog dialog;
-            Meeting meeting = dialog.showHistory(meetingsFlat);
+            // Tạo dialog hiển thị danh sách meetings
+            QDialog* listDialog = new QDialog();
+            listDialog->setWindowTitle("Danh sách lịch hẹn");
+            listDialog->resize(600, 400);
             
-            if (meeting.getId() == -1) {
-                return;
+            QVBoxLayout* layout = new QVBoxLayout(listDialog);
+            QLabel* titleLabel = new QLabel("Chọn một cuộc hẹn để xem chi tiết:");
+            layout->addWidget(titleLabel);
+            
+            QListWidget* meetingList = new QListWidget();
+            layout->addWidget(meetingList);
+            
+            // Thêm các meetings vào list
+            map<int, int> indexToMeetingId; // map từ index trong list đến meeting ID
+            int index = 0;
+            for (const auto& dateMeetingPair : allMeetings) {
+                string date = dateMeetingPair.first;
+                Meeting meeting = dateMeetingPair.second;
+                
+                QString itemText = QString("Ngày: %1 | Từ: %2 - Đến: %3 | %4 | %5")
+                    .arg(QString::fromStdString(date))
+                    .arg(QString::fromStdString(meeting.getStart()))
+                    .arg(QString::fromStdString(meeting.getEnd()))
+                    .arg(QString::fromStdString(meeting.getType()))
+                    .arg(QString::fromStdString(meeting.getStatus()));
+                
+                meetingList->addItem(itemText);
+                indexToMeetingId[index] = meeting.getId();
+                index++;
             }
             
-            // Detail Meeting
-            handleTeacherViewHistoryMeeting(meeting.getId());
-            handleTeacherViewHistory();
+            // Thêm nút OK và Cancel
+            QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+            layout->addWidget(buttonBox);
+            
+            QObject::connect(buttonBox, &QDialogButtonBox::accepted, listDialog, &QDialog::accept);
+            QObject::connect(buttonBox, &QDialogButtonBox::rejected, listDialog, &QDialog::reject);
+            
+            // Xử lý double click
+            int selectedMeetingId = -1;
+            QObject::connect(meetingList, &QListWidget::itemDoubleClicked, [&](QListWidgetItem* item) {
+                int row = meetingList->row(item);
+                if (indexToMeetingId.find(row) != indexToMeetingId.end()) {
+                    selectedMeetingId = indexToMeetingId[row];
+                    listDialog->accept();
+                }
+            });
+            
+            // Hiển thị dialog
+            if (listDialog->exec() == QDialog::Accepted) {
+                // Nếu chưa chọn bằng double click, lấy item hiện tại
+                if (selectedMeetingId == -1) {
+                    QListWidgetItem* currentItem = meetingList->currentItem();
+                    if (currentItem) {
+                        int row = meetingList->row(currentItem);
+                        if (indexToMeetingId.find(row) != indexToMeetingId.end()) {
+                            selectedMeetingId = indexToMeetingId[row];
+                        }
+                    }
+                }
+                
+                if (selectedMeetingId != -1) {
+                    handleTeacherViewHistoryMeeting(selectedMeetingId);
+                    handleTeacherViewHistory();
+                }
+            }
+            
+            delete listDialog;
         } else if (status == "18") {
             vector<string> tokens = splitString(response, '|');
             QMessageBox::information(nullptr, "Thông báo", QString::fromStdString(tokens[1]));
@@ -593,47 +670,82 @@ void handleTracherViewMeetingsInWeeks() {
 }
 
 
+// Global pointer để lưu teacher menu
+TeacherMenuWidget* g_teacherMenuWidget = nullptr;
+
+void resetTeacherMenu() {
+    if (g_teacherMenuWidget != nullptr) {
+        g_teacherMenuWidget->close();
+        delete g_teacherMenuWidget;
+        g_teacherMenuWidget = nullptr;
+    }
+}
+
 void handleTeacherMenu() {
-    TeacherMenuWidget* teacherMenuWidget = nullptr;
+    // Nếu menu đã tồn tại, chỉ cần hiện lại
+    if (g_teacherMenuWidget != nullptr) {
+        g_teacherMenuWidget->show();
+        g_teacherMenuWidget->raise();
+        g_teacherMenuWidget->activateWindow();
+        return;
+    }
+    
+    // Tạo menu lần đầu tiên
     try {
-        teacherMenuWidget = new TeacherMenuWidget();
+        g_teacherMenuWidget = new TeacherMenuWidget();
     } catch (const std::exception& e) {
         QMessageBox::critical(nullptr, "Lỗi", QString("Cannot create menu: ") + e.what());
         return;
     }
 
     // Kết nối tín hiệu từ các nút
-    QObject::connect(teacherMenuWidget, &TeacherMenuWidget::actionSelected, [&](int action) {
+    QObject::connect(g_teacherMenuWidget, &TeacherMenuWidget::actionSelected, [](int action) {
         switch(action) {
             case 0: // Đăng xuất
+                resetTeacherMenu();
                 logout();
                 break;
             case 1: // Khai báo thời gian rảnh
-                handleDeclareTimeSlot();
-                handleTeacherMenu();  // Gọi lại menu sau khi thực hiện
+                if (g_teacherMenuWidget) {
+                    g_teacherMenuWidget->hide();
+                    handleDeclareTimeSlot();
+                    g_teacherMenuWidget->show();
+                }
                 break;
             case 2: // Kiểm tra thời gian rảnh
-                handleViewTimeslots();
-                handleTeacherMenu();
+                if (g_teacherMenuWidget) {
+                    g_teacherMenuWidget->hide();
+                    handleViewTimeslots();
+                    g_teacherMenuWidget->show();
+                }
                 break;
             case 3: // Xem lịch hẹn với sinh viên
-                handleTeacherViewMeetings();
-                handleTeacherMenu();
+                if (g_teacherMenuWidget) {
+                    g_teacherMenuWidget->hide();
+                    handleTeacherViewMeetings();
+                    g_teacherMenuWidget->show();
+                }
                 break;
             case 4: // Xem lịch sử cuộc hẹn
-                handleTeacherViewHistory();
-                handleTeacherMenu();
+                if (g_teacherMenuWidget) {
+                    g_teacherMenuWidget->hide();
+                    handleTeacherViewHistory();
+                    g_teacherMenuWidget->show();
+                }
                 break;
             case 5: // Xem lịch hẹn theo tuần
-                handleTracherViewMeetingsInWeeks();
-                handleTeacherMenu();
+                if (g_teacherMenuWidget) {
+                    g_teacherMenuWidget->hide();
+                    handleTracherViewMeetingsInWeeks();
+                    g_teacherMenuWidget->show();
+                }
                 break;
             default:
                 break;
         }
     });
 
-    teacherMenuWidget->show();
+    g_teacherMenuWidget->show();
 }
 
 
@@ -673,28 +785,121 @@ void handleViewTimeslotsOfTeacher(const int &teacher_id, const string &teacherNa
     if (status == "0") {
         map<string, vector<Timeslot>> timeslots = studentController.viewTimeslots(response);
         
-        // Create and show the calendar dialog
-        TimeslotCalendar calendar;
-        Timeslot ts = calendar.showTimeslots(timeslots, teacherName);
+        // Flatten structure: chuyển từ map thành vector<Timeslot> với thông tin ngày
+        vector<pair<string, Timeslot>> allTimeslots; // pair<date, timeslot>
+        for (const auto& datePair : timeslots) {
+            string date = datePair.first;
+            for (const auto& ts : datePair.second) {
+                allTimeslots.push_back(make_pair(date, ts));
+            }
+        }
         
-        if (ts.getId() == -1) {
+        if (allTimeslots.empty()) {
+            QMessageBox::information(nullptr, "Thông báo", 
+                QString("Giáo viên %1 chưa có thời gian rảnh nào").arg(QString::fromStdString(teacherName)));
             return;
         }
         
-        // Show meeting booking dialog
-        MeetingBooking bookingDialog;
-        Meeting meeting = bookingDialog.showBookMeeting(ts, teacherName);
+        // Tạo dialog hiển thị danh sách timeslots
+        QDialog* listDialog = new QDialog();
+        listDialog->setWindowTitle(QString("Thời gian rảnh - %1").arg(QString::fromStdString(teacherName)));
+        listDialog->resize(700, 450);
         
-        if (meeting.getId() == -1) {
-            return;
-        } else {
-            handleBookMeeting(meeting);
-            handleViewTimeslotsOfTeacher(teacher_id, teacherName);
+        QVBoxLayout* layout = new QVBoxLayout(listDialog);
+        QLabel* titleLabel = new QLabel(QString("Chọn một khung giờ để đặt lịch hẹn với %1:")
+            .arg(QString::fromStdString(teacherName)));
+        layout->addWidget(titleLabel);
+        
+        QListWidget* timeslotList = new QListWidget();
+        layout->addWidget(timeslotList);
+        
+        // Thêm các timeslots vào list
+        map<int, Timeslot> indexToTimeslot; // map từ index trong list đến Timeslot
+        int index = 0;
+        for (const auto& dateTimeslotPair : allTimeslots) {
+            string date = dateTimeslotPair.first;
+            Timeslot ts = dateTimeslotPair.second;
+            
+            QString itemText = QString("Ngày: %1 | Từ: %2 - Đến: %3 | Loại: %4 | Trạng thái: %5")
+                .arg(QString::fromStdString(date))
+                .arg(QString::fromStdString(ts.getStart()))
+                .arg(QString::fromStdString(ts.getEnd()))
+                .arg(QString::fromStdString(ts.getType()))
+                .arg(QString::fromStdString(ts.getStatus()));
+            
+            timeslotList->addItem(itemText);
+            indexToTimeslot[index] = ts;
+            index++;
         }
+        
+        // Thêm nút OK và Cancel
+        QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+        layout->addWidget(buttonBox);
+        
+        QObject::connect(buttonBox, &QDialogButtonBox::accepted, listDialog, &QDialog::accept);
+        QObject::connect(buttonBox, &QDialogButtonBox::rejected, listDialog, &QDialog::reject);
+        
+        // Xử lý double click
+        Timeslot selectedTimeslot;
+        selectedTimeslot.setId(-1);
+        
+        QObject::connect(timeslotList, &QListWidget::itemDoubleClicked, [&](QListWidgetItem* item) {
+            int row = timeslotList->row(item);
+            if (indexToTimeslot.find(row) != indexToTimeslot.end()) {
+                selectedTimeslot = indexToTimeslot[row];
+                listDialog->accept();
+            }
+        });
+        
+        // Hiển thị dialog
+        if (listDialog->exec() == QDialog::Accepted) {
+            // Nếu chưa chọn bằng double click, lấy item hiện tại
+            if (selectedTimeslot.getId() == -1) {
+                QListWidgetItem* currentItem = timeslotList->currentItem();
+                if (currentItem) {
+                    int row = timeslotList->row(currentItem);
+                    if (indexToTimeslot.find(row) != indexToTimeslot.end()) {
+                        selectedTimeslot = indexToTimeslot[row];
+                    }
+                }
+            }
+            
+            if (selectedTimeslot.getId() != -1) {
+                // Show meeting booking dialog
+                MeetingBooking bookingDialog;
+                Meeting meeting = bookingDialog.showBookMeeting(selectedTimeslot, teacherName);
+                
+                if (meeting.getId() != -1) {
+                    handleBookMeeting(meeting);
+                    handleViewTimeslotsOfTeacher(teacher_id, teacherName);
+                }
+            }
+        }
+        
+        delete listDialog;
     } 
-    else if (status == "8" || status == "9") {
+    else if (status == "4") {
+        // Teacher không có thời gian rảnh
+        vector<string> tokens = splitString(response, '|');
+        QMessageBox::information(nullptr, "Thông báo", 
+            QString("Giáo viên %1 hiện chưa có thời gian rảnh nào.\n%2")
+            .arg(QString::fromStdString(teacherName))
+            .arg(QString::fromStdString(tokens[1])));
+    }
+    else if (status == "15") {
+        // Teacher không tìm thấy
         vector<string> tokens = splitString(response, '|');
         QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+    }
+    else if (status == "8" || status == "9") {
+        // Các lỗi khác
+        vector<string> tokens = splitString(response, '|');
+        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+    }
+    else {
+        // Lỗi không xác định
+        QMessageBox::critical(nullptr, "Lỗi", 
+            QString("Có lỗi xảy ra khi lấy thông tin thời gian rảnh (Mã lỗi: %1)").arg(QString::fromStdString(status)));
     }
 }
 
@@ -771,10 +976,27 @@ void handleStudentViewMeetings() {
         // Detail Meeting
         handleStudentViewMeeting(meeting.getId());
         handleStudentViewMeetings();
-    } 
-    else if (status == "16") {
+    }
+    else if (status == "8") {
+        // Không có lịch hẹn nào
+        vector<string> tokens = splitString(response, '|');
+        QMessageBox::information(nullptr, "Thông báo", 
+            "Bạn chưa có lịch hẹn nào trong tuần này.");
+    }
+    else if (status == "17") {
+        // Student không tìm thấy
         vector<string> tokens = splitString(response, '|');
         QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+    }
+    else if (status == "16") {
+        // Các lỗi khác
+        vector<string> tokens = splitString(response, '|');
+        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+    }
+    else {
+        // Lỗi không xác định
+        QMessageBox::critical(nullptr, "Lỗi", 
+            QString("Có lỗi xảy ra khi lấy lịch hẹn (Mã lỗi: %1)").arg(QString::fromStdString(status)));
     }
 }
 
