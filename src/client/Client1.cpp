@@ -49,6 +49,8 @@
 #include <unistd.h>
 #include <utility>
 #include <vector>
+#include <QScreen>
+#include <QGuiApplication>
 
 #define SERVER_IP "127.0.0.1"
 // #define SERVER_IP "172.0.1.252"
@@ -73,6 +75,88 @@ string role = "none";
 // Forward declarations
 class TeacherMenuWidget;
 extern TeacherMenuWidget* g_teacherMenuWidget;
+
+// Helper function to center widget on screen
+void centerWidget(QWidget* widget) {
+    if (!widget) return;
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - widget->width()) / 2;
+    int y = (screenGeometry.height() - widget->height()) / 2;
+    widget->move(x, y);
+}
+
+// Helper function to show styled message box
+void showStyledMessageBox(const QString& title, const QString& text, QMessageBox::Icon icon) {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(title);
+    
+    // Set standard button first
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    
+    // Set icon
+    msgBox.setIcon(icon);
+    
+    // Set text with HTML for centering
+    msgBox.setText("<div style='text-align: center; margin: 0 auto;'>" + text + "</div>");
+    msgBox.setTextFormat(Qt::RichText);
+    
+    QString buttonColor;
+    switch(icon) {
+        case QMessageBox::Information:
+            buttonColor = "#1976d2";
+            break;
+        case QMessageBox::Warning:
+            buttonColor = "#f57c00";
+            break;
+        case QMessageBox::Critical:
+            buttonColor = "#e53935";
+            break;
+        default:
+            buttonColor = "#1976d2";
+    }
+    
+    msgBox.setStyleSheet(
+        "QMessageBox { "
+        "    background-color: #f5f5f5; "
+        "    font-family: 'Segoe UI', Arial; "
+        "    min-width: 500px; "
+        "    max-width: 550px; "
+        "} "
+        "QLabel { "
+        "    font-size: 16pt; "
+        "    color: #333333; "
+        "    padding: 20px 25px; "
+        "    min-width: 450px; "
+        "    max-width: 500px; "
+        "} "
+        "QPushButton { "
+        "    font-size: 15pt; "
+        "    padding: 14px 40px; "
+        "    border-radius: 8px; "
+        "    min-width: 120px; "
+        "    min-height: 50px; "
+        "    background-color: " + buttonColor + "; "
+        "    color: white; "
+        "    border: none; "
+        "    margin: 8px; "
+        "} "
+        "QPushButton:hover { "
+        "    background-color: " + buttonColor + "; "
+        "    opacity: 0.85; "
+        "} "
+        "QDialogButtonBox { "
+        "    qproperty-centerButtons: true; "
+        "}"
+    );
+    
+    // Force fixed size for consistency
+    msgBox.setFixedWidth(550);
+    
+    // Center the message box on screen
+    centerWidget(&msgBox);
+    msgBox.exec();
+}
 
 void connectToServer() {
     // Tạo socket
@@ -212,24 +296,20 @@ void handleDeclareTimeSlot() {
         
         if (status == "0") {
             // Thành công
-            QMessageBox::information(nullptr, "Thành công", 
-                QString::fromStdString(tokens[1]));
+            showStyledMessageBox("Thành công", QString::fromStdString(tokens[1]), QMessageBox::Information);
         } else if (status == "14") {
             // Conflict với time slot khác
-            QMessageBox::warning(nullptr, "Lỗi - Thời gian bị trùng", 
-                QString::fromStdString(tokens[1]));
+            showStyledMessageBox("Lỗi - Thời gian bị trùng", QString::fromStdString(tokens[1]), QMessageBox::Warning);
         } else if (status == "6") {
             // Thời gian không hợp lệ
-            QMessageBox::warning(nullptr, "Lỗi - Thời gian không hợp lệ", 
-                QString::fromStdString(tokens[1]));
+            showStyledMessageBox("Lỗi - Thời gian không hợp lệ", QString::fromStdString(tokens[1]), QMessageBox::Warning);
         } else if (status == "13") {
             // Format request không hợp lệ
-            QMessageBox::warning(nullptr, "Lỗi", 
-                QString::fromStdString(tokens[1]));
+            showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
         } else {
             // Các lỗi khác
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
-            QMessageBox::critical(nullptr, "Lỗi", errorMsg);
+            showStyledMessageBox("Lỗi", errorMsg, QMessageBox::Critical);
         }
     }
 }
@@ -302,14 +382,14 @@ void handleEditReport(const int &meeting_id, const string &report) {
         string response = sendRequestToServer(request);
         
         if (response.empty() || response == "100") {
-            QMessageBox::warning(nullptr, "Lỗi", "Không nhận được phản hồi từ server");
+            showStyledMessageBox("Lỗi", "Không nhận được phản hồi từ server", QMessageBox::Warning);
             return;
         }
         
         string status = response.substr(0, response.find('|'));
         
         if (status == "0") {
-            QMessageBox::information(nullptr, "Thành công", "Đã cập nhật biên bản cuộc họp");
+            showStyledMessageBox("Thành công", "Đã cập nhật biên bản cuộc họp", QMessageBox::Information);
         } else {
             vector<string> tokens = splitString(response, '|');
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
@@ -358,11 +438,48 @@ void handleTeacherViewMeetings() {
         
         // Yêu cầu người dùng nhập ngày cần xem
         bool ok;
-        QString dateStr = QInputDialog::getText(nullptr, "Xem lịch hẹn", 
-                                                "Nhập ngày cần xem (YYYY-MM-DD):", 
-                                                QLineEdit::Normal, 
-                                                QDate::currentDate().toString("yyyy-MM-dd"), 
-                                                &ok);
+        QInputDialog inputDialog;
+        inputDialog.setWindowTitle("Xem lịch hẹn");
+        inputDialog.setLabelText("Nhập ngày cần xem (YYYY-MM-DD):");
+        inputDialog.setTextValue(QDate::currentDate().toString("yyyy-MM-dd"));
+        inputDialog.setStyleSheet(
+            "QInputDialog { "
+            "    background-color: #f5f5f5; "
+            "    font-family: 'Segoe UI', Arial; "
+            "    min-width: 500px; "
+            "} "
+            "QLabel { "
+            "    font-size: 15pt; "
+            "    color: #333333; "
+            "    padding: 15px; "
+            "} "
+            "QLineEdit { "
+            "    font-size: 15pt; "
+            "    padding: 12px; "
+            "    border: 2px solid #f57c00; "
+            "    border-radius: 8px; "
+            "    background-color: white; "
+            "    min-height: 40px; "
+            "} "
+            "QPushButton { "
+            "    font-size: 14pt; "
+            "    padding: 12px 28px; "
+            "    border-radius: 8px; "
+            "    min-width: 100px; "
+            "    min-height: 45px; "
+            "    background-color: #f57c00; "
+            "    color: white; "
+            "    border: none; "
+            "    margin: 5px; "
+            "} "
+            "QPushButton:hover { "
+            "    background-color: #ef6c00; "
+            "}"
+        );
+        inputDialog.resize(550, 200);
+        centerWidget(&inputDialog);
+        ok = inputDialog.exec();
+        QString dateStr = inputDialog.textValue();
         
         if (!ok || dateStr.isEmpty()) {
             return; // Người dùng hủy
@@ -384,7 +501,7 @@ void handleTeacherViewMeetings() {
             vector<string> tokens = splitString(response, '|');
             
             if (tokens.size() <= 2 || tokens[1] == "No meetings found") {
-                QMessageBox::information(nullptr, "Thông báo", "Không có lịch hẹn nào trong ngày này");
+                showStyledMessageBox("Thông báo", "Không có lịch hẹn nào trong ngày này", QMessageBox::Information);
                 return;
             }
             
@@ -431,7 +548,7 @@ void handleTeacherViewMeetings() {
                     handleTeacherViewMeetings();
                 }
             } else {
-                QMessageBox::information(nullptr, "Thông báo", "Không có lịch hẹn nào trong ngày này");
+                showStyledMessageBox("Thông báo", "Không có lịch hẹn nào trong ngày này", QMessageBox::Information);
             }
         } 
         // Nếu trạng thái là "16", hiển thị thông báo lỗi
@@ -449,7 +566,7 @@ void handleTeacherViewMeetings() {
             } else {
                 errorMessage = "Không có dữ liệu lịch hẹn hoặc có lỗi xảy ra (Mã lỗi: " + QString::fromStdString(status) + ")";
             }
-            QMessageBox::information(nullptr, "Thông báo", errorMessage);
+            showStyledMessageBox("Thông báo", errorMessage, QMessageBox::Information);
         }
     } catch (const std::exception& e) {
         cout << "ERROR in handleTeacherViewMeetings: " << e.what() << endl;
@@ -499,14 +616,14 @@ void handleTeacherViewHistory() {
         if (fetchStatus != "0") {
             vector<string> tokens = splitString(fetchResponse, '|');
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Không có sinh viên nào";
-            QMessageBox::information(nullptr, "Thông báo", errorMsg);
+            showStyledMessageBox("Thông báo", errorMsg, QMessageBox::Information);
             return;
         }
         
         // Parse danh sách sinh viên
         vector<User> students = teacherController.seeStudentList(fetchResponse);
         if (students.empty()) {
-            QMessageBox::information(nullptr, "Thông báo", "Không có sinh viên nào đã hẹn với bạn");
+            showStyledMessageBox("Thông báo", "Không có sinh viên nào đã hẹn với bạn", QMessageBox::Information);
             return;
         }
         
@@ -516,10 +633,49 @@ void handleTeacherViewHistory() {
             studentNames << QString::fromStdString(student.getFirstName() + " " + student.getLastName() + " (ID: " + to_string(student.getId()) + ")");
         }
         
-        bool ok;
-        QString selectedStudent = QInputDialog::getItem(nullptr, "Chọn sinh viên", 
-                                                        "Chọn sinh viên để xem lịch sử:", 
-                                                        studentNames, 0, false, &ok);
+        QInputDialog inputDialog;
+        inputDialog.setWindowTitle("Chọn sinh viên");
+        inputDialog.setLabelText("Chọn sinh viên để xem lịch sử:");
+        inputDialog.setComboBoxItems(studentNames);
+        inputDialog.setComboBoxEditable(false);
+        inputDialog.setStyleSheet(
+            "QInputDialog { "
+            "    background-color: #f5f5f5; "
+            "    font-family: 'Segoe UI', Arial; "
+            "    min-width: 550px; "
+            "} "
+            "QLabel { "
+            "    font-size: 15pt; "
+            "    color: #333333; "
+            "    padding: 15px; "
+            "} "
+            "QComboBox { "
+            "    font-size: 14pt; "
+            "    padding: 10px; "
+            "    border: 2px solid #f57c00; "
+            "    border-radius: 8px; "
+            "    background-color: white; "
+            "    min-height: 40px; "
+            "} "
+            "QPushButton { "
+            "    font-size: 14pt; "
+            "    padding: 12px 28px; "
+            "    border-radius: 8px; "
+            "    min-width: 100px; "
+            "    min-height: 45px; "
+            "    background-color: #f57c00; "
+            "    color: white; "
+            "    border: none; "
+            "    margin: 5px; "
+            "} "
+            "QPushButton:hover { "
+            "    background-color: #ef6c00; "
+            "}"
+        );
+        inputDialog.resize(600, 220);
+        centerWidget(&inputDialog);
+        bool ok = inputDialog.exec();
+        QString selectedStudent = inputDialog.textValue();
         if (!ok || selectedStudent.isEmpty()) {
             return; // User hủy
         }
@@ -551,14 +707,23 @@ void handleTeacherViewHistory() {
             }
             
             if (allMeetings.empty()) {
-                QMessageBox::information(nullptr, "Thông báo", "Không có lịch sử cuộc họp");
+                showStyledMessageBox("Thông báo", "Không có lịch sử cuộc họp", QMessageBox::Information);
                 return;
             }
             
             // Tạo dialog hiển thị danh sách meetings
             QDialog* listDialog = new QDialog();
             listDialog->setWindowTitle("Danh sách lịch hẹn");
-            listDialog->resize(600, 400);
+            listDialog->setFixedSize(937, 750);
+            listDialog->setStyleSheet(
+                "QDialog { background-color: #f5f5f5; font-family: 'Segoe UI', Arial; }"
+                "QLabel { color: #333333; font-size: 17pt; padding: 8px; }"
+                "QListWidget { background-color: white; border: 2px solid #f57c00; border-radius: 8px; font-size: 14pt; padding: 10px; }"
+                "QListWidget::item { padding: 12px; margin: 4px; border-bottom: 1px solid #e0e0e0; }"
+                "QListWidget::item:selected { background-color: #f57c00; color: white; border-radius: 6px; }"
+                "QPushButton { font-size: 14pt; padding: 12px 25px; border-radius: 8px; min-height: 45px; }"
+            );
+            centerWidget(listDialog);
             
             QVBoxLayout* layout = new QVBoxLayout(listDialog);
             QLabel* titleLabel = new QLabel("Chọn một cuộc hẹn để xem chi tiết:");
@@ -625,7 +790,7 @@ void handleTeacherViewHistory() {
             delete listDialog;
         } else if (status == "18") {
             vector<string> tokens = splitString(response, '|');
-            QMessageBox::information(nullptr, "Thông báo", QString::fromStdString(tokens[1]));
+            showStyledMessageBox("Thông báo", QString::fromStdString(tokens[1]), QMessageBox::Information);
         } else {
             vector<string> tokens = splitString(response, '|');
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
@@ -639,8 +804,8 @@ void handleTeacherViewHistory() {
 
 void handleTracherViewMeetingsInWeeks() {
     // TODO: Chức năng này chưa được server hỗ trợ (VIEW_MEETINGS_IN_WEEKS protocol không tồn tại)
-    QMessageBox::information(nullptr, "Thông báo", 
-        "Chức năng xem lịch hẹn theo tuần đang được phát triển.");
+    showStyledMessageBox("Thông báo", 
+        "Chức năng xem lịch hẹn theo tuần đang được phát triển.", QMessageBox::Information);
     return;
     
     /* DISABLED - Server chưa hỗ trợ
@@ -664,7 +829,7 @@ void handleTracherViewMeetingsInWeeks() {
         }
     } else if (status == "16") {
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
     */
 }
@@ -760,19 +925,19 @@ void handleBookMeeting(const Meeting &meeting) {
     QString message = QString::fromStdString(tokens[1]); // Nội dung thông báo
     
     if (status == "0") {
-        QMessageBox::information(nullptr, "Thành công", message);
+        showStyledMessageBox("Thành công", message, QMessageBox::Information);
     } else if (status == "9") {
-        QMessageBox::warning(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     } else if (status == "7") {
-        QMessageBox::critical(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Critical);
     } else if (status == "16") {
-        QMessageBox::warning(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     } else if (status == "11") {
-        QMessageBox::warning(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     } else if (status == "17") {
-        QMessageBox::warning(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     } else if (status == "12") {
-        QMessageBox::warning(nullptr, "Lỗi", message);
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     }
 }
 
@@ -795,15 +960,24 @@ void handleViewTimeslotsOfTeacher(const int &teacher_id, const string &teacherNa
         }
         
         if (allTimeslots.empty()) {
-            QMessageBox::information(nullptr, "Thông báo", 
-                QString("Giáo viên %1 chưa có thời gian rảnh nào").arg(QString::fromStdString(teacherName)));
+            showStyledMessageBox("Thông báo", 
+                QString("Giáo viên %1 chưa có thời gian rảnh nào").arg(QString::fromStdString(teacherName)), QMessageBox::Information);
             return;
         }
         
         // Tạo dialog hiển thị danh sách timeslots
         QDialog* listDialog = new QDialog();
         listDialog->setWindowTitle(QString("Thời gian rảnh - %1").arg(QString::fromStdString(teacherName)));
-        listDialog->resize(700, 450);
+        listDialog->setFixedSize(937, 750);
+        listDialog->setStyleSheet(
+            "QDialog { background-color: #f5f5f5; font-family: 'Segoe UI', Arial; }"
+            "QLabel { color: #333333; font-size: 17pt; padding: 8px; }"
+            "QListWidget { background-color: white; border: 2px solid #8e24aa; border-radius: 8px; font-size: 14pt; padding: 10px; }"
+            "QListWidget::item { padding: 12px; margin: 4px; border-bottom: 1px solid #e0e0e0; }"
+            "QListWidget::item:selected { background-color: #8e24aa; color: white; border-radius: 6px; }"
+            "QPushButton { font-size: 14pt; padding: 12px 25px; border-radius: 8px; min-height: 45px; }"
+        );
+        centerWidget(listDialog);
         
         QVBoxLayout* layout = new QVBoxLayout(listDialog);
         QLabel* titleLabel = new QLabel(QString("Chọn một khung giờ để đặt lịch hẹn với %1:")
@@ -881,20 +1055,20 @@ void handleViewTimeslotsOfTeacher(const int &teacher_id, const string &teacherNa
     else if (status == "4") {
         // Teacher không có thời gian rảnh
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::information(nullptr, "Thông báo", 
+        showStyledMessageBox("Thông báo", 
             QString("Giáo viên %1 hiện chưa có thời gian rảnh nào.\n%2")
             .arg(QString::fromStdString(teacherName))
-            .arg(QString::fromStdString(tokens[1])));
+            .arg(QString::fromStdString(tokens[1])), QMessageBox::Information);
     }
     else if (status == "15") {
         // Teacher không tìm thấy
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
     else if (status == "8" || status == "9") {
         // Các lỗi khác
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
     else {
         // Lỗi không xác định
@@ -927,7 +1101,7 @@ void handleViewAllTeacher() {
     } 
     else if (status == "8") {
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
 }
 
@@ -937,7 +1111,7 @@ void handleCancelMeeting(const int &meeting_id) {
     string response = sendRequestToServer(request);
     string status = response.substr(0, response.find('|'));
     vector<string> tokens = splitString(response, '|');
-    QMessageBox::information(nullptr, "Thong bao", QString::fromStdString(tokens[1]));
+    showStyledMessageBox("Thông báo", QString::fromStdString(tokens[1]), QMessageBox::Information);
 }
 
 void handleStudentViewMeeting(const int &meeting_id) {
@@ -980,18 +1154,18 @@ void handleStudentViewMeetings() {
     else if (status == "8") {
         // Không có lịch hẹn nào
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::information(nullptr, "Thông báo", 
-            "Bạn chưa có lịch hẹn nào trong tuần này.");
+        showStyledMessageBox("Thông báo", 
+            "Bạn chưa có lịch hẹn nào trong tuần này.", QMessageBox::Information);
     }
     else if (status == "17") {
         // Student không tìm thấy
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
     else if (status == "16") {
         // Các lỗi khác
         vector<string> tokens = splitString(response, '|');
-        QMessageBox::warning(nullptr, "Lỗi", QString::fromStdString(tokens[1]));
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Warning);
     }
     else {
         // Lỗi không xác định
@@ -1032,8 +1206,8 @@ void handleLogin() {
             if (result[0] == "0") {
                 user_id = stoi(result[2]);
                 role = result[3];
-                QMessageBox::information(loginWidget, "Thành công", 
-                    QString::fromStdString(result[1]));
+                showStyledMessageBox("Thành công", 
+                    QString::fromStdString(result[1]), QMessageBox::Information);
                 loginWidget->close();
                 if (role == "teacher" && user_id != 0) {
                     handleTeacherMenu();
@@ -1043,8 +1217,8 @@ void handleLogin() {
                 }
             }
             else if (result[0] == "1" || result[0] == "2") {
-                QMessageBox::warning(loginWidget, "Lỗi", 
-                    QString::fromStdString(result[1]));
+                showStyledMessageBox("Lỗi", 
+                    QString::fromStdString(result[1]), QMessageBox::Warning);
             } 
             else {
                 loginWidget->close();
@@ -1086,8 +1260,8 @@ void handleRegister() {
             user_id = stoi(result[2]);
             role = result[3];
             cout << user_id << role << result[1] << endl;
-            QMessageBox::information(registerWidget, "Thành công", 
-                QString::fromStdString(result[1]));
+            showStyledMessageBox("Thành công", 
+                QString::fromStdString(result[1]), QMessageBox::Information);
                 
             registerWidget->close();
             
@@ -1098,8 +1272,8 @@ void handleRegister() {
             }
         } 
         else if (result[0] == "3") {
-            QMessageBox::warning(registerWidget, "Lỗi", 
-                QString::fromStdString(result[1]));
+            showStyledMessageBox("Lỗi", 
+                QString::fromStdString(result[1]), QMessageBox::Warning);
         }
     });
     

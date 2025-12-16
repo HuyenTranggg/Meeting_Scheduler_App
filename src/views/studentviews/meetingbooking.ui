@@ -6,12 +6,49 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>937</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Đặt lịch hẹn</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QDialog {
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Arial;
+        font-size: 15pt;
+    }
+    QGroupBox {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #8e24aa;
+        border: 2px solid #8e24aa;
+        border-radius: 8px;
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        left: 15px;
+        padding: 0 8px;
+    }
+    QLabel {
+        color: #333333;
+        font-size: 15pt;
+    }
+    QRadioButton {
+        font-size: 18pt;
+        color: #333333;
+    }
+    QPushButton {
+        font-size: 17pt;
+        padding: 15px 30px;
+        border-radius: 8px;
+        min-height: 55px;
+    }
+   </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

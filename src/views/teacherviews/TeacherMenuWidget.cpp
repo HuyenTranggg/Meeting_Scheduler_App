@@ -1,12 +1,22 @@
 #include "TeacherMenuWidget.h"
 #include "ui_TeacherMenuWidget.h"
 #include <QMessageBox>
+#include <QScreen>
+#include <QGuiApplication>
 
 TeacherMenuWidget::TeacherMenuWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TeacherMenuWidget)
 {
     ui->setupUi(this);
+    
+    // Set fixed size and center window
+    setFixedSize(937, 750);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
 }
 
 TeacherMenuWidget::~TeacherMenuWidget()
@@ -32,11 +42,6 @@ void TeacherMenuWidget::on_viewMeetingsButton_clicked()
 void TeacherMenuWidget::on_viewHistoryButton_clicked()
 {
     emit actionSelected(4);
-}
-
-void TeacherMenuWidget::on_viewWeeklyMeetingsButton_clicked()
-{
-    emit actionSelected(5);
 }
 
 void TeacherMenuWidget::on_logoutButton_clicked()

@@ -3,6 +3,8 @@
 #include "mainmenu.h"
 #include "ui_mainmenu.h"
 #include <QGraphicsDropShadowEffect>
+#include <QScreen>
+#include <QGuiApplication>
 
 MainMenu::MainMenu(QWidget *parent)
     : QWidget(parent)
@@ -11,6 +13,16 @@ MainMenu::MainMenu(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Ứng dụng Quản lý Cuộc họp");
+    
+    // Set fixed size
+    setFixedSize(937, 750);
+    
+    // Center window on screen
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
     
     // Add shadows to buttons
     auto addShadow = [](QPushButton* button) {

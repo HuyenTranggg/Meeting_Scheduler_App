@@ -1,11 +1,21 @@
 #include "StudentMenu.h"
 #include "ui_StudentMenu.h"
+#include <QScreen>
+#include <QGuiApplication>
 
 StudentMenu::StudentMenu(QWidget *parent)
     : QDialog(parent), ui(new Ui::StudentMenu) {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setModal(true);
+    
+    // Set fixed size and center window
+    setFixedSize(937, 750);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
 }
 
 StudentMenu::~StudentMenu() {

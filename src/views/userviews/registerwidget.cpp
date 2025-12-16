@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QKeyEvent>
 #include <QPushButton>
+#include <QScreen>
+#include <QGuiApplication>
 
 RegisterWidget::RegisterWidget(QWidget *parent)
     : QWidget(parent)
@@ -12,6 +14,14 @@ RegisterWidget::RegisterWidget(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("Đăng ký tài khoản");
     setupConnections();
+    
+    // Set fixed size and center window
+    setFixedSize(937, 750);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
     
     // Set default role
     ui->studentRadio->setChecked(true);

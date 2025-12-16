@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>500</height>
+    <width>937</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,32 +16,38 @@
   <property name="styleSheet">
    <string notr="true">
     QWidget {
-        background-color: #f0f0f0;
-        font-family: Arial;
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Arial;
     }
     QLabel {
         color: #333333;
+        font-size: 15pt;
     }
     QLineEdit {
-        padding: 8px;
-        border: 1px solid #999;
-        border-radius: 4px;
+        padding: 12px;
+        border: 2px solid #43a047;
+        border-radius: 8px;
         background-color: white;
-        min-height: 20px;
+        min-height: 42px;
+        font-size: 15pt;
+    }
+    QLineEdit:focus {
+        border: 3px solid #388e3c;
     }
     QPushButton {
-      padding: 8px 16px;
-      border-radius: 4px;
-      min-width: 100px;
-      background-color: #2196F3;
+      padding: 15px 30px;
+      border-radius: 10px;
+      min-width: 135px;
+      min-height: 54px;
+      font-size: 15pt;
       color: white;
       border: none;
     }
     QPushButton#registerButton {
-        background-color: #34a853;
+        background-color: #43a047;
     }
     QPushButton#registerButton:hover {
-        background-color: #2d8544;
+        background-color: #388e3c;
     }
     QPushButton#registerButton:disabled {
         background-color: #cccccc;

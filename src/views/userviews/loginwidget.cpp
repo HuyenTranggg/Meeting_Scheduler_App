@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QKeyEvent>
+#include <QScreen>
+#include <QGuiApplication>
 
 LoginWidget::LoginWidget(QWidget *parent)
     : QWidget(parent)
@@ -12,6 +14,14 @@ LoginWidget::LoginWidget(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("Đăng nhập");
     setupConnections();
+    
+    // Set fixed size and center window
+    setFixedSize(937, 750);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
     
     // Set focus to username field
     ui->usernameLineEdit->setFocus();

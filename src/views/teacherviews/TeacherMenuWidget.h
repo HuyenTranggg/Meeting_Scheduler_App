@@ -23,7 +23,6 @@ private slots:
     void on_checkAvailabilityButton_clicked();
     void on_viewMeetingsButton_clicked();
     void on_viewHistoryButton_clicked();
-    void on_viewWeeklyMeetingsButton_clicked();
     void on_logoutButton_clicked();
 
 private:

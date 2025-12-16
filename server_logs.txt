@@ -1,0 +1,88 @@
+Received: LOGIN|sinhvien|123456|<END>
+
+Server response: 0|Successfully login|26|student|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|nguyen|trang|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|nguyen|trang|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|nguyen|trang|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|7|<END>
+
+Server response: 4|Teacher has no available time|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|nguyen|trang|<END>
+
+Received: VIEW_MEETINGS_STUDENT|26|<END>
+
+Server response: 0|Tuần cua tháng 11 (11/11 - 17/11)|{|2024-11-15|42|1|pending|personal|07:50:00|09:15:00|6|Giao Vien|}|Tuần cua tháng 12 (15/12 - 21/12)|{|2025-12-15|35|55|confirmed|group|07:00:00|08:45:00|34|nguyen trang|2025-12-17|36|54|pending|personal|07:00:00|09:35:00|25|Giao Vien|2025-12-20|39|57|pending|personal|07:00:00|07:40:00|25|Giao Vien|}|Tuần cua tháng 12 (16/12 - 22/12)|{|2024-12-18|43|15|pending|personal|08:20:00|10:10:00|6|Giao Vien|}|Tuần cua tháng 12 (23/12 - 29/12)|{|2024-12-26|21|39|pending|personal|10:20:00|11:00:00|25|Giao Vien|}|<END>
+
+Received: LOGIN|giaovien|123456|<END>
+
+Server response: 0|Successfully login|25|teacher|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|25|<END>
+
+Server response: 0|2024-12-12|{|45|09:30:00|11:00:00|group|free|}|2024-12-24|{|47|08:00:00|09:00:00|personal|free|48|14:00:00|15:15:00|personal|free|}|2024-12-25|{|42|08:00:00|09:00:00|group|free|43|14:00:00|15:00:00|personal|free|}|2024-12-26|{|39|10:20:00|11:00:00|personal|busy|40|14:00:00|15:00:00|personal|free|}|2024-12-27|{|36|06:30:00|07:30:00|group|free|37|08:00:00|09:00:00|personal|free|38|10:00:00|11:45:00|personal|free|}|2024-12-28|{|31|13:00:00|14:00:00|personal|busy|32|14:05:00|15:00:00|personal|free|34|15:15:00|16:15:00|personal|free|}|2024-12-29|{|26|06:45:00|08:00:00|group|free|28|10:00:00|10:30:00|personal|busy|29|15:00:00|16:00:00|both|free|}|2024-12-30|{|20|08:10:00|10:00:00|personal|busy|22|11:45:00|12:30:00|group|free|24|14:00:00|15:00:00|group|free|}|2024-12-31|{|23|14:00:00|15:00:00|personal|free|21|17:00:00|18:00:00|personal|free|}|2025-01-01|{|25|07:00:00|09:00:00|personal|busy|27|11:00:00|12:00:00|group|free|}|2025-01-02|{|30|07:00:00|08:00:00|both|free|33|09:00:00|10:00:00|group|free|35|15:00:00|16:00:00|personal|free|}|2025-01-03|{|41|08:00:00|09:00:00|group|free|44|12:00:00|13:00:00|personal|free|}|2025-01-05|{|46|08:00:00|09:00:00|personal|free|49|14:00:00|15:00:00|group|free|}|2025-01-08|{|51|08:00:00|09:00:00|group|free|}|2025-01-12|{|52|08:00:00|09:00:00|personal|free|}|2025-05-08|{|50|11:00:00|12:00:00|both|free|}|2025-12-15|{|53|07:00:00|07:30:00|group|busy|}|2025-12-16|{|56|07:00:00|07:30:00|both|free|}|2025-12-17|{|54|07:00:00|09:35:00|personal|busy|}|2025-12-18|{|58|07:00:00|07:30:00|group|free|}|2025-12-20|{|57|07:00:00|07:40:00|personal|busy|}|<END>
+
+Received: FETCH_ALL_STUDENT|25|<END>
+
+Server response: 0|27|Luu|Viet Hoan|29|Le|Van Sinh|<END>
+
+Received: LOGIN|giaovien|123456|<END>
+
+Server response: 0|Successfully login|25|teacher|<END>
+
+Received: LOGIN|sinhvien|123456|<END>
+
+Server response: 0|Successfully login|26|student|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|6|Giao|Vien|7|Giao|Vien2|8|giao|vien|9|le|le|10|ll|ss|11|giao|vien|13|cao|ha|14|cao|hoan|16|hoan|liu|17|haon|uho|19|uugh|uhryei|21|hyeiw|hriha|23|fvhi|ẳfeư|24|reghhi|rua|25|Giao|Vien|31|Co|Linh|32|Co|Hoan|34|nguyen|trang|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|7|<END>
+
+Server response: 4|Teacher has no available time|<END>
+
+Received: LOGIN|giaovien|123456|<END>
+
+Server response: 0|Successfully login|25|teacher|<END>
+
+Received: LOGIN|sinhvien|123456|<END>
+
+Server response: 0|Successfully login|26|student|<END>
+
+Received: LOGIN|giaovien|123456|<END>
+
+Server response: 0|Successfully login|25|teacher|<END>
+
+Received: VIEW_MEETINGS|25|2025-12-16|<END>
+
+Server response: 0|No meetings found|<END>
+
+Received: FETCH_ALL_STUDENT|25|<END>
+
+Server response: 0|27|Luu|Viet Hoan|29|Le|Van Sinh|<END>
+
+Received: VIEW_HISTORY|25|27|<END>
+
+Server response: 0|Tuần cua tháng 1 (30/12 - 05/01)|{|2025-01-05|[|26|49|completed|group|jbefkjwenkjnf le kwfjl3wnjgfl kwehnfliewh3kh kewufhkuwehfk|14:00:00|15:00:00|2025-01-05|students|{|27|Luu|Viet Hoan|29|Le|Van Sinh|}|]|}|Tuần cua tháng 12 (23/12 - 29/12)|{|2024-12-29|[|27|28|completed|personal|benfewnhfewnhfoiwejfoiwjfeim jnfjkleweklwnf kjfhnukewhnf kjefkwehnfkwe kjwenkewn|10:00:00|10:30:00|2024-12-29|students|{|27|Luu|Viet Hoan|}|]|}|<END>
+
+Received: FETCH_ALL_STUDENT|25|<END>
+
+Server response: 0|27|Luu|Viet Hoan|29|Le|Van Sinh|<END>
+
+Received: VIEW_HISTORY|25|27|<END>
+
+Server response: 0|Tuần cua tháng 1 (30/12 - 05/01)|{|2025-01-05|[|26|49|completed|group|jbefkjwenkjnf le kwfjl3wnjgfl kwehnfliewh3kh kewufhkuwehfk|14:00:00|15:00:00|2025-01-05|students|{|27|Luu|Viet Hoan|29|Le|Van Sinh|}|]|}|Tuần cua tháng 12 (23/12 - 29/12)|{|2024-12-29|[|27|28|completed|personal|benfewnhfewnhfoiwejfoiwjfeim jnfjkleweklwnf kjfhnukewhnf kjefkwehnfkwe kjwenkewn|10:00:00|10:30:00|2024-12-29|students|{|27|Luu|Viet Hoan|}|]|}|<END>
+
