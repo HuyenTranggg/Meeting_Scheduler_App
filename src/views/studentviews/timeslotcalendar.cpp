@@ -1,6 +1,7 @@
 // timeslotcalendar.cpp
 #include "timeslotcalendar.h"
 #include "ui_timeslotcalendar.h"
+#include "../../utils/PopupUtils.h"
 #include <QTextCharFormat>
 #include <QMessageBox>
 
@@ -28,8 +29,8 @@ Timeslot TimeslotCalendar::showTimeslots(
     setWindowTitle(QString("Lịch của %1").arg(QString::fromStdString(teacherName)));
 
     if (timeslots.empty()) {
-        QMessageBox::information(this, "Thông báo", 
-            "Giáo viên này chưa khai báo thời gian rảnh");
+        PopupUtils::showInfo("Thông báo", 
+            "Giáo viên này chưa khai báo thời gian rảnh", this);
         Timeslot ts;
         ts.setId(-1);
         return ts;
@@ -93,7 +94,7 @@ void TimeslotCalendar::on_listWidget_doubleClicked(const QModelIndex &index) {
 void TimeslotCalendar::on_buttonBox_accepted() {
     int currentRow = ui->listWidget->currentRow();
     if (currentRow == -1) {
-        QMessageBox::warning(this, "Cảnh báo", "Vui lòng chọn một khung thời gian!");
+        PopupUtils::showWarning("Cảnh báo", "Vui lòng chọn một khung thời gian!", this);
         return;
     }
     selectedTimeslot = currentTimeslots[currentRow + 1];

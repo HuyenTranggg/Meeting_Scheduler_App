@@ -1,6 +1,7 @@
 // viewweeklymeetingsdialog.cpp
 #include "viewweeklymeetingsdialog.h"
 #include "ui_viewweeklymeetingsdialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QTreeWidgetItem>
 #include <QMessageBox>
 #include <QPushButton>
@@ -98,7 +99,7 @@ void ViewWeeklyMeetingsDialog::populateTree(const QString& dateStr)
     }
 
     if (!found || editMeetings.empty()) {
-        QMessageBox::information(this, "Thông báo", "Không có cuộc hẹn nào trong ngày này");
+        PopupUtils::showInfo("Thông báo", "Không có cuộc hẹn nào trong ngày này", this);
     }
 }
 

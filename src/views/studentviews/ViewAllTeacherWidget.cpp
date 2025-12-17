@@ -1,4 +1,5 @@
 #include "ViewAllTeacherWidget.h"
+#include "../../utils/PopupUtils.h"
 #include <QHeaderView>
 #include <QMessageBox>
 
@@ -40,7 +41,7 @@ void ViewAllTeacherWidget::populateTable()
     ui->tableWidget->setRowCount(0);
     
     if (teachersList.empty()) {
-        QMessageBox::information(this, "Thông báo", "Không có giáo viên nào để chọn.");
+        PopupUtils::showInfo("Thông báo", "Không có giáo viên nào để chọn.", this);
         return;
     }
 

@@ -1,5 +1,6 @@
 #include "loginwidget.h"
 #include "ui_loginwidget.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 #include <QPushButton>
 #include <QKeyEvent>
@@ -45,7 +46,7 @@ void LoginWidget::setupConnections()
 void LoginWidget::onLoginButtonClicked()
 {
     if (ui->usernameLineEdit->text().isEmpty() || ui->passwordLineEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Lỗi", "Vui lòng nhập đầy đủ thông tin!");
+        PopupUtils::showWarning("Lỗi", "Vui lòng nhập đầy đủ thông tin!", this);
         return;
     }
     

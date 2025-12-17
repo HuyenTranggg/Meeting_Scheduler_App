@@ -1,5 +1,6 @@
 #include "teacherviewmeetingsdialog.h"
 #include "ui_teacherviewmeetingsdialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 #include <QTextCharFormat>
 
@@ -94,7 +95,7 @@ void TeacherViewMeetingsDialog::on_buttonBox_accepted()
             accept();
         }
     } else {
-        QMessageBox::warning(this, "Chú ý", "Vui lòng chọn một cuộc họp!");
+        PopupUtils::showWarning("Chú ý", "Vui lòng chọn một cuộc họp!", this);
     }
 }
 

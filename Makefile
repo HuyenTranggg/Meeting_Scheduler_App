@@ -762,7 +762,8 @@ build/obj/Client1.o: src/client/Client1.cpp src/controllers/ClientController.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/Client1.o src/client/Client1.cpp
 
 build/obj/loginwidget.o: src/views/userviews/loginwidget.cpp src/views/userviews/loginwidget.h \
-		build/ui/ui_loginwidget.h
+		build/ui/ui_loginwidget.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/loginwidget.o src/views/userviews/loginwidget.cpp
 
 build/obj/registerwidget.o: src/views/userviews/registerwidget.cpp src/views/userviews/registerwidget.h \
@@ -779,22 +780,26 @@ build/obj/TeacherMenuWidget.o: src/views/teacherviews/TeacherMenuWidget.cpp src/
 
 build/obj/timeslotdialog.o: src/views/teacherviews/timeslotdialog.cpp src/views/teacherviews/timeslotdialog.h \
 		src/models/Timeslot.h \
-		build/ui/ui_timeslotdialog.h
+		build/ui/ui_timeslotdialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/timeslotdialog.o src/views/teacherviews/timeslotdialog.cpp
 
 build/obj/viewtimeslotsdialog.o: src/views/teacherviews/viewtimeslotsdialog.cpp src/views/teacherviews/viewtimeslotsdialog.h \
 		src/models/Timeslot.h \
-		build/ui/ui_viewtimeslotsdialog.h
+		build/ui/ui_viewtimeslotsdialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/viewtimeslotsdialog.o src/views/teacherviews/viewtimeslotsdialog.cpp
 
 build/obj/update_timeslot_dialog.o: src/views/teacherviews/update_timeslot_dialog.cpp src/views/teacherviews/update_timeslot_dialog.h \
 		src/models/Timeslot.h \
-		build/ui/ui_update_timeslot_dialog.h
+		build/ui/ui_update_timeslot_dialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/update_timeslot_dialog.o src/views/teacherviews/update_timeslot_dialog.cpp
 
 build/obj/teacherviewmeetingsdialog.o: src/views/teacherviews/teacherviewmeetingsdialog.cpp src/views/teacherviews/teacherviewmeetingsdialog.h \
 		src/models/Meeting.h \
-		build/ui/ui_teacherviewmeetingsdialog.h
+		build/ui/ui_teacherviewmeetingsdialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/teacherviewmeetingsdialog.o src/views/teacherviews/teacherviewmeetingsdialog.cpp
 
 build/obj/meetingdetaildialog.o: src/views/teacherviews/meetingdetaildialog.cpp src/views/teacherviews/meetingdetaildialog.h \
@@ -806,18 +811,21 @@ build/obj/meetingdetaildialog.o: src/views/teacherviews/meetingdetaildialog.cpp 
 build/obj/meetinghistorydialog.o: src/views/teacherviews/meetinghistorydialog.cpp src/views/teacherviews/meetinghistorydialog.h \
 		src/models/Meeting.h \
 		src/models/User.h \
-		build/ui/ui_meetinghistorydialog.h
+		build/ui/ui_meetinghistorydialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/meetinghistorydialog.o src/views/teacherviews/meetinghistorydialog.cpp
 
 build/obj/viewmeetinghistorydialog.o: src/views/teacherviews/viewmeetinghistorydialog.cpp src/views/teacherviews/viewmeetinghistorydialog.h \
 		src/models/Meeting.h \
-		build/ui/ui_viewmeetinghistorydialog.h
+		build/ui/ui_viewmeetinghistorydialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/viewmeetinghistorydialog.o src/views/teacherviews/viewmeetinghistorydialog.cpp
 
 build/obj/viewweeklymeetingsdialog.o: src/views/teacherviews/viewweeklymeetingsdialog.cpp src/views/teacherviews/viewweeklymeetingsdialog.h \
 		src/models/Meeting.h \
 		src/models/User.h \
-		build/ui/ui_viewweeklymeetingsdialog.h
+		build/ui/ui_viewweeklymeetingsdialog.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/viewweeklymeetingsdialog.o src/views/teacherviews/viewweeklymeetingsdialog.cpp
 
 build/obj/meetingcalendarwidget.o: src/views/teacherviews/meetingcalendarwidget.cpp src/views/teacherviews/meetingcalendarwidget.h \
@@ -830,17 +838,20 @@ build/obj/StudentMenu.o: src/views/studentviews/StudentMenu.cpp src/views/studen
 
 build/obj/ViewAllTeacherWidget.o: src/views/studentviews/ViewAllTeacherWidget.cpp src/views/studentviews/ViewAllTeacherWidget.h \
 		build/ui/ui_ViewAllTeacherWidget.h \
-		src/models/User.h
+		src/models/User.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/ViewAllTeacherWidget.o src/views/studentviews/ViewAllTeacherWidget.cpp
 
 build/obj/teacherlistviewer.o: src/views/studentviews/teacherlistviewer.cpp src/views/studentviews/teacherlistviewer.h \
 		src/models/User.h \
-		build/ui/ui_teacherlistviewer.h
+		build/ui/ui_teacherlistviewer.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/teacherlistviewer.o src/views/studentviews/teacherlistviewer.cpp
 
 build/obj/timeslotcalendar.o: src/views/studentviews/timeslotcalendar.cpp src/views/studentviews/timeslotcalendar.h \
 		src/models/Timeslot.h \
-		build/ui/ui_timeslotcalendar.h
+		build/ui/ui_timeslotcalendar.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/timeslotcalendar.o src/views/studentviews/timeslotcalendar.cpp
 
 build/obj/meetingbooking.o: src/views/studentviews/meetingbooking.cpp src/views/studentviews/meetingbooking.h \
@@ -852,7 +863,8 @@ build/obj/meetingbooking.o: src/views/studentviews/meetingbooking.cpp src/views/
 build/obj/meetingcalendarviewer.o: src/views/studentviews/meetingcalendarviewer.cpp src/views/studentviews/meetingcalendarviewer.h \
 		src/models/Meeting.h \
 		src/models/User.h \
-		build/ui/ui_meetingcalendarviewer.h
+		build/ui/ui_meetingcalendarviewer.h \
+		src/utils/PopupUtils.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/obj/meetingcalendarviewer.o src/views/studentviews/meetingcalendarviewer.cpp
 
 build/obj/MeetingDialog.o: src/views/studentviews/MeetingDialog.cpp src/views/studentviews/MeetingDialog.h \

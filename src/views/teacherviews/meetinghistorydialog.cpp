@@ -1,5 +1,6 @@
 #include "meetinghistorydialog.h"
 #include "ui_meetinghistorydialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 
 MeetingHistoryDialog::MeetingHistoryDialog(const Meeting& meeting, const std::vector<User>& students, QWidget *parent) :
@@ -55,11 +56,9 @@ void MeetingHistoryDialog::on_buttonBox_accepted()
 void MeetingHistoryDialog::on_buttonBox_rejected()
 {
     if (ui->reportTextEdit->toPlainText() != originalReport) {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Xác nhận",
-                                    "Bạn có muốn hủy các thay đổi không?",
-                                    QMessageBox::Yes|QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
+        bool reply = PopupUtils::showStyledQuestion("Xác nhận",
+                                    "Bạn có muốn hủy các thay đổi không?", this);
+        if (reply) {
             reject();
         }
     } else {

@@ -1,5 +1,6 @@
 #include "viewmeetinghistorydialog.h"
 #include "ui_viewmeetinghistorydialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 #include <QDate>
 ViewMeetingHistoryDialog::ViewMeetingHistoryDialog(QWidget *parent) :
@@ -62,7 +63,7 @@ void ViewMeetingHistoryDialog::updateMeetingList(const QString& selectedDate)
 Meeting ViewMeetingHistoryDialog::showHistory(const std::map<std::string, std::vector<Meeting>> &meetings)
 {
     if (meetings.empty()) {
-        QMessageBox::information(this, "Thông báo", "Bạn chưa hoàn thành cuộc hẹn nào");
+        PopupUtils::showInfo("Thông báo", "Bạn chưa hoàn thành cuộc hẹn nào", this);
         return Meeting(); // Trả về một đối tượng `Meeting` mặc định với ID = -1
     }
 

@@ -1,6 +1,7 @@
 // timeslotdialog.cpp
 #include "timeslotdialog.h"
 #include "ui_timeslotdialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 
 TimeslotDialog::TimeslotDialog(int teacherId, QWidget *parent)
@@ -38,12 +39,12 @@ bool TimeslotDialog::validateInput() {
     QDate date = ui->dateEdit->date();
     
     if (endTime <= startTime) {
-        QMessageBox::warning(this, "Lỗi", "Thời gian kết thúc phải sau thời gian bắt đầu!");
+        PopupUtils::showWarning("Lỗi", "Thời gian kết thúc phải sau thời gian bắt đầu!", this);
         return false;
     }
     
     if (date < QDate::currentDate()) {
-        QMessageBox::warning(this, "Lỗi", "Ngày phải từ hôm nay trở đi!");
+        PopupUtils::showWarning("Lỗi", "Ngày phải từ hôm nay trở đi!", this);
         return false;
     }
     

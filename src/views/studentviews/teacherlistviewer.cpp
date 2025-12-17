@@ -1,6 +1,7 @@
 
 #include "teacherlistviewer.h"
 #include "ui_teacherlistviewer.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 
 TeacherListViewer::TeacherListViewer(QWidget *parent)
@@ -18,7 +19,7 @@ std::pair<QString, int> TeacherListViewer::showTeacherList(const std::vector<Use
     ui->listWidget->clear();
 
     if (teachers.empty()) {
-        QMessageBox::information(this, "Thông báo", "Không có giáo viên nào để chọn.");
+        PopupUtils::showInfo("Thông báo", "Không có giáo viên nào để chọn.", this);
         return std::make_pair(QString(), -1);
     }
 
@@ -47,7 +48,7 @@ void TeacherListViewer::on_listWidget_currentRowChanged(int currentRow) {
 
 void TeacherListViewer::on_buttonBox_accepted() {
     if (ui->listWidget->currentRow() == -1) {
-        QMessageBox::warning(this, "Cảnh báo", "Vui lòng chọn một giáo viên!");
+        PopupUtils::showWarning("Cảnh báo", "Vui lòng chọn một giáo viên!", this);
         return;
     }
     accept();

@@ -1,5 +1,6 @@
 #include "viewtimeslotsdialog.h"
 #include "ui_viewtimeslotsdialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QListWidget>
 #include <QDate>
 #include <QPushButton>
@@ -40,7 +41,7 @@ void ViewTimeslotsDialog::setupCalendar()
 void ViewTimeslotsDialog::populateCalendar(const std::map<std::string, std::vector<Timeslot>>& timeslots)
 {
     if (timeslots.empty()) {
-        QMessageBox::information(this, "Thông báo", "Bạn chưa khai báo thời gian rảnh");
+        PopupUtils::showInfo("Thông báo", "Bạn chưa khai báo thời gian rảnh", this);
         reject();
         return;
     }
@@ -96,7 +97,7 @@ void ViewTimeslotsDialog::accept()
 {
     QListWidgetItem* selectedItem = ui->timeslotsList->currentItem();
     if (!selectedItem) {
-        QMessageBox::warning(this, "Cảnh báo", "Vui lòng chọn một khoảng thời gian");
+        PopupUtils::showWarning("Cảnh báo", "Vui lòng chọn một khoảng thời gian", this);
         return;
     }
     
@@ -123,11 +124,10 @@ int ViewTimeslotsDialog::showTimeslot(const Timeslot& timeslot)
     message += "Trạng thái: " + QString::fromStdString(timeslot.getStatus()) + "\n";
     message += "------------------";
     
-    QMessageBox::information(this, "Thông tin thời gian rảnh", message);
+    PopupUtils::showInfo("Thông tin thời gian rảnh", message, this);
     
-    int choice = QMessageBox::question(this, "Chỉnh sửa",
-        "Bạn có muốn chỉnh sửa thời gian này?",
-        QMessageBox::Yes | QMessageBox::No);
+    bool choice = PopupUtils::showStyledQuestion("Chỉnh sửa",
+        "Bạn có muốn chỉnh sửa thời gian này?", this);
     
-    return (choice == QMessageBox::Yes) ? 1 : 0;
+    return choice ? 1 : 0;
 }

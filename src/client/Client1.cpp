@@ -90,68 +90,72 @@ void centerWidget(QWidget* widget) {
 void showStyledMessageBox(const QString& title, const QString& text, QMessageBox::Icon icon) {
     QMessageBox msgBox;
     msgBox.setWindowTitle(title);
-    
-    // Set standard button first
     msgBox.setStandardButtons(QMessageBox::Ok);
-    
-    // Set icon
     msgBox.setIcon(icon);
     
-    // Set text with HTML for centering
-    msgBox.setText("<div style='text-align: center; margin: 0 auto;'>" + text + "</div>");
-    msgBox.setTextFormat(Qt::RichText);
+    // Set text directly without HTML wrapper for proper centering
+    msgBox.setText(text);
+    msgBox.setTextFormat(Qt::PlainText);
     
     QString buttonColor;
+    QString buttonHoverColor;
+    QString buttonPressedColor;
     switch(icon) {
         case QMessageBox::Information:
             buttonColor = "#1976d2";
+            buttonHoverColor = "#2196f3";
+            buttonPressedColor = "#1565c0";
             break;
         case QMessageBox::Warning:
             buttonColor = "#f57c00";
+            buttonHoverColor = "#ff9800";
+            buttonPressedColor = "#e65100";
             break;
         case QMessageBox::Critical:
             buttonColor = "#e53935";
+            buttonHoverColor = "#f44336";
+            buttonPressedColor = "#c62828";
             break;
         default:
             buttonColor = "#1976d2";
+            buttonHoverColor = "#2196f3";
+            buttonPressedColor = "#1565c0";
     }
     
     msgBox.setStyleSheet(
         "QMessageBox { "
         "    background-color: #f5f5f5; "
         "    font-family: 'Segoe UI', Arial; "
-        "    min-width: 500px; "
-        "    max-width: 550px; "
+        "    min-width: 450px; "
         "} "
         "QLabel { "
-        "    font-size: 16pt; "
+        "    font-size: 15pt; "
         "    color: #333333; "
-        "    padding: 20px 25px; "
-        "    min-width: 450px; "
-        "    max-width: 500px; "
+        "    padding: 25px 30px; "
+        "    qproperty-alignment: AlignCenter; "
+        "    min-height: 70px; "
         "} "
         "QPushButton { "
-        "    font-size: 15pt; "
-        "    padding: 14px 40px; "
-        "    border-radius: 8px; "
-        "    min-width: 120px; "
-        "    min-height: 50px; "
+        "    font-size: 14pt; "
+        "    padding: 12px 40px; "
+        "    border-radius: 6px; "
+        "    min-width: 110px; "
+        "    min-height: 45px; "
         "    background-color: " + buttonColor + "; "
         "    color: white; "
         "    border: none; "
-        "    margin: 8px; "
+        "    margin: 10px; "
         "} "
         "QPushButton:hover { "
-        "    background-color: " + buttonColor + "; "
-        "    opacity: 0.85; "
+        "    background-color: " + buttonHoverColor + "; "
+        "} "
+        "QPushButton:pressed { "
+        "    background-color: " + buttonPressedColor + "; "
         "} "
         "QDialogButtonBox { "
         "    qproperty-centerButtons: true; "
         "}"
     );
-    
-    // Force fixed size for consistency
-    msgBox.setFixedWidth(550);
     
     // Center the message box on screen
     centerWidget(&msgBox);
@@ -329,9 +333,16 @@ void handleUpdateTimeslot(const Timeslot &timeslot) {
         
         // Kiểm tra trạng thái phản hồi
         string status = response.substr(0, response.find('|'));
+        vector<string> tokens = splitString(response, '|');
+        
         if (status == "0") {
-            vector<string> tokens = splitString(response, '|');
-            cout << tokens[1] << endl;
+            // Thành công
+            QString message = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Cập nhật thời gian rảnh thành công";
+            showStyledMessageBox("Thành công", message, QMessageBox::Information);
+        } else {
+            // Lỗi
+            QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Không thể cập nhật thời gian rảnh";
+            showStyledMessageBox("Lỗi", errorMsg, QMessageBox::Warning);
         }
     }
 }
@@ -365,14 +376,16 @@ void handleViewTimeslots() {
 
         } else if (status == "8") {
             vector<string> tokens = splitString(response, '|');
-            cout << tokens[1] << endl;
+            QString message = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
+            showStyledMessageBox("Thông báo", message, QMessageBox::Information);
         } else if (status == "9") {
             vector<string> tokens = splitString(response, '|');
-            cout << tokens[1] << endl;
+            QString message = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
+            showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
         }
     } catch (const std::exception& e) {
         cout << "ERROR in handleViewTimeslots: " << e.what() << endl;
-        QMessageBox::critical(nullptr, "Lỗi", QString("Exception in handleViewTimeslots: ") + e.what());
+        showStyledMessageBox("Lỗi", QString("Exception in handleViewTimeslots: ") + e.what(), QMessageBox::Critical);
     }
 }
 
@@ -393,11 +406,11 @@ void handleEditReport(const int &meeting_id, const string &report) {
         } else {
             vector<string> tokens = splitString(response, '|');
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
-            QMessageBox::warning(nullptr, "Lỗi", errorMsg);
+            showStyledMessageBox("Lỗi", errorMsg, QMessageBox::Warning);
         }
     } catch (const std::exception& e) {
         cout << "ERROR in handleEditReport: " << e.what() << endl;
-        QMessageBox::critical(nullptr, "Lỗi", QString("Exception: ") + e.what());
+        showStyledMessageBox("Lỗi", QString("Exception: ") + e.what(), QMessageBox::Critical);
     }
 }
 
@@ -406,7 +419,13 @@ void handleUpdateStatus(const int &meeting_id, const string &mstatus) {
     string response = sendRequestToServer(request);
     string status = response.substr(0, response.find('|'));
     vector<string> tokens = splitString(response, '|');
-    cout << tokens[1] << endl;
+    
+    QString message = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Cập nhật trạng thái cuộc hẹn";
+    if (status == "0") {
+        showStyledMessageBox("Thành công", message, QMessageBox::Information);
+    } else {
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
+    }
 }
 
 void handleTeacherViewMeeting(const int &meeting_id) {
@@ -600,7 +619,9 @@ void handleTeacherViewHistoryMeeting(const int &meeting_id) {
         }
     } else {
         // Xử lý trường hợp lỗi
-        cout << "Không thể lấy thông tin cuộc hẹn. Mã lỗi: " << status << endl;
+        vector<string> tokens = splitString(response, '|');
+        QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Không thể lấy thông tin cuộc hẹn";
+        showStyledMessageBox("Lỗi", errorMsg, QMessageBox::Warning);
     }
 }
 
@@ -794,11 +815,11 @@ void handleTeacherViewHistory() {
         } else {
             vector<string> tokens = splitString(response, '|');
             QString errorMsg = tokens.size() > 1 ? QString::fromStdString(tokens[1]) : "Có lỗi xảy ra";
-            QMessageBox::warning(nullptr, "Lỗi", errorMsg);
+            showStyledMessageBox("Lỗi", errorMsg, QMessageBox::Warning);
         }
     } catch (const std::exception& e) {
         cout << "ERROR in handleTeacherViewHistory: " << e.what() << endl;
-        QMessageBox::critical(nullptr, "Lỗi", QString("Exception: ") + e.what());
+        showStyledMessageBox("Lỗi", QString("Exception: ") + e.what(), QMessageBox::Critical);
     }
 }
 

@@ -1,5 +1,6 @@
 #include "meetingcalendarviewer.h"
 #include "ui_meetingcalendarviewer.h"
+#include "../../utils/PopupUtils.h"
 #include <QTextCharFormat>
 #include <QMessageBox>
 
@@ -30,7 +31,7 @@ Meeting MeetingCalendarViewer::showMeetingsInWeeks(
     setWindowTitle("Lịch hẹn của bạn");
 
     if (meetings.empty()) {
-        QMessageBox::information(this, "Thông báo", "Bạn chưa có cuộc hẹn nào");
+        PopupUtils::showInfo("Thông báo", "Bạn chưa có cuộc hẹn nào", this);
         Meeting meeting;
         meeting.setId(-1);
         return meeting;
@@ -116,7 +117,7 @@ void MeetingCalendarViewer::on_listWidget_doubleClicked(const QModelIndex &index
 void MeetingCalendarViewer::on_buttonBox_accepted() {
     int currentRow = ui->listWidget->currentRow();
     if (currentRow == -1) {
-        QMessageBox::warning(this, "Cảnh báo", "Vui lòng chọn một cuộc hẹn!");
+        PopupUtils::showWarning("Cảnh báo", "Vui lòng chọn một cuộc hẹn!", this);
         return;
     }
     selectedMeeting = currentMeetings[currentRow + 1];

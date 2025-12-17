@@ -1,5 +1,6 @@
 #include "update_timeslot_dialog.h"
 #include "ui_update_timeslot_dialog.h"
+#include "../../utils/PopupUtils.h"
 #include <QMessageBox>
 #include <QString>
 
