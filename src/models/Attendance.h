@@ -8,21 +8,25 @@ class Attendance {
     int id = 0;
     int meeting_id;
     int student_id;
+    string status;
 
   public:
     // Constructor
     Attendance() {};
-    Attendance(const int &nmeeting_id, const int &nstudent_id) : meeting_id(nmeeting_id), student_id(nstudent_id) {}
+    Attendance(const int &nmeeting_id, const int &nstudent_id) : meeting_id(nmeeting_id), student_id(nstudent_id), status("pending") {}
+    Attendance(const int &nmeeting_id, const int &nstudent_id, const string &nstatus) : meeting_id(nmeeting_id), student_id(nstudent_id), status(nstatus) {}
 
     // Getter
     int getId() const { return id; }
     int getMeetingId() const { return meeting_id; }
     int getStudentId() const { return student_id; }
+    string getStatus() const { return status; }
 
     // Setter
     void setId(const int &newId) { id = newId; }
     void setMeetingId(const int &newMeetingId) { meeting_id = newMeetingId; }
     void setStudentId(const int &newStudentId) { student_id = newStudentId; }
+    void setStatus(const string &newStatus) { status = newStatus; }
 
     void show() {
         cout << "Attendance, Id: " << id << " ,meeting_id: " << meeting_id << " ,student_id: " << student_id << endl;

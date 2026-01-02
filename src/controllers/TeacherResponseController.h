@@ -255,6 +255,72 @@ class TeacherResponseController {
         return res;
     }
 
+    Response updateAttendanceStatus(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+        int attendance_id = stoi(tokens[1]);
+        string status = tokens[2]; // "confirmed" hoặc "rejected"
+
+        Attendance attendance = attendanceRepo.getAttendanceById(attendance_id);
+        if (attendance.getId() == 0) {
+            res.setStatus(19);
+            res.setMessage("Attendance không tồn tại|");
+            return res;
+        }
+
+        Meeting meeting = meetingRepo.getMeetingById(attendance.getMeetingId());
+        if (meeting.getId() == 0) {
+            res.setStatus(5);
+            res.setMessage("Meeting không tồn tại|");
+            return res;
+        }
+
+        // Cập nhật status của attendance
+        attendanceRepo.updateStatus(attendance_id, status);
+
+        // Nếu đây là confirmed đầu tiên → tự động chuyển meeting sang "confirmed"
+        if (status == "confirmed") {
+            int confirmedCount = attendanceRepo.countConfirmedAttendances(meeting.getId());
+            if (confirmedCount == 1 && meeting.getStatus() == "pending") {
+                meetingRepo.updateStatus(meeting.getId(), "confirmed");
+            }
+        }
+
+        res.setStatus(0);
+        res.setMessage("Cập nhật trạng thái thành công|");
+        return res;
+    }
+
+    Response viewMeetingDetail(const string &message) {
+        Response res;
+        vector<string> tokens = splitString(message, '|');
+        int meeting_id = stoi(tokens[1]);
+
+        Meeting meeting = meetingRepo.getMeetingById(meeting_id);
+        if (meeting.getId() == 0) {
+            res.setStatus(5);
+            res.setMessage("Meeting không tồn tại|");
+            return res;
+        }
+
+        // Lấy danh sách attendances kèm status
+        vector<Attendance> attendances = attendanceRepo.getAttendancesByMeetingId(meeting_id);
+        
+        string response = meeting.toString() + "|students|[";
+        for (int i = 0; i < attendances.size(); i++) {
+            User student = userRepository.getUserById(attendances[i].getStudentId());
+            response += "|" + to_string(attendances[i].getId()) + "|" + 
+                       to_string(student.getId()) + "|" + 
+                       student.getFirstName() + " " + student.getLastName() + "|" +
+                       attendances[i].getStatus();
+        }
+        response += "|]|";
+
+        res.setStatus(0);
+        res.setMessage(response);
+        return res;
+    }
+
     Response updateReport(const string &message) {
         Response res;
         vector<string> tokens = splitString(message, '|');
