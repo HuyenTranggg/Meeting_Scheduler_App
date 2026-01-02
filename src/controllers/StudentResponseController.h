@@ -77,6 +77,14 @@ class StudentResponseController {
             return res;
         }
 
+        // timeslot trong quá khứ 
+        if (utils.isDateBeforeToday(timeslot.getDate()) ||
+            (utils.isDateToday(timeslot.getDate()) && utils.checkTimeGreater(timeslot.getStart(), utils.getCurrentTime()))) {
+            res.setStatus(18);
+            res.setMessage("Cannot book a timeslot in the past|");
+            return res;
+        }
+
         if(timeslot.getStatus() == "busy") {
             res.setStatus(17);
             res.setMessage("Timeslot is busy|");
@@ -92,13 +100,13 @@ class StudentResponseController {
 
         // Kiem tra xem meeting ton tai chua
         Meeting meeting = meetingRepository.getMeetingByTimeslotId(timeslot_id);
-        if (meeting.getId() != 0) {
+        if (meeting.getId() != 0 && meeting.getType() == "personal") {
             res.setStatus(16);
-            res.setMessage("Meeting already exists|");
+            res.setMessage("Timeslot is busy|");
             return res;
         } else if (meeting.getId() == 0) {
-            // Tao meeting
-            Meeting newMeeting(type, timeslot_id);
+            // Tao meeting và lưu original_type của timeslot
+            Meeting newMeeting(type, timeslot.getType(), timeslot_id);
             meetingRepository.create(newMeeting);
             meeting = meetingRepository.getMeetingByTimeslotId(timeslot_id);
         }
@@ -108,7 +116,10 @@ class StudentResponseController {
             timeslotRepository.updateType(timeslot_id, type);
         }
 
-        timeslotRepository.updateStatus(timeslot_id, "busy");
+        // Update status cho timeslot neu no la personal
+        if (type == "personal") {
+            timeslotRepository.updateStatus(timeslot_id, "busy");
+        }
 
         // Them attendance
         // Kiem tra attendance ton tai chua
@@ -118,7 +129,7 @@ class StudentResponseController {
             attendanceRepository.create(newAttendance);
         } else {
             res.setStatus(11);
-            res.setMessage("Student already registered for this meeting|");
+            res.setMessage("You already registered for this meeting|");
             return res;
         }
 
@@ -230,11 +241,15 @@ class StudentResponseController {
         if (meeting.getType() == "group") {
             vector<Attendance> attendances = attendanceRepository.getAttendancesByMeetingId(meeting_id);
             if (attendances.size() == 1) {
+                // Đây là attendance cuối cùng, xóa meeting và restore timeslot
+                timeslotRepository.updateStatus(meeting.getTimeslotId(), "free");
+                timeslotRepository.updateType(meeting.getTimeslotId(), meeting.getOriginalType());
                 meetingRepository.deleteMeeting(meeting_id);
             }
         }
         if (meeting.getType() == "personal") {
             timeslotRepository.updateStatus(meeting.getTimeslotId(), "free");
+            timeslotRepository.updateType(meeting.getTimeslotId(), meeting.getOriginalType());
             meetingRepository.deleteMeeting(meeting_id);
         }
         attendanceRepository.deleteAttendanceByMeetingIdAndStudentId(meeting_id, student_id);

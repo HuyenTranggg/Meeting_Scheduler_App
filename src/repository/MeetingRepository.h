@@ -26,12 +26,13 @@ class MeetingRepository {
 
     void create(const Meeting &meeting) {
         if (db.connect()) {
-            string query = "INSERT INTO meetings (timeslot_id, type ) VALUES (?, ?)";
+            string query = "INSERT INTO meetings (timeslot_id, type, original_type) VALUES (?, ?, ?)";
 
             try {
                 sql::PreparedStatement *pstmt = db.getConnection()->prepareStatement(query);
                 pstmt->setInt(1, meeting.getTimeslotId());
                 pstmt->setString(2, meeting.getType());
+                pstmt->setString(3, meeting.getOriginalType());
                 pstmt->executeUpdate();
                 delete pstmt;
             } catch (sql::SQLException &e) {
@@ -58,6 +59,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -102,6 +104,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -239,6 +242,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -284,6 +288,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -391,6 +396,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -446,6 +452,7 @@ class MeetingRepository {
                     meeting.setTeacherId(timeslot.getTeacherId());
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(timeslot.getStart());
                     meeting.setEnd(timeslot.getEnd());
@@ -492,6 +499,7 @@ class MeetingRepository {
                     meeting.setTimeslotId(res->getInt("timeslot_id"));
                     meeting.setStatus(res->getString("status"));
                     meeting.setType(res->getString("type"));
+                    meeting.setOriginalType(res->getString("original_type"));
                     meeting.setReport(res->getString("report"));
                     meeting.setStart(res->getString("start"));
                     meeting.setEnd(res->getString("end"));
