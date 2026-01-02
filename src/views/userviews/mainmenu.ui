@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainMenu</class>
+ <widget class="QWidget" name="MainMenu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>937</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Ứng dụng Quản lý Cuộc họp</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QWidget {
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Arial;
+        font-size: 15pt;
+    }
+    QLabel {
+        color: #333333;
+    }
+    QLabel#titleLabel {
+        font-size: 30pt;
+        font-weight: bold;
+        color: #1976d2;
+        padding: 18px;
+        background-color: white;
+        border: 3px solid #1976d2;
+        border-radius: 10px;
+    }
+    QLabel#studentLabel, QLabel#teacherLabel {
+        font-size: 15pt;
+        margin-top: 12px;
+        padding: 12px;
+        color: #555555;
+    }
+    QPushButton {
+        font-size: 17pt;
+        padding: 16px 35px;
+        border-radius: 10px;
+        border: none;
+        color: white;
+        min-width: 230px;
+        min-height: 58px;
+    }
+    QPushButton#loginButton {
+        background-color: #1976d2;
+    }
+    QPushButton#loginButton:hover {
+        background-color: #1565c0;
+    }
+    QPushButton#registerButton {
+        background-color: #43a047;
+    }
+    QPushButton#registerButton:hover {
+        background-color: #388e3c;
+    }
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>20</number>
+   </property>
+   <property name="leftMargin">
+    <number>40</number>
+   </property>
+   <property name="rightMargin">
+    <number>40</number>
+   </property>
+   <item>
+    <spacer name="verticalSpacer_1">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>ỨNG DỤNG QUẢN LÝ CUỘC HỌP</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="studentLabel">
+     <property name="text">
+      <string>Sinh viên thực hiện:
+• Nguyễn Thị Huyền Trang - 20225674
+• Bùi Thu Trang - 20225938
+• Bùi Thị Xuân - 20225957</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="teacherLabel">
+     <property name="text">
+      <string>GVHD: Cô Trương Thị Diệu Linh</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="horizontalSpacer_1">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="loginButton">
+       <property name="text">
+        <string>Đăng nhập</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="registerButton">
+       <property name="text">
+        <string>Đăng ký</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

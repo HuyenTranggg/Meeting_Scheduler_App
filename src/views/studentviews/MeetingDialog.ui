@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MeetingDialog</class>
+ <widget class="QDialog" name="MeetingDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>937</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Chi tiết cuộc hẹn</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QDialog {
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Arial;
+    }
+    QLabel {
+        color: #333333;
+        font-size: 14pt;
+    }
+    QGroupBox {
+        font-size: 16pt;
+        font-weight: bold;
+        color: #8e24aa;
+        border: 2px solid #8e24aa;
+        border-radius: 8px;
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+    QGroupBox::title {
+        subcontrol-origin: margin;
+        left: 15px;
+        padding: 0 8px;
+    }
+    QTextEdit, QPlainTextEdit {
+        background-color: white;
+        border: 2px solid #8e24aa;
+        border-radius: 5px;
+        padding: 8px;
+        font-size: 14pt;
+    }
+    QPushButton {
+        font-size: 14pt;
+        padding: 12px 25px;
+        border-radius: 8px;
+        min-height: 45px;
+        color: white;
+        border: none;
+    }
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Thông tin lịch hẹn</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Ngày:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="dateLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Từ:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="startLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Đến:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="endLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Loại:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="typeLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Trạng thái:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="statusLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Giáo viên:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLabel" name="teacherLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Văn bản cuộc họp</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QTextBrowser" name="reportBrowser"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Hủy lịch hẹn</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backButton">
+       <property name="text">
+        <string>Quay lại</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ViewAllTeacherWidget</class>
+ <widget class="QWidget" name="ViewAllTeacherWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>937</width>
+    <height>750</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Danh sách giáo viên</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QWidget {
+        background-color: #f5f5f5;
+        font-family: 'Segoe UI', Arial;
+    }
+    QLabel {
+        font-size: 20pt;
+        font-weight: bold;
+        color: #8e24aa;
+        padding: 12px;
+    }
+    QTableWidget {
+        background-color: white;
+        border: 2px solid #8e24aa;
+        border-radius: 8px;
+        font-size: 14pt;
+        padding: 5px;
+    }
+    QTableWidget::item {
+        padding: 8px;
+    }
+    QHeaderView::section {
+        background-color: #8e24aa;
+        color: white;
+        padding: 10px;
+        font-size: 15pt;
+        font-weight: bold;
+        border: none;
+    }
+    QPushButton {
+        font-size: 15pt;
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: none;
+        color: white;
+        min-height: 54px;
+        background-color: #757575;
+    }
+    QPushButton:hover {
+        background-color: #616161;
+    }
+   </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Danh sách giáo viên</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="btnBack">
+     <property name="text">
+      <string>Quay lại</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -44,6 +44,13 @@ class TeacherResponseController {
     Response declareTimeslot(const string &message) {
         Response res;
         vector<string> tokens = splitString(message, '|');
+        
+        if(tokens.size() < 6) {
+            res.setStatus(13);
+            res.setMessage("Invalid request format|");
+            return res;
+        }
+        
         string start = tokens[1];
         string end = tokens[2];
         string date = tokens[3];
@@ -317,9 +324,17 @@ class TeacherResponseController {
     Response updateReport(const string &message) {
         Response res;
         vector<string> tokens = splitString(message, '|');
+        
+        if (tokens.size() < 3) {
+            res.setStatus(99);
+            res.setMessage("Invalid request format|");
+            return res;
+        }
+        
         int meeting_id = stoi(tokens[1]);
         string report = tokens[2];
         Meeting meeting = meetingRepo.getMeetingById(meeting_id);
+        
         if (meeting.getId() == 0) {
             res.setStatus(5);
             res.setMessage("Meeting does not exist|");
