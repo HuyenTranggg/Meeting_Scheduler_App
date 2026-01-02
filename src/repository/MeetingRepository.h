@@ -480,7 +480,7 @@ class MeetingRepository {
     vector<Meeting> getMeetingsByTeacherIdAndDate(const int &teacher_id, const string &date) {
         vector<Meeting> meetings;
         if (db.connect()) {
-            string query = "SELECT m.id, m.timeslot_id, m.status, m.type, m.report, "
+            string query = "SELECT m.id, m.timeslot_id, m.status, m.type, m.original_type, m.report, "
                           "t.start, t.end, t.date "
                           "FROM meetings m "
                           "JOIN timeslots t ON m.timeslot_id = t.id "

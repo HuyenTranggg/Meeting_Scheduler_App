@@ -278,11 +278,14 @@ class TeacherResponseController {
         // Cập nhật status của attendance
         attendanceRepo.updateStatus(attendance_id, status);
 
-        // Nếu đây là confirmed đầu tiên → tự động chuyển meeting sang "confirmed"
+        // Nếu đây là confirmed đầu tiên → tự động chuyển meeting sang "confirmed" (cả personal và group)
         if (status == "confirmed") {
             int confirmedCount = attendanceRepo.countConfirmedAttendances(meeting.getId());
             if (confirmedCount == 1 && meeting.getStatus() == "pending") {
                 meetingRepo.updateStatus(meeting.getId(), "confirmed");
+                res.setStatus(0);
+                res.setMessage("Cập nhật trạng thái thành công. Meeting đã tự động chuyển sang confirmed|");
+                return res;
             }
         }
 

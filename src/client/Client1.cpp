@@ -959,6 +959,8 @@ void handleBookMeeting(const Meeting &meeting) {
         showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     } else if (status == "12") {
         showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
+    } else if (status == "18") {
+        showStyledMessageBox("Lỗi", message, QMessageBox::Warning);
     }
 }
 

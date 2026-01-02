@@ -76,21 +76,21 @@ class StudentResponseController {
             res.setMessage("Timeslot not found|");
             return res;
         }
-
+        
         // timeslot trong quá khứ 
         if (utils.isDateBeforeToday(timeslot.getDate()) ||
-            (utils.isDateToday(timeslot.getDate()) && utils.checkTimeGreater(timeslot.getStart(), utils.getCurrentTime()))) {
+            (utils.isDateToday(timeslot.getDate()) && utils.checkTimeGreater(utils.getCurrentTime(), timeslot.getStart()))) {
             res.setStatus(18);
             res.setMessage("Cannot book a timeslot in the past|");
             return res;
-        }
+        } 
 
         if(timeslot.getStatus() == "busy") {
             res.setStatus(17);
             res.setMessage("Timeslot is busy|");
             return res;
-        }
-        
+        }     
+
         // Kiểm tra xem có xung đột với thời gian của Timeslot đã hẹn không
         if (check(timeslot.getStart(), timeslot.getEnd(), timeslot.getDate(), student_id)) {
             res.setStatus(12);
@@ -101,7 +101,7 @@ class StudentResponseController {
         // Kiem tra xem meeting ton tai chua
         Meeting meeting = meetingRepository.getMeetingByTimeslotId(timeslot_id);
         if (meeting.getId() != 0 && meeting.getType() == "personal") {
-            res.setStatus(16);
+            res.setStatus(17);
             res.setMessage("Timeslot is busy|");
             return res;
         } else if (meeting.getId() == 0) {
