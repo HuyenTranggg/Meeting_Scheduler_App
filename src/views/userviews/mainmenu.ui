@@ -94,7 +94,7 @@
      </property>
     </widget>
    </item>
-   <item>
+   <!-- <item>
     <widget class="QLabel" name="studentLabel">
      <property name="text">
       <string>Sinh viên thực hiện:
@@ -106,8 +106,8 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-   </item>
-   <item>
+   </item> -->
+   <!-- <item>
     <widget class="QLabel" name="teacherLabel">
      <property name="text">
       <string>GVHD: Cô Trương Thị Diệu Linh</string>
@@ -116,7 +116,7 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-   </item>
+   </item> -->
    <item>
     <spacer name="verticalSpacer_2">
      <property name="orientation">

@@ -47,12 +47,12 @@ void TeacherViewMeetingsDialog::updateMeetingList(const QDate &date)
             const Meeting& meeting = dayMeetings[i];
             QString meetingText = QString("-----------------Lịch họp ngày %1-----------------\n")
                                     .arg(dateStr);
-            meetingText += QString("%1. Từ: %2 - Đến: %3 ( %4 - %5 )")
+            meetingText += QString("%1. Từ: %2 - Đến: %3 ( %4 )")
                                     .arg(i + 1)
                                     .arg(QString::fromStdString(meeting.getStart()))
                                     .arg(QString::fromStdString(meeting.getEnd()))
-                                    .arg(QString::fromStdString(meeting.getType()))
-                                    .arg(QString::fromStdString(meeting.getStatus()));
+                                    .arg(QString::fromStdString(meeting.getType()));
+                                    // .arg(QString::fromStdString(meeting.getStatus()));
 
             QListWidgetItem* item = new QListWidgetItem(meetingText);
             
