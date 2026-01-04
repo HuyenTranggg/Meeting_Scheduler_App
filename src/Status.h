@@ -20,7 +20,8 @@ enum class Status {
     TIME_SLOT_CONFLICTS = 14,   // Time slot conflicts with another slot
 
     STUDENT_DOES_NOT_EXIST = 17,
-    MEETING_DOES_NOT_EXIST = 5, 
+    MEETING_DOES_NOT_EXIST = 5,
+    CANNOT_CANCEL_MEETING = 19,  // Cannot cancel meeting in current status
 
     UNKNOWN_ERROR = 99
 };

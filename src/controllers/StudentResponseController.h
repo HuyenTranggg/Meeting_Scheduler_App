@@ -223,7 +223,7 @@ class StudentResponseController {
         int student_id = stoi(tokens[1]);
         int meeting_id = stoi(tokens[2]);
         
-        // THÊM: Kiểm tra student_id
+        // Kiểm tra student_id
         User student = userRepository.getUserById(student_id);
         if (student.getId() == 0 || student.getRole() != "student") {
             res.setStatus(9);
@@ -238,6 +238,23 @@ class StudentResponseController {
             return res;
         }
         
+        // Kiểm tra trạng thái: chỉ cho phép hủy khi status là pending hoặc confirmed
+        string status = meeting.getStatus();
+        if (status != "pending" && status != "confirmed") {
+            res.setStatus(19);
+            if (status == "doing") {
+                res.setMessage("Cannot cancel meeting in progress|");
+            } else if (status == "completed") {
+                res.setMessage("Cannot cancel completed meeting|");
+            } else if (status == "canceled") {
+                res.setMessage("Meeting has already been canceled|");
+            } else {
+                res.setMessage("Cannot cancel meeting in current status|");
+            }
+            return res;
+        }
+        
+        // Thực hiện hủy lịch hẹn
         if (meeting.getType() == "group") {
             vector<Attendance> attendances = attendanceRepository.getAttendancesByMeetingId(meeting_id);
             if (attendances.size() == 1) {
