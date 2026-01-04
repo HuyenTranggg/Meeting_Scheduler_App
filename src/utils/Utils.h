@@ -136,6 +136,45 @@ class Utils {
             return false;
         }
     }
+
+    bool isDateBeforeToday(const string &date) {
+        vector<int> dateVec = getDateVector(date);
+        vector<int> currentDateVec = getCurrentDateTimeVector();
+
+        if (dateVec[0] < currentDateVec[0]) {
+            return true;
+        } else if (dateVec[0] == currentDateVec[0]) {
+            if (dateVec[1] < currentDateVec[1]) {
+                return true;
+            } else if (dateVec[1] == currentDateVec[1]) {
+                if (dateVec[2] < currentDateVec[2]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    bool isDateToday(const string &date) {
+        vector<int> dateVec = getDateVector(date);
+        vector<int> currentDateVec = getCurrentDateTimeVector();
+
+        return (dateVec[0] == currentDateVec[0] &&
+                dateVec[1] == currentDateVec[1] &&
+                dateVec[2] == currentDateVec[2]);
+    }
+
+    string getCurrentTime() {
+        vector<int> currentDateTime = getCurrentDateTimeVector();
+        char buffer[6];
+        snprintf(buffer, sizeof(buffer), "%02d:%02d", currentDateTime[3], currentDateTime[4]);
+        return string(buffer);
+    }
 };
 
 #endif

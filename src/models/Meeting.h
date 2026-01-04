@@ -9,6 +9,7 @@ class Meeting {
     int teacher_id;
     string status;
     string type;
+    string original_type;
     string report;
     string start;
     string end;
@@ -30,6 +31,8 @@ class Meeting {
         : teacher_id(nteacher_id), status(nstatus), type(ntype), report(nreport), start(nstart), end(nend), date(ndate),
           timeslot_id(ntimeslot_id) {}
     Meeting(const string &ntype, const int &ntimeslot_id) : type(ntype), timeslot_id(ntimeslot_id) {}
+    Meeting(const string &ntype, const string &noriginal_type, const int &ntimeslot_id) 
+        : type(ntype), original_type(noriginal_type), timeslot_id(ntimeslot_id) {}
 
     // Getter
     int getId() const { return id; }
@@ -37,6 +40,7 @@ class Meeting {
     int getTimeslotId() const { return timeslot_id; }
     string getStatus() const { return status; }
     string getType() const { return type; }
+    string getOriginalType() const { return original_type; }
     string getReport() const { return report; }
     string getStart() const { return start; }
     string getEnd() const { return end; }
@@ -48,6 +52,7 @@ class Meeting {
     void setTimeslotId(const int &newTimeslotId) { timeslot_id = newTimeslotId; }
     void setStatus(const string &newStatus) { status = newStatus; }
     void setType(const string &newType) { type = newType; }
+    void setOriginalType(const string &newOriginalType) { original_type = newOriginalType; }
     void setReport(const string &newReport) { report = newReport; }
     void setStart(const string &newStart) { start = newStart; }
     void setEnd(const string &newEnd) { end = newEnd; }
