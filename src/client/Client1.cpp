@@ -1134,7 +1134,18 @@ void handleCancelMeeting(const int &meeting_id) {
     string response = sendRequestToServer(request);
     string status = response.substr(0, response.find('|'));
     vector<string> tokens = splitString(response, '|');
-    showStyledMessageBox("Thông báo", QString::fromStdString(tokens[1]), QMessageBox::Information);
+    
+    // Kiểm tra status code để hiển thị icon phù hợp
+    if (status == "0") {
+        // Thành công
+        showStyledMessageBox("Thành công", QString::fromStdString(tokens[1]), QMessageBox::Information);
+    } else if (status == "19") {
+        // Không thể hủy do trạng thái
+        showStyledMessageBox("Không thể hủy do trạng thái không hợp lệ", QString::fromStdString(tokens[1]), QMessageBox::Warning);
+    } else {
+        // Các lỗi khác
+        showStyledMessageBox("Lỗi", QString::fromStdString(tokens[1]), QMessageBox::Critical);
+    }
 }
 
 void handleStudentViewMeeting(const int &meeting_id) {

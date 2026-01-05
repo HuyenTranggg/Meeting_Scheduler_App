@@ -52,6 +52,22 @@
         color: white;
         border: none;
     }
+    QPushButton#cancelButton {
+        background-color: #d32f2f;
+    }
+    QPushButton#cancelButton:hover {
+        background-color: #b71c1c;
+    }
+    QPushButton#backButton {
+        background-color: #757575;
+    }
+    QPushButton#backButton:hover {
+        background-color: #616161;
+    }
+    QPushButton:disabled {
+        background-color: #bdbdbd;
+        color: #9e9e9e;
+    }
    </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
