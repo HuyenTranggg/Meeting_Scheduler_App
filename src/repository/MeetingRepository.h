@@ -155,7 +155,7 @@ class MeetingRepository {
 
         // Trả về tên tuần
         char result[50];
-        snprintf(result, sizeof(result), "Tuần cua tháng %d (%s - %s)", tm.tm_mon + 1, bufferStart, bufferEnd);
+        snprintf(result, sizeof(result), "Tuần của tháng %d (%s - %s)", tm.tm_mon + 1, bufferStart, bufferEnd);
         return string(result);
     }
 

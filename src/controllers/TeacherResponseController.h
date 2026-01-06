@@ -157,7 +157,7 @@ class TeacherResponseController {
         vector<Meeting> meetings = meetingRepo.getMeetingsByTeacherIdAndDate(teacher_id, date);
         
         if (meetings.empty()) {
-            res.setStatus(0);
+            res.setStatus(8);
             res.setMessage("No meetings found|");
         } else {
             string message = "";
@@ -379,7 +379,7 @@ class TeacherResponseController {
 
         if (students.empty()) {
             res.setStatus(17);
-            res.setMessage("Không có sinh viên nào đã hẹn với bạn|");
+            res.setMessage("You don't have any students who have booked meetings with you|");
         } else {
             string message = "";
             for (int i = 0; i < students.size(); i++) {
