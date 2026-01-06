@@ -379,7 +379,7 @@ class TeacherResponseController {
 
         if (students.empty()) {
             res.setStatus(17);
-            res.setMessage("You don't have any students who have booked meetings with you|");
+            res.setMessage("Không có sinh viên nào đã hẹn với bạn|");
         } else {
             string message = "";
             for (int i = 0; i < students.size(); i++) {
