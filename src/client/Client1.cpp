@@ -52,8 +52,9 @@
 #include <QScreen>
 #include <QGuiApplication>
 
-#define SERVER_IP "10.18.53.185"
-// #define SERVER_IP "172.18.1.252"
+// QUAN TRỌNG: Thay bằng địa chỉ IP thực của máy server
+// Để lấy IP server: chạy "hostname -I" hoặc "ipconfig" trên máy server
+#define SERVER_IP "10.18.53.185"  // <-- THAY ĐỔI ĐỊA CHỈ NÀY
 #define SERVER_PORT 8080
 #define BUFFER_SIZE 1024
 
