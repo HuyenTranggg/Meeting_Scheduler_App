@@ -91,14 +91,14 @@
    <item>
     <widget class="QPushButton" name="viewMeetingsButton">
      <property name="text">
-      <string>Xem lịch hẹn với sinh viên</string>
+      <string>Xem các lịch đã được sinh viên hẹn theo ngày</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="viewHistoryButton">
      <property name="text">
-      <string>Xem lịch sử cuộc hẹn</string>
+      <string>Xem lịch sử cuộc họp với từng sinh viên</string>
      </property>
     </widget>
    </item>
