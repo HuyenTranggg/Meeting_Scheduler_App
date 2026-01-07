@@ -1,0 +1,312 @@
+Received: LOGIN|nguyenvana|pass123|<END>
+
+Server response: 0|Successfully login|100|student|<END>
+
+Received: LOGIN|nguyenvanb|pass123|<END>
+
+Server response: 1|Invalid username|<END>
+
+Received: LOGIN|nguyenvana|pas1234|<END>
+
+Server response: 2|Incorrect password|<END>
+
+Received: REGISTER|meomeo|meomeo|student|bui|teo|<END>
+
+Server response: 0|Successfully registered|161|student|bui|teo|<END>
+
+Received: REGISTER|nguyenvana|pas123|student|Bui|Meo|<END>
+
+Server response: 3|Username already exists|<END>
+
+Received: LOGIN|nguyenvana|pass123|<END>
+
+Server response: 0|Successfully login|100|student|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|both|free|219|13:00:00|14:30:00|personal|free|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|160|<END>
+
+Server response: 4|Teacher has no available time|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|both|free|219|13:00:00|14:30:00|personal|free|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|218|personal|<END>
+
+Server response: 0|Meeting booked successfully|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|free|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|218|personal|<END>
+
+Server response: 17|Timeslot is busy|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|free|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|free|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|219|personal|<END>
+
+Server response: 0|Meeting booked successfully|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: LOGIN|teacher_nguyen|teacher123|<END>
+
+Server response: 0|Successfully login|150|teacher|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|<END>
+
+Received: VIEW_MEETING|349|<END>
+
+Server response: 0|349|219|pending|personal||13:00:00|14:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|<END>
+
+Received: DECLARE_TIME_SLOT|08:00:00|09:00:00|2026-01-09|personal|150|<END>
+
+Server response: 0|Successfully declared free time|<END>
+
+Received: DECLARE_TIME_SLOT|08:00:00|09:00:00|2026-01-09|group|150|<END>
+
+Server response: 14|Time slot conflicts with another slot|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|09:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: EDIT_SLOT|150|279|10:00:00|09:00:00|2026-01-09|personal|<END>
+
+Server response: 6|Invalid time|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|09:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: LOGIN|teacher_nguyen|teacher123|<END>
+
+Server response: 0|Successfully login|150|teacher|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|09:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: EDIT_SLOT|150|279|08:00:00|11:00:00|2026-01-09|personal|<END>
+
+Server response: 0|Successfully updated free time|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: EDIT_SLOT|150|213|09:00:00|12:30:00|2026-01-13|personal|<END>
+
+Server response: 14|Time slot conflicts with another slot|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: FETCH_ALL_STUDENT|150|<END>
+
+Server response: 0|100|Van A|Nguyen|101|Thi B|Tran|102|Van C|Le|<END>
+
+Received: VIEW_HISTORY|150|100|<END>
+
+Server response: 0|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|[|300|200|completed|personal|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.|08:00:00|09:30:00|2025-12-15|students|{|100|Van A|Nguyen|}|301|201|completed|group|Họp nhóm dự án Web Development. Student 100 và team đã phân công công việc rõ ràng cho sprint tiếp theo.|10:00:00|11:30:00|2025-12-15|students|{|100|Van A|Nguyen|101|Thi B|Tran|102|Van C|Le|}|302|202|completed|personal|Tư vấn cá nhân về đồ án tốt nghiệp. Student 100 cần hoàn thiện phần thiết kế database.|13:00:00|14:30:00|2025-12-15|students|{|100|Van A|Nguyen|}|]|}|<END>
+
+Received: VIEW_MEETING|300|<END>
+
+Server response: 0|300|200|completed|personal|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.|08:00:00|09:30:00|2025-12-15|[|100|Van A|Nguyen|]|<END>
+
+Received: ENTER_MEETING_NOTE|300|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.
+Hanoi|<END>
+
+Server response: 0|Success|<END>
+
+Received: VIEW_MEETING|300|<END>
+
+Server response: 0|300|200|completed|personal|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.
+Hanoi|08:00:00|09:30:00|2025-12-15|[|100|Van A|Nguyen|]|<END>
+
+Received: FETCH_ALL_STUDENT|150|<END>
+
+Server response: 0|100|Van A|Nguyen|101|Thi B|Tran|102|Van C|Le|<END>
+
+Received: VIEW_HISTORY|150|100|<END>
+
+Server response: 0|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|[|300|200|completed|personal|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.
+Hanoi|08:00:00|09:30:00|2025-12-15|students|{|100|Van A|Nguyen|}|301|201|completed|group|Họp nhóm dự án Web Development. Student 100 và team đã phân công công việc rõ ràng cho sprint tiếp theo.|10:00:00|11:30:00|2025-12-15|students|{|100|Van A|Nguyen|101|Thi B|Tran|102|Van C|Le|}|302|202|completed|personal|Tư vấn cá nhân về đồ án tốt nghiệp. Student 100 cần hoàn thiện phần thiết kế database.|13:00:00|14:30:00|2025-12-15|students|{|100|Van A|Nguyen|}|]|}|<END>
+
+Received: VIEW_MEETING|300|<END>
+
+Server response: 0|300|200|completed|personal|Cuộc họp đã hoàn thành tốt. Sinh viên 100 đã trình bày đề tài về Machine Learning và nhận được nhiều đóng góp hữu ích từ giáo viên 150.
+Hanoi|08:00:00|09:30:00|2025-12-15|[|100|Van A|Nguyen|]|<END>
+
+Received: FETCH_ALL_STUDENT|150|<END>
+
+Server response: 0|100|Van A|Nguyen|101|Thi B|Tran|102|Van C|Le|<END>
+
+Received: LOGIN|nguyenvana|pass123|<END>
+
+Server response: 0|Successfully login|100|student|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|201|group|<END>
+
+Server response: 18|Cannot book a timeslot in the past|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|218|personal|<END>
+
+Server response: 17|Timeslot is busy|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|212|group|<END>
+
+Server response: 12|You have a meeting at this time|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: BOOK_MEETING|100|220|group|<END>
+
+Server response: 0|Meeting booked successfully|<END>
+
+Received: VIEW_FREE_TIME_SLOTS|150|<END>
+
+Server response: 0|2025-12-15|{|200|08:00:00|09:30:00|personal|busy|201|10:00:00|11:30:00|group|free|202|13:00:00|14:30:00|both|busy|}|2025-12-16|{|203|15:00:00|16:30:00|personal|free|}|2025-12-20|{|204|08:30:00|10:00:00|group|free|}|2026-01-07|{|205|08:00:00|09:30:00|personal|free|209|08:00:00|09:30:00|group|free|206|10:00:00|11:30:00|group|free|210|10:00:00|11:30:00|personal|busy|207|13:00:00|14:30:00|both|busy|211|13:00:00|14:30:00|both|free|208|15:00:00|16:30:00|personal|busy|212|15:00:00|16:30:00|group|free|}|2026-01-09|{|279|08:00:00|11:00:00|personal|free|}|2026-01-13|{|213|08:00:00|09:30:00|personal|free|214|10:00:00|11:30:00|group|free|215|13:00:00|14:30:00|both|free|216|15:00:00|16:30:00|personal|free|}|2026-01-14|{|217|08:00:00|09:30:00|group|free|218|10:00:00|11:30:00|personal|busy|219|13:00:00|14:30:00|personal|busy|220|15:00:00|16:30:00|group|free|}|<END>
+
+Received: FETCH_ALL_TEACHER|<END>
+
+Server response: 0|150|Minh|Nguyen Thi|151|Hoa|Tran Van|152|Lan|Le Thi|153|Nam|Pham Van|154|Hung|Hoang Van|155|Thanh|Vo Thi|156|Long|Dang Van|157|Mai|Bui Thi|158|Tuan|Do Van|159|Linh|Ngo Thi|160|Trang|Nguyen|<END>
+
+Received: VIEW_MEETINGS_STUDENT|100|<END>
+
+Server response: 0|Tuần của tháng 1 (05/01 - 11/01)|{|2026-01-07|313|207|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|328|211|pending|group|13:00:00|14:30:00|150|Minh Nguyen Thi|314|208|confirmed|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|329|212|pending|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 1 (12/01 - 18/01)|{|2026-01-14|348|218|pending|personal|10:00:00|11:30:00|150|Minh Nguyen Thi|349|219|pending|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|350|220|pending|group|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|300|200|completed|personal|08:00:00|09:30:00|150|Minh Nguyen Thi|301|201|completed|group|10:00:00|11:30:00|150|Minh Nguyen Thi|302|202|completed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|}|<END>
+
+Received: LOGIN|teacher_nguyen|teacher123|<END>
+
+Server response: 0|Successfully login|150|teacher|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|350|15:00:00|16:30:00|group|100|<END>
+
+Received: VIEW_MEETING|348|<END>
+
+Server response: 0|348|218|pending|personal||10:00:00|11:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|350|15:00:00|16:30:00|group|100|<END>
+
+Received: VIEW_MEETING|348|<END>
+
+Server response: 0|348|218|pending|personal||10:00:00|11:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: UPDATE_MEETING_STATUS|348|confirmed|<END>
+
+Server response: 0|Success|<END>
+
+Received: VIEW_MEETING|348|<END>
+
+Server response: 0|348|218|confirmed|personal||10:00:00|11:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: VIEW_MEETINGS_STUDENT|100|<END>
+
+Server response: 0|Tuần của tháng 1 (05/01 - 11/01)|{|2026-01-07|313|207|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|328|211|pending|group|13:00:00|14:30:00|150|Minh Nguyen Thi|314|208|confirmed|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|329|212|pending|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 1 (12/01 - 18/01)|{|2026-01-14|348|218|confirmed|personal|10:00:00|11:30:00|150|Minh Nguyen Thi|349|219|pending|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|350|220|pending|group|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|300|200|completed|personal|08:00:00|09:30:00|150|Minh Nguyen Thi|301|201|completed|group|10:00:00|11:30:00|150|Minh Nguyen Thi|302|202|completed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|}|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-07|<END>
+
+Server response: 0|346|08:00:00|09:30:00|personal|100|315|08:00:00|09:30:00|group|103,104,105|347|10:00:00|11:30:00|group|100,101|316|10:00:00|11:30:00|personal|106|313|13:00:00|14:30:00|personal|100|328|13:00:00|14:30:00|group|100,101,102|314|15:00:00|16:30:00|personal|100|329|15:00:00|16:30:00|personal|100|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|350|15:00:00|16:30:00|group|100|<END>
+
+Received: VIEW_MEETING|349|<END>
+
+Server response: 0|349|219|pending|personal||13:00:00|14:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: UPDATE_MEETING_STATUS|349|confirmed|<END>
+
+Server response: 0|Success|<END>
+
+Received: VIEW_MEETING|349|<END>
+
+Server response: 0|349|219|confirmed|personal||13:00:00|14:30:00|2026-01-14|[|100|Van A|Nguyen|]|<END>
+
+Received: VIEW_MEETINGS_STUDENT|100|<END>
+
+Server response: 0|Tuần của tháng 1 (05/01 - 11/01)|{|2026-01-07|313|207|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|328|211|pending|group|13:00:00|14:30:00|150|Minh Nguyen Thi|314|208|confirmed|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|329|212|pending|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 1 (12/01 - 18/01)|{|2026-01-14|348|218|confirmed|personal|10:00:00|11:30:00|150|Minh Nguyen Thi|349|219|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|350|220|pending|group|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|300|200|completed|personal|08:00:00|09:30:00|150|Minh Nguyen Thi|301|201|completed|group|10:00:00|11:30:00|150|Minh Nguyen Thi|302|202|completed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|}|<END>
+
+Received: VIEW_MEETING_STUDENT|350|<END>
+
+Server response: 0|350|220|pending|group||15:00:00|16:30:00|2026-01-14|[|150|Minh|Nguyen Thi|]|<END>
+
+Received: CANCEL_APPOINTMENT|100|350|<END>
+
+Server response: 0|Meeting is cancelled|<END>
+
+Received: VIEW_MEETINGS_STUDENT|100|<END>
+
+Server response: 0|Tuần của tháng 1 (05/01 - 11/01)|{|2026-01-07|313|207|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|328|211|pending|group|13:00:00|14:30:00|150|Minh Nguyen Thi|314|208|confirmed|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|329|212|pending|personal|15:00:00|16:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 1 (12/01 - 18/01)|{|2026-01-14|348|218|confirmed|personal|10:00:00|11:30:00|150|Minh Nguyen Thi|349|219|confirmed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|}|Tuần của tháng 12 (15/12 - 21/12)|{|2025-12-15|300|200|completed|personal|08:00:00|09:30:00|150|Minh Nguyen Thi|301|201|completed|group|10:00:00|11:30:00|150|Minh Nguyen Thi|302|202|completed|personal|13:00:00|14:30:00|150|Minh Nguyen Thi|}|<END>
+
+Received: VIEW_MEETINGS|150|2026-01-14|<END>
+
+Server response: 0|348|10:00:00|11:30:00|personal|100|349|13:00:00|14:30:00|personal|100|350|15:00:00|16:30:00|group||<END>
+
