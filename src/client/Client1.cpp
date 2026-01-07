@@ -54,7 +54,7 @@
 
 // QUAN TRỌNG: Thay bằng địa chỉ IP thực của máy server
 // Để lấy IP server: chạy "hostname -I" hoặc "ipconfig" trên máy server
-#define SERVER_IP "127.0.0.1"  // <-- THAY ĐỔI ĐỊA CHỈ NÀY
+#define SERVER_IP "172.18.38.132"  // <-- THAY ĐỔI ĐỊA CHỈ NÀY
 #define SERVER_PORT 8080
 #define BUFFER_SIZE 1024
 
